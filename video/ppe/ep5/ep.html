@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;src:url(../fonts/Kanit-Bold.ttf);font-weight:700}
+@font-face{font-family:K;src:url(../fonts/Kanit-Black.ttf);font-weight:900}
+@font-face{font-family:K;src:url(../fonts/Kanit-SemiBold.ttf);font-weight:600}
+@font-face{font-family:K;src:url(../fonts/Kanit-Medium.ttf);font-weight:500}
+html,body{margin:0;padding:0;background:#000;overflow:hidden}
+svg{display:block;font-family:K} text{font-family:K}
+</style></head>
+<body>
+<svg id="v" width="540" height="960" viewBox="0 0 540 960" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../lib.js"></script>
+<script>
+window.EXTRA_DEFS=`<defs>
+<linearGradient id="fwall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfd9de"/><stop offset="1" stop-color="#e6ecef"/></linearGradient>
+<filter id="gray"><feColorMatrix type="matrix" values=".33 .33 .33 0 .02  .33 .33 .33 0 .05  .33 .33 .33 0 .12  0 0 0 1 0"/></filter>
+<linearGradient id="lampB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+</defs>`;
+const CHIP0='ตอนตามคำขอ';
+const JAMX=250;
+
+// ---------- location ----------
+// o: belt (0 stopped..1 running), jam (0..1 pile), alarm, guard ('on'|'off'|lerp 0..1 position), oldWI/newWI, lock, tagOn, stopped
+function lineBg(t,o={}){
+  const run=o.run!=null?o.run:1, jam=o.jam||0, g=o.guard!=null?o.guard:1;
+  let s=`<rect width="540" height="960" fill="url(#fwall)"/>`;
+  // ceiling
+  s+=`<rect x="0" y="0" width="540" height="240" fill="#b7c3ca"/>`;
+  for(let x=0;x<540;x+=90) s+=`<rect x="${x}" y="0" width="6" height="240" fill="#9aa8b0"/>`;
+  [110,270,430].forEach(x=>s+=`<rect x="${x-50}" y="226" width="100" height="10" rx="4" fill="#f4f7f8"/><path d="M${x-50} 236 L${x+50} 236 L${x+130} 700 L${x-130} 700 Z" fill="url(#lampB)" opacity=".6"/>`);
+  // windows
+  for(let i=0;i<4;i++) s+=`<rect x="${30+i*130}" y="270" width="100" height="60" rx="4" fill="#bfe6fb" stroke="#8fa3ad" stroke-width="3"/><line x1="${80+i*130}" y1="270" x2="${80+i*130}" y2="330" stroke="#8fa3ad" stroke-width="3"/>`;
+  // lower wall band + safety sign
+  s+=`<rect x="0" y="520" width="540" height="180" fill="#2f6e9e"/><rect x="0" y="516" width="540" height="6" fill="#ffd23f"/>`;
+  s+=`<g transform="translate(100 420)"><rect x="-38" y="-34" width="76" height="68" rx="6" fill="#1fb35a"/><text y="-6" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">SAFETY</text><text y="16" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">FIRST</text></g>`;
+  // WI board on wall near machine
+  if(!o.noWI){
+    if(o.newWI){ s+=`<g transform="translate(300 400)"><rect x="-44" y="-58" width="88" height="116" rx="4" fill="#fff" stroke="#1f5aa6" stroke-width="4"/><rect x="-44" y="-58" width="88" height="20" fill="#1f5aa6"/><text y="-43" text-anchor="middle" font-size="12" font-weight="900" fill="#fff">WI ใหม่</text>
+       ${[0,1,2,3].map(i=>`<rect x="-36" y="${-32+i*22}" width="16" height="16" rx="2" fill="#bfe3f7"/><text x="-28" y="${-20+i*22}" text-anchor="middle" font-size="11" font-weight="900" fill="#1f5aa6">${i+1}</text><rect x="-14" y="${-28+i*22}" width="48" height="7" fill="#556"/>`).join('')}</g>`;}
+    else { s+=`<g transform="translate(300 ${o.wiLow?470:400})" opacity=".9"><rect x="-34" y="-44" width="68" height="88" fill="#e9e2c8" stroke="#b9ae86" stroke-width="2"/>
+       ${[0,1,2,3,4,5,6,7].map(i=>`<rect x="-26" y="${-34+i*9}" width="${40+rnd(i)*12}" height="3" fill="#b8b09a"/>`).join('')}<rect x="-34" y="-44" width="68" height="88" fill="#8a7a50" opacity=".15"/>
+       <text y="38" text-anchor="middle" font-size="9" font-weight="700" fill="#a39770">WI</text></g>`;}
+  }
+  // removed guard leaning on wall
+  const gx=lerp(40,230,g), gy=lerp(660,598,g), gr=lerp(-70,0,g);
+  // conveyor frame
+  s+=`<g><rect x="40" y="606" width="300" height="20" rx="8" fill="#3a3f48"/>`;
+  for(let x=48;x<340;x+=24){const a=t*run*8+x; s+=`<circle cx="${x}" cy="616" r="8" fill="#6d7480" stroke="#2a2e35" stroke-width="2"/><line x1="${x}" y1="616" x2="${x+Math.cos(a)*7}" y2="${616+Math.sin(a)*7}" stroke="#2a2e35" stroke-width="2"/>`;}
+  s+=`<rect x="40" y="600" width="300" height="8" fill="#22262c"/>`;
+  [60,190,320].forEach(x=>s+=`<rect x="${x}" y="626" width="12" height="74" fill="#555c66"/>`);
+  s+=`</g>`;
+  // boxes
+  const sp=70*run;
+  for(let i=0;i<6;i++){
+    let x=((o.tb!=null?o.tb:t)*sp+i*70)%340+20;
+    if(jam>0 && x>JAMX-40) x=Math.min(x,JAMX-20-(5-i)*0) ;
+    if(o.boxesFrozen!=null) x=o.boxesFrozen[i];
+    if(x<40||x>330) continue;
+    s+=`<g transform="translate(${x} 600)"><rect x="-18" y="-30" width="36" height="30" fill="#c8955a" stroke="#8a6030" stroke-width="2"/><rect x="-4" y="-30" width="8" height="30" fill="#e8d3a8" opacity=".8"/></g>`;
+  }
+  if(jam>0){ // pile at jam point
+    s+=`<g>${[[JAMX-12,600,-8],[JAMX+18,596,14],[JAMX+2,572,-20]].map(([x,y,r],i)=>`<g transform="translate(${x} ${y}) rotate(${r*jam})" opacity="${i<2||jam>.5?1:0}"><rect x="-18" y="-30" width="36" height="30" fill="#c8955a" stroke="#8a6030" stroke-width="2"/><rect x="-4" y="-30" width="8" height="30" fill="#e8d3a8" opacity=".8"/></g>`).join('')}</g>`;
+  }
+  // guard (mesh)
+  s+=`<g transform="translate(${gx} ${gy}) rotate(${gr})"><rect x="-50" y="-14" width="100" height="24" rx="4" fill="#ffd23f" fill-opacity=".85" stroke="#b8860b" stroke-width="2"/>
+     ${[...Array(9)].map((_,i)=>`<line x1="${-46+i*11}" y1="-12" x2="${-46+i*11}" y2="8" stroke="#b8860b" stroke-width="1.5"/>`).join('')}</g>`;
+  // packing machine + panel
+  s+=`<g transform="translate(-70 0)"><rect x="400" y="500" width="130" height="200" rx="6" fill="#e3e8ec" stroke="#8a96a0" stroke-width="3"/><rect x="410" y="516" width="70" height="60" rx="4" fill="#2a3440"/><rect x="416" y="522" width="58" height="34" fill="${run>0?'#4ad18a':'#334'}" opacity=".8"/>
+    <rect x="488" y="516" width="34" height="96" rx="4" fill="#cdd5dc" stroke="#8a96a0"/>
+    <circle cx="505" cy="536" r="9" fill="#1fb35a" stroke="#0d5a2c" stroke-width="2"/>
+    <circle cx="505" cy="566" r="12" fill="#e6242b" stroke="#7a0c10" stroke-width="3"/><circle cx="505" cy="566" r="6" fill="#ff5a5f"/>
+    <rect x="496" y="586" width="18" height="18" rx="3" fill="#ffd23f" stroke="#8a6200"/>`;
+  if(o.lock) s+=`<g transform="translate(505 ${614})"><path d="M-6 0 v-8 a6 6 0 0 1 12 0 v8" stroke="#555" stroke-width="3" fill="none"/><rect x="-9" y="0" width="18" height="16" rx="3" fill="#e6242b"/></g>`;
+  if(o.tagOn) s+=`<g transform="translate(470 650) rotate(${Math.sin(t*3)*3})"><line x1="35" y1="-20" x2="20" y2="-8" stroke="#555"/><rect x="-28" y="-8" width="56" height="40" rx="4" fill="#e6242b" stroke="#7a0c10"/><text y="9" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">อันตราย</text><text y="24" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">ห้ามเปิด</text></g>`;
+  // stack light
+  const al=o.alarm&&Math.sin(t*14)>0;
+  s+=`<rect x="460" y="420" width="8" height="80" fill="#555"/>`;
+  ['#e6242b','#ffd23f','#1fb35a'].forEach((c,i)=>{const on=(i==0&&al)||(i==2&&run>0&&!o.alarm);s+=`<rect x="452" y="${430+i*20}" width="24" height="18" rx="4" fill="${c}" opacity="${on?1:.3}"/>${on?`<circle cx="464" cy="${439+i*20}" r="22" fill="${c}" opacity=".3" filter="url(#blur4)"/>`:''}`;});
+  s+=`</g>`;
+  // floor
+  s+=`<rect x="0" y="700" width="540" height="260" fill="#5f9e7a"/><rect x="0" y="700" width="540" height="6" fill="#4f8a68"/>
+     <path d="M0 780 H540" stroke="#ffd23f" stroke-width="8"/><path d="M0 800 H540" stroke="#ffd23f" stroke-width="3" stroke-dasharray="16 10"/>`;
+  return s;
+}
+const OP={shirt:'#5aa0d8',pants:'#2d3b6b',skin:'#e2ad7c',hat:'cap',capCol:'#1f5aa6',badge:'#1f5aa6',boots:true};
+const op=o=>person(Object.assign({},OP,o));
+const SUP={shirt:'#f4f6f8',pants:'#3a3f4d',skin:'#f2c79c',hair:'#2b2b2b',badge:'#e6242b',boots:true,glasses:true,plugs:true};
+const sup=o=>person(Object.assign({},SUP,o));
+function stepPanel(t,steps,doneTimes,showT,title='WI ทีละขั้น'){
+  const uo=prog(t,showT,showT+.3); if(uo<=0) return '';
+  let s=`<g transform="translate(14 400)" filter="url(#shadow)" opacity="${uo}"><rect width="200" height="${44+steps.length*48}" rx="12" fill="#fff" stroke="#1b1b1b" stroke-width="3"/><rect width="200" height="34" rx="12" fill="#1f5aa6"/><text x="100" y="24" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">${title}</text></g>`;
+  steps.forEach((st,i)=>{const on=t>=doneTimes[i];const act=t>=doneTimes[i]-1.2&&!on;
+    s+=`<g transform="translate(40 ${466+i*48})" opacity="${uo}"><rect x="-14" y="-14" width="28" height="28" rx="6" fill="${on?'#1fb35a':(act?'#ffd23f':'#ddd')}"/>${on?'<path d="M-7 0 L-2 6 L8 -6" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>':`<text y="6" text-anchor="middle" font-size="15" font-weight="900" fill="#555">${i+1}</text>`}
+      <text x="22" y="-1" font-size="15" font-weight="700" fill="#1b1b1b">${st[0]}</text><text x="22" y="16" font-size="13" font-weight="500" fill="#555">${st[1]}</text></g>`;});
+  return s;
+}
+function scan(t){let s='';for(let y=0;y<960;y+=6) s+=`<rect x="0" y="${y}" width="540" height="2" fill="#000" opacity=".18"/>`;
+  for(let i=0;i<3;i++){const y=(t*700+i*320)%960;s+=`<rect x="${Math.sin(t*30+i)*8}" y="${y}" width="540" height="16" fill="#fff" opacity=".12"/>`;}return s;}
+function rewindIcon(x,y,sc=1){return `<g transform="translate(${x} ${y}) scale(${sc})"><path d="M0 -18 L-26 0 L0 18 Z M28 -18 L2 0 L28 18 Z" fill="#fff" stroke="#1b1b1b" stroke-width="3"/></g>`;}
+
+// ---------- scenes ----------
+SC[1]=(t,d)=>{
+  let s=lineBg(t);
+  const w=prog(t,0,3.0), x=lerp(-60,230,easeOut(w));
+  s+=op({x,walk:t*1.4,walkAmt:w<1?1:0,armL:w<1?Math.sin(t*9)*20:30,armR:w<1?-Math.sin(t*9)*20:-30,mouth:'grin',eyes:w<1?'normal':'closed',lean:-3});
+  s+=`<rect width="540" height="960" fill="url(#vig)" opacity=".35"/>`+'<!--UI-->';
+  const a=prog(t,.2,.7), b=prog(t,2.6,3.0);
+  s+=`<text x="270" y="${150-10*(1-a)}" opacity="${a}" text-anchor="middle" font-size="32" font-weight="700" fill="#fff" paint-order="stroke" stroke="#1f3f6d" stroke-width="6">พี่ช่ำชอง คุมไลน์ผลิต...</text>`;
+  s+=`<g transform="translate(270 230) scale(${back(b)}) rotate(-3)"><text text-anchor="middle" font-size="60" font-weight="900" fill="#ffd23f" paint-order="stroke" stroke="#1b1b1b" stroke-width="10">ทำงานมา 5 ปี!</text></g>`;
+  const c=prog(t,1.0,1.4);
+  s+=`<g transform="translate(270 850) scale(${back(c)})" filter="url(#shadow)"><rect x="-150" y="-40" width="300" height="80" rx="10" fill="#2f6e9e" stroke="#fff" stroke-width="4"/>
+     <text y="2" text-anchor="middle" font-size="27" font-weight="900" fill="#fff">โรงงานอุตสาหกรรม</text><text y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#e8f1ff">ไลน์ผลิต • สายพานลำเลียง</text></g>`;
+  return s+topUI(CHIP0);
+};
+
+SC[2]=(t,d)=>{
+  let s=lineBg(t);
+  const ring=prog(t,.3,.7);
+  s+=`<circle cx="300" cy="400" r="${60*ring}" fill="none" stroke="#e6242b" stroke-width="5" stroke-dasharray="10 6" opacity="${ring}"/>`;
+  s+=tag(300,478,'WI อยู่ตรงนี้!',t-.6,{fs:17,bg:'#fff',col:'#1f5aa6'});
+  const wv=t>2.2?Math.sin(t*14)*25:0;
+  s+=op({x:230,eyes:'closed',mouth:'grin',armR:t>2.2?-120+wv:-20,lean:-4});
+  s+=bubble(220,400,['*จำได้หมด*แล้ว','ไม่ต้องอ่านหรอก!'],t-2.6);
+  return s+'<!--UI-->'+titleCard(['ป้าย *WI* ติดอยู่ข้างเครื่อง...'],t)+topUI('ข้ออ้าง');
+};
+
+SC[3]=(t,d)=>{
+  let s=lineBg(t,{guard:0});
+  const push=prog(t,.6,1.2);
+  s+=op({x:340,flip:-1,eyes:'lazy',mouth:'smirk',armL:lerp(20,100,push)});
+  s+=xMark(435,500,t-.4)+tag(380,462,'ไม่เช็กเครื่อง',t-.4,{bg:'#fff',col:'#e6242b',fs:15});
+  s+=xMark(60,600,t-2.1)+tag(110,560,'การ์ดครอบถอดไว้',t-2.1,{bg:'#fff',col:'#e6242b',fs:15,rot:4});
+  s+=`<rect x="180" y="584" width="100" height="24" rx="4" fill="none" stroke="#e6242b" stroke-width="3" stroke-dasharray="6 4" opacity="${prog(t,2.2,2.5)}"/>`;
+  s+=xMark(312,548,t-4.1)+tag(250,505,'ไม่ใส่ที่อุดหู',t-4.1,{bg:'#fff',col:'#e6242b',fs:15,rot:-3});
+  return s+'<!--UI-->'+titleCard(['ข้ามไป *3 ขั้น!*'],t,34)+topUI('ข้ามขั้นตอน');
+};
+
+const FREEZE_BOXES=[60,130,200,250,272,400];
+SC[4]=(t,d)=>{
+  const jam=prog(t,.3,.9);
+  let s=lineBg(t,{guard:0,jam,alarm:t>.6,tb:Math.min(t,.6)});
+  const r=ease(prog(t,2.2,4.4));
+  s+=op({x:200,eyes:'normal',mouth:'flat',armR:lerp(-20,-85,r),lean:lerp(0,10,r)});
+  s+=burst(JAMX+20,480,'ติด!!',t-.6,{fs:40,sc:.7,rot:8});
+  s+=tag(200,770,'เครื่องยังเดินอยู่!',t-3.4,{fs:20,bg:'#ffd23f',col:'#e6242b',rot:-3});
+  return s+'<!--UI-->'+titleCard(['ชิ้นงาน*ติดสายพาน!*'],t,34)+topUI('อันตราย!');
+};
+
+function frozenScene(t,extra=''){
+  return `<g filter="url(#gray)">`+lineBg(0,{guard:0,jam:1,alarm:false,run:0.0001,tb:.6})+op({x:200,eyes:'normal',mouth:'flat',armR:-85,lean:10})+extra+`</g>`;
+}
+SC[5]=(t,d)=>{
+  let s=t<.25?lineBg(t,{guard:0,jam:1,alarm:true,tb:.6})+op({x:200,armR:-85,lean:10,mouth:'flat'}):frozenScene(t);
+  if(t>.25) s+=`<rect width="540" height="960" fill="#2b4cff" opacity="${.12*(1-prog(t,.25,1.2))+.06}"/>`;
+  s+=ghost(lerp(-40,110,easeOut(prog(t,1.6,2.8))),700,prog(t,1.6,2.4),t,{clip:true,armR:-40,eyes:'normal',mouth:'smile'});
+  s+='<!--UI-->';
+  if(t>.25) s+=`<rect width="540" height="960" fill="#fff" opacity="${clamp(1-(t-.25)/.15)*.8}"/>`;
+  s+=burst(270,300,'หยุด!!',t-.25,{fs:56,col:'#2b4cff',fill:'#fff',rot:-6});
+  return s+titleCard(['*ทุกอย่างหยุดนิ่ง...*'],t,32)+topUI('หยุด!!');
+};
+
+SC[6]=(t,d)=>{
+  let s=frozenScene(t)+`<rect width="540" height="960" fill="#2b4cff" opacity=".06"/>`;
+  s+=ghost(110,700,1,t,{clip:true,armR:-150,eyes:'normal',mouth:'grin'});
+  s+=bubble(200,380,['ลุงทำมา *30 ปี*','ยังอ่าน *WI* ทุกวัน!'],t-.3);
+  return s+'<!--UI-->'+titleCard(['*ลุงช่าง*มาแล้ว'],t,32)+topUI('ลุงช่างมาแล้ว');
+};
+
+SC[7]=(t,d)=>{
+  // rewind: replay scene 1 backwards quickly
+  const rt=Math.max(0,3.0-t*1.4);
+  const w=prog(rt,0,3.0), x=lerp(-60,230,easeOut(w));
+  let s=lineBg(-t*3,{guard:prog(t,1.2,2.4)*0});
+  s+=op({x:t<2.2?lerp(250,120,prog(t,0,2.2)):120,walk:-t*3,walkAmt:t<2.2?1:0,eyes:'wide',mouth:'o',armR:-20});
+  s+=ghost(70,700,.9,t,{armR:-120,eyes:'closed',mouth:'grin'});
+  s+='<!--UI-->'+scan(t);
+  s+=rewindIcon(430,250,1.6*back(prog(t,0,.3)));
+  s+=`<text x="430" y="310" text-anchor="middle" font-size="22" font-weight="900" fill="#fff" paint-order="stroke" stroke="#1b1b1b" stroke-width="4">REWIND</text>`;
+  s+=`<text x="40" y="900" font-size="18" font-weight="700" fill="#fff" opacity=".8">07:${String(59-Math.floor(t*9)%60).padStart(2,'0')} น.</text>`;
+  return s+titleCard(['*กรอเวลา*กลับ!','ทำตาม WI ทีละขั้น'],t)+topUI('◀◀ กรอกลับ'.replace('◀◀ ',''));
+};
+
+const T8={check:1.4,guard:2.2,glasses:4.8,plugs:5.4,jam:8.6,estop:9.7,lock:12.2,tagOn:12.8,remove:13.8};
+const STEPS=[['เช็กเครื่อง','+ การ์ดครอบ'],['ใส่ PPE ตาม WI','แว่น • ที่อุดหู'],['ชิ้นงานติด','→ กดหยุดเครื่อง'],['ล็อก + แขวนป้าย','แล้วค่อยเอาออก']];
+SC[8]=(t,d)=>{
+  const g=ease(prog(t,T8.guard,T8.guard+.8));
+  const running=t<T8.estop; const jam=t>T8.jam?prog(t,T8.jam,T8.jam+.5):0;
+  let s=lineBg(t,{guard:g,run:running?1:Math.max(0,1-prog(t,T8.estop,T8.estop+.6)),jam,alarm:t>T8.jam&&t<T8.estop,tb:t>T8.jam?T8.jam:t,lock:t>T8.lock,tagOn:t>T8.tagOn,noWI:false});
+  // worker position & pose
+  let x=330, flip=-1, armL=20, armR=-20, eyes='normal', mouth='smile';
+  if(t>T8.check-.4&&t<T8.check+.8){armL=100;}
+  if(t>T8.guard-.3&&t<T8.guard+.9){x=lerp(330,275,prog(t,T8.guard-.3,T8.guard));armL=70;armR=-70;}
+  if(t>T8.estop-.5&&t<T8.estop+.6){armL=lerp(20,95,prog(t,T8.estop-.5,T8.estop));}
+  if(t>T8.lock-.4&&t<T8.tagOn+.6){armL=95;}
+  if(t>T8.remove){armL=lerp(20,130,prog(t,T8.remove,T8.remove+.5));armR=-armL;}
+  s+=op({x,flip,glasses:t>T8.glasses,plugs:t>T8.plugs,armL,armR,eyes,mouth});
+  if(t>T8.remove){const p=prog(t,T8.remove,T8.remove+.5);s+=`<g transform="translate(${lerp(JAMX+2,x,p)} ${lerp(572,470,p)})"><rect x="-18" y="-30" width="36" height="30" fill="#c8955a" stroke="#8a6030" stroke-width="2"/></g>`;}
+  [[T8.check,435,520],[T8.guard+.8,230,600],[T8.glasses,x,520],[T8.plugs,x-31,548],[T8.estop,435,566],[T8.lock,435,620]].forEach(([tt,sx,sy])=>{if(t>tt)s+=sparkles(sx,sy,t-tt,6,30);});
+  if(t>T8.jam) s+=burst(JAMX,480,'ติดอีกแล้ว!',t-T8.jam,{fs:30,sc:.6,rot:-6});
+  if(t>T8.estop) s+=burst(380,430,'หยุดเครื่อง!',t-T8.estop,{fs:30,sc:.65,rot:6,col:'#1fb35a'});
+  let ui=stepPanel(t,STEPS,[T8.guard+.8,T8.plugs+.2,T8.estop+.2,T8.tagOn+.3],.2);
+  const cur=[T8.guard+.8,T8.plugs+.2,T8.estop+.2,T8.tagOn+.3].filter(x=>t>=x).length;
+  return s+'<!--UI-->'+ui+titleCard(['ทำตาม *WI* ทีละขั้น'],t,34)+topUI(`ขั้นที่ ${Math.min(4,cur+1)}/4`);
+};
+
+SC[9]=(t,d)=>{
+  let s=lineBg(t,{guard:1,run:0,lock:true,tagOn:true});
+  s+=op({x:300,glasses:true,plugs:true,armL:150,armR:-150,eyes:'closed',mouth:'grin'});
+  s+=sparkles(300,470,t,12,90);
+  s+=`<g transform="translate(300 ${420+Math.sin(t*4)*4})"><rect x="-18" y="-30" width="36" height="30" fill="#c8955a" stroke="#8a6030" stroke-width="2"/></g>`;
+  s+=burst(270,820,'มือยังอยู่ครบ!',t-1.2,{fs:38,fill:'#8df07a',col:'#fff',rot:-5,sc:.85});
+  return s+'<!--UI-->'+titleCard(['ทำตามครบ*ทุกขั้น*','ชิ้นงานออก มือก็ปลอดภัย'],t,30)+topUI('สำเร็จ');
+};
+
+SC[10]=(t,d)=>{
+  let s=lineBg(t,{guard:1});
+  s+=ghost(110,700,.9,t,{thumb:true,armR:-150,eyes:'closed',mouth:'grin'});
+  s+=op({x:320,glasses:true,plugs:true,eyes:'closed',mouth:'smile',bob:Math.sin(t*6)*3});
+  return s+'<!--UI-->'+titleCard(['*ความเคยชิน*...','คืออันตรายที่มองไม่เห็น'],t,30)+topUI('บทเรียน');
+};
+
+SC[11]=(t,d)=>{
+  let s=`<rect width="540" height="960" fill="#c8102e"/>`;
+  s+=`<g transform="translate(270 520) rotate(${t*25})">`;
+  for(let i=0;i<16;i++){s+=`<path d="M0 0 L${Math.cos(i/16*Math.PI*2)*900} ${Math.sin(i/16*Math.PI*2)*900} L${Math.cos((i+.5)/16*Math.PI*2)*900} ${Math.sin((i+.5)/16*Math.PI*2)*900} Z" fill="${i%2?'#e0263f':'#a80d25'}"/>`;}
+  s+=`</g><g transform="translate(270 430) scale(${back(prog(t,0,.3))}) rotate(-4)"><text text-anchor="middle" font-size="76" font-weight="900" fill="#fff" paint-order="stroke" stroke="#1b1b1b" stroke-width="12">แต่เดี๋ยวก่อน!</text></g>`;
+  const h=back(prog(t,.2,.5));
+  s+=`<g transform="translate(270 640) scale(${h}) rotate(${Math.sin(t*8)*4})"><rect x="-55" y="-30" width="110" height="110" rx="45" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/>
+   ${[-42,-15,12,39].map((fx,i)=>`<rect x="${fx-11}" y="${-95+(i==0||i==3?14:0)}" width="24" height="90" rx="12" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/>`).join('')}
+   <rect x="-60" y="-30" width="120" height="40" fill="#f4c79a"/><rect x="44" y="0" width="22" height="56" rx="11" transform="rotate(-35 55 30)" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/></g>`;
+  return '<!--UI-->'+s+topUI('');
+};
+
+SC[12]=(t,d)=>{
+  let s=`<rect width="540" height="960" fill="#2a2f38"/>`;
+  s+='<!--UI-->';
+  const p=back(prog(t,0,.4));
+  s+=`<g transform="translate(270 520) scale(${p}) rotate(-2)" filter="url(#shadow)"><rect x="-170" y="-230" width="340" height="440" fill="#e3d9b8" stroke="#b9ae86" stroke-width="4"/>
+     <rect x="-170" y="-230" width="340" height="440" fill="#7a6a40" opacity=".18"/>
+     <text x="-150" y="-196" font-size="17" font-weight="900" fill="#b0a47e">WI-PR-07 วิธีปฏิบัติงานเครื่องแพ็ก</text>
+     ${[...Array(22)].map((_,i)=>`<rect x="-150" y="${-176+i*15}" width="${200+rnd(i+3)*100}" height="5" fill="#bcb193"/>`).join('')}
+     <path d="M120 -230 l20 60 l-30 40 l25 50" stroke="#b9ae86" stroke-width="3" fill="none"/>
+     <circle cx="-120" cy="150" r="30" fill="#8a7a50" opacity=".15"/>
+     <g transform="translate(80 150) rotate(-14)" opacity="${prog(t,3.2,3.5)}"><rect x="-80" y="-26" width="160" height="52" rx="6" fill="none" stroke="#c41e2a" stroke-width="5"/><text y="9" text-anchor="middle" font-size="24" font-weight="900" fill="#c41e2a">Rev.0 ปี 2558</text></g></g>`;
+  s+=tag(120,300,'ซีดจาง',t-.5,{fs:24,bg:'#fff',col:'#e6242b',rot:-6});
+  s+=tag(420,420,'ตัวหนังสือเล็ก',t-1.4,{fs:22,bg:'#fff',col:'#e6242b',rot:6});
+  s+=tag(400,760,'ฉบับเก่า!',t-3.3,{fs:26,bg:'#ffd23f',col:'#e6242b',rot:-4});
+  return s+titleCard(['WI แผ่นนี้*อ่านไม่ออก!*'],t,32)+topUI('ความจริง...');
+};
+
+const T13={easy:3.15,latest:4.4,posted:5.72,train:7.0};
+SC[13]=(t,d)=>{
+  const swapped=t>2.2;
+  let s=lineBg(t,{guard:1,newWI:swapped});
+  if(swapped) s+=sparkles(300,400,t-2.2,10,70);
+  s+=sup({x:lerp(560,380,easeOut(prog(t,0,1.6))),flip:-1,walk:t*1.4,walkAmt:t<1.6?1:0,armL:t>1.8&&t<2.6?140:(t>T13.train?60:20),mouth:'smile'});
+  const gather=easeOut(prog(t,T13.train-.4,T13.train+.8));
+  s+=op({x:lerp(-60,160,gather),glasses:true,plugs:true,mouth:'smile',eyes:'normal'});
+  s+=person({x:lerp(-120,70,gather),shirt:'#e67e22',pants:'#2d3b6b',skin:'#f2c094',hat:'cap',capCol:'#e6242b',glasses:true,plugs:true,boots:true,mouth:'smile'});
+  let ui=stepPanel(t,[['อ่านง่าย','รูปประกอบ ตัวใหญ่'],['ฉบับล่าสุด','Rev. ปัจจุบัน'],['ติดหน้างาน','ระดับสายตา'],['สอนให้เข้าใจ','อบรมทุกคน']],[T13.easy,T13.latest,T13.posted,T13.train],2.6,'WI ที่ดีต้อง...');
+  return s+'<!--UI-->'+ui+titleCard(['*หัวหน้า*ก็ต้องดูแล WI'],t,32)+topUI('หัวหน้าด้วย');
+};
+
+SC[14]=(t,d)=>{
+  let s=lineBg(t,{guard:1,newWI:true});
+  s+=ghost(60,700,.85,t,{thumb:true,armR:-150,eyes:'closed',mouth:'grin'});
+  const ppl=[{f:op,o:{x:170,glasses:true,plugs:true},t0:.25},{f:person,o:{x:265,shirt:'#e67e22',pants:'#2d3b6b',skin:'#f2c094',hat:'cap',capCol:'#e6242b',glasses:true,plugs:true,boots:true},t0:.5},{f:sup,o:{x:370,flip:-1},t0:2.0}];
+  ppl.forEach(p=>{const up=back(prog(t-p.t0,0,.35));s+=`<g transform="translate(0 ${(1-clamp(up))*320})">`+p.f(Object.assign({mouth:'grin',armR:t>4.2?-150:-20,thumb:t>4.2},p.o))+`</g>`;});
+  s+=tag(215,760,'พนักงาน: ทำตาม WI',t-.6,{fs:16,bg:'#fff',rot:-3});
+  s+=tag(370,820,'หัวหน้า: ดูแล WI',t-2.2,{fs:16,bg:'#ffd23f',rot:3});
+  if(t>4.2) s+=sparkles(270,560,t-4.2,14,180);
+  return s+'<!--UI-->'+titleCard(['ทำตาม WI + *ดูแล* WI','= *ทุกคนกลับบ้านปลอดภัย*'],t,29)+topUI('ทุกคน');
+};
+
+SC[15]=(t,d)=>{
+  let s=`<rect width="540" height="960" fill="#15121f"/>`;
+  s+=`<g opacity=".08">`;for(let i=-10;i<20;i++) s+=`<rect x="${i*60+(t*30%60)}" y="0" width="30" height="960" fill="#ffd23f" transform="skewX(-20)"/>`;s+=`</g>`;
+  s+=`<g transform="translate(270 130) scale(${back(prog(t,0,.3))})"><rect x="-130" y="-20" width="260" height="40" rx="20" fill="#e6242b"/><text y="8" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">ผีเฝ้าไซต์ • ตอนตามคำขอ</text></g>`;
+  const q=prog(t,.3,.7), q2=prog(t,2.2,2.6);
+  s+=`<g opacity="${q}"><text x="270" y="250" text-anchor="middle" font-size="44" font-weight="900" fill="#fff">WI ไม่ใช่</text><text x="270" y="305" text-anchor="middle" font-size="40" font-weight="900" fill="#ff8a8a">กระดาษติดผนัง</text></g>`;
+  s+=`<g opacity="${q2}"><text x="270" y="380" text-anchor="middle" font-size="30" font-weight="700" fill="#ffd23f">แต่คือวิธีทำงาน ให้กลับบ้านปลอดภัย</text></g>`;
+  STEPS.forEach((st,i)=>{const tt=t-(3.0+i*.25);if(tt<0)return;const sc=back(prog(tt,0,.3));
+    s+=`<g transform="translate(270 ${460+i*64}) scale(${sc})"><rect x="-200" y="-24" width="400" height="48" rx="24" fill="#fff" opacity=".95"/><circle cx="-176" cy="0" r="18" fill="#1fb35a"/><text x="-176" y="7" text-anchor="middle" font-size="20" font-weight="900" fill="#fff">${i+1}</text>
+      <text x="-148" y="8" font-size="21" font-weight="700" fill="#1b1b1b">${st[0]} <tspan fill="#555" font-size="17">${st[1]}</tspan></text></g>`;});
+  return s;
+};
+window.ready=document.fonts.ready.then(()=>true);
+</script></body></html>

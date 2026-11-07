@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI House คลังผลงาน</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#14131f;--card:#1f1d2e;--line:#2e2b44;--txt:#f3f1ff;--mut:#a9a4c7;--y:#ffd23f;--g:#4fd67a;--r:#ff5a5f;--b:#6fb6ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Kanit,sans-serif;font-size:16px;line-height:1.5}
+header{padding:20px 18px 8px}h1{margin:0;font-size:24px}header p{margin:2px 0 0;color:var(--mut);font-size:14px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;position:sticky;top:0;background:var(--bg);z-index:2}
+nav button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--txt);font:inherit;font-size:14px;padding:6px 14px;border-radius:999px}
+nav button.on{background:var(--y);color:#1b1b1b;border-color:var(--y);font-weight:700}
+main{padding:6px 18px 40px;max-width:720px;margin:0 auto}
+.sec{margin:18px 0 8px;font-size:15px;color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+.card h3{margin:0 0 4px;font-size:17px}.meta{font-size:13px;color:var(--mut)}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;margin-right:6px}
+.review{background:var(--y);color:#1b1b1b}.done{background:var(--g);color:#0d2a17}.wip{background:var(--b);color:#0b1d33}
+video{width:100%;border-radius:12px;margin-top:10px;background:#000;max-height:70vh}
+.note{font-size:14px;margin-top:6px}
+.todo{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}.todo:first-child{border-top:0}
+.who{flex:none;font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px}.owner{background:var(--r)}.house{background:#3b3760}
+.empty{color:var(--mut);text-align:center;padding:30px 0}
+.dept{display:grid;grid-template-columns:1fr 1fr;gap:10px}.dept div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.dept b{display:block}.dept span{font-size:13px;color:var(--mut)}
+</style></head>
+<body>
+<header><h1>🏠 AI House</h1><p>คลังผลงานของบ้าน AI • <span id="upd"></span></p></header>
+<nav id="tabs"></nav>
+<main id="main"></main>
+<script>
+const FALLBACK=/*CATALOG*/null;
+const DEPT={all:'ทั้งหมด',video:'คลิป',affiliate:'แอฟฟิลิเอต',safety:'ความปลอดภัย',teaching:'สอน AI',personal:'ผู้ช่วยส่วนตัว'};
+const ST={review:['รอคุณดู','review'],done:['เสร็จแล้ว','done'],wip:['กำลังทำ','wip']};
+let C, tab='all';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function tabs(){document.getElementById('tabs').innerHTML=Object.entries(DEPT).map(([k,v])=>`<button class="${k===tab?'on':''}" data-k="${k}">${v}</button>`).join('');
+  document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{tab=b.dataset.k;try{localStorage.setItem('tab',tab)}catch(e){}draw();});}
+function draw(){
+  tabs(); const m=document.getElementById('main');
+  const items=C.items.filter(i=>tab==='all'||i.dept===tab);
+  let h='';
+  if(tab==='all'){
+    h+=`<div class="sec">ขั้นต่อไป</div><div class="card">${C.next.map(n=>`<div class="todo"><span class="who ${n.who}">${n.who==='owner'?'คุณทำ':'บ้านทำ'}</span><span>${esc(n.text)}</span></div>`).join('')}</div>`;
+    const cnt=d=>C.items.filter(i=>i.dept===d).length;
+    h+=`<div class="sec">แผนกในบ้าน</div><div class="dept">${Object.entries(DEPT).filter(([k])=>k!=='all').map(([k,v])=>`<div><b>${v}</b><span>${cnt(k)?cnt(k)+' ชิ้นงาน':'พร้อมรับงาน'}</span></div>`).join('')}</div>`;
+  }
+  h+=`<div class="sec">ผลงาน</div>`;
+  h+=items.length?items.map(i=>{const s=ST[i.status]||ST.done;
+    return `<div class="card"><span class="badge ${s[1]}">${s[0]}</span><span class="meta">${esc(i.series||DEPT[i.dept])} • ${esc(i.date)}${i.length?' • '+esc(i.length):''}</span>
+    <h3>${esc(i.title)}</h3>${i.note?`<div class="note">${esc(i.note)}</div>`:''}
+    ${i.file&&/\.mp4$/i.test(i.file)?`<video controls playsinline preload="metadata" src="${esc(i.file)}"></video>`:''}</div>`}).join(''):`<div class="empty">ยังไม่มีผลงานในแผนกนี้</div>`;
+  m.innerHTML=h;
+}
+function start(c){C=c;document.getElementById('upd').textContent='อัปเดต '+c.updated;try{tab=localStorage.getItem('tab')||'all'}catch(e){}draw();}
+fetch('catalog.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(start).catch(()=>FALLBACK?start(FALLBACK):document.getElementById('main').innerHTML='<div class="empty">โหลดรายการไม่ได้</div>');
+</script>
+</body></html>

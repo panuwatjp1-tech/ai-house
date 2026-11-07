@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;src:url(../fonts/Kanit-Bold.ttf);font-weight:700}
+@font-face{font-family:K;src:url(../fonts/Kanit-Black.ttf);font-weight:900}
+@font-face{font-family:K;src:url(../fonts/Kanit-SemiBold.ttf);font-weight:600}
+@font-face{font-family:K;src:url(../fonts/Kanit-Medium.ttf);font-weight:500}
+html,body{margin:0;padding:0;background:#000;overflow:hidden}
+svg{display:block;font-family:K} text{font-family:K}
+</style></head>
+<body>
+<svg id="v" width="540" height="960" viewBox="0 0 540 960" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../lib.js"></script>
+<script src="../bg1.js"></script>
+<script>
+window.EXTRA_DEFS=`<defs><radialGradient id="spot"><stop offset="0" stop-color="#fff8d0" stop-opacity=".55"/><stop offset="1" stop-color="#fff8d0" stop-opacity="0"/></radialGradient></defs>`;
+const site=(t,o={})=>background(t,Object.assign({day:1},o))+shrine(t,{smoke:.4});
+
+// ---------- broadcast UI ----------
+function liveUI(chip){
+  let s=`<g filter="url(#shadow)"><rect x="14" y="20" width="76" height="30" rx="6" fill="#e6242b"/><circle cx="30" cy="35" r="5" fill="#fff" />
+   <text x="40" y="41" font-size="16" font-weight="900" fill="#fff">LIVE</text>
+   <rect x="94" y="20" width="150" height="30" rx="6" fill="#1b1b2f"/><text x="169" y="41" text-anchor="middle" font-size="15" font-weight="900" fill="#ffd23f">ข้ออ้างโอลิมปิก</text></g>`;
+  if(chip){const w=chip.length*12+34;
+    s+=`<g filter="url(#shadow)"><rect x="${526-w}" y="20" width="${w}" height="30" rx="15" fill="#ffd23f" stroke="#1b1b1b" stroke-width="2"/>
+    <text x="${526-w/2}" y="41" text-anchor="middle" font-size="16" font-weight="900" fill="#1b1b1b">${esc(chip)}</text></g>`;}
+  return s;
+}
+function lowerThird(top,bottom,t){ if(t<0) return '';
+  const p=easeOut(prog(t,0,.35));
+  return `<g transform="translate(${lerp(-380,0,p)} 0)" filter="url(#shadow)">
+   <rect x="14" y="830" width="360" height="30" fill="#e6242b"/><text x="26" y="852" font-size="18" font-weight="900" fill="#fff">${esc(top)}</text>
+   <rect x="14" y="860" width="360" height="30" fill="#1b1b2f"/><text x="26" y="882" font-size="17" font-weight="700" fill="#ffd23f">${esc(bottom)}</text></g>`;
+}
+function scoreCard(x,y,num,t,col='#e6242b'){ if(t<0) return '';
+  const p=back(prog(t,0,.3));
+  return `<g transform="translate(${x} ${y}) scale(${p}) rotate(${Math.sin(t*6)*3})"><rect x="-4" y="20" width="8" height="40" fill="#8a6a40"/>
+   <rect x="-36" y="-36" width="72" height="60" rx="6" fill="#fff" stroke="#1b1b1b" stroke-width="3"/>
+   <text y="16" text-anchor="middle" font-size="52" font-weight="900" fill="${col}">${num}</text></g>`;
+}
+function judge(t,o={}){
+  const x=Math.min(o.x||430,430), y=o.y||700, card=o.card;
+  let s=ghost(x,y,.92,t,{armR:card!=null?-160:-20,armL:15,eyes:o.eyes||'normal',mouth:o.mouth||'flat',glasses:false});
+  s+=`<g><rect x="${x-70}" y="${y-72}" width="140" height="72" fill="#1f5aa6" stroke="#0f2f5a" stroke-width="3"/><rect x="${x-78}" y="${y-80}" width="156" height="12" fill="#2b6cc4"/>
+    <text x="${x}" y="${y-30}" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">กรรมการ</text></g>`;
+  if(card!=null) s+=scoreCard(x-70,y-250,card,o.cardT||0);
+  return s;
+}
+function confetti(t,n=40){let s='';const C=['#e6242b','#ffd23f','#1fb35a','#2b6cc4','#ff7a1a','#fff'];
+  for(let i=0;i<n;i++){const x=rnd(i)*540+Math.sin(t*2+i)*20, y=((t*160+rnd(i+9)*960)%1000)-40;
+    s+=`<rect x="${x}" y="${y}" width="7" height="12" fill="${C[i%6]}" transform="rotate(${t*200+i*40} ${x} ${y})"/>`;}return s;}
+function grinder(x,y,ang,on,t){
+  let s=`<g transform="translate(${x} ${y}) rotate(${ang})"><rect x="-6" y="-8" width="46" height="16" rx="7" fill="#2a6db0"/><rect x="36" y="-14" width="14" height="28" rx="4" fill="#555"/>
+    <circle cx="50" cy="10" r="15" fill="#9aa0a8" stroke="#333" stroke-width="2"/><path d="M40 -4 h20" stroke="#333" stroke-width="4"/></g>`;
+  if(on) s+=sparks(x+Math.cos(ang*Math.PI/180)*50,y+16,t,20,-1,1.3);
+  return s;
+}
+function sparks(x,y,t,n=18,dir=1,spread=1){let s='';
+  for(let i=0;i<n;i++){const age=((t*1.8+i/n)%1), vx=(rnd(i)*120+40)*dir*spread, vy=-(rnd(i+7)*120+40);
+    const px=x+vx*age, py=y+vy*age+260*age*age;
+    s+=`<line x1="${px}" y1="${py}" x2="${px-vx*.04}" y2="${py-(vy+520*age)*.04}" stroke="${i%3?'#ffd35a':'#fff2b0'}" stroke-width="2.2" stroke-linecap="round" opacity="${1-age}"/>`;}
+  return s;}
+function sawhorse(x){return `<g><rect x="${x-50}" y="640" width="100" height="10" fill="#b07a3a"/><path d="M${x-40} 650 l-12 50 M${x-30} 650 l12 50 M${x+30} 650 l-12 50 M${x+40} 650 l12 50" stroke="#8a5a2a" stroke-width="6"/>
+  <rect x="${x-60}" y="626" width="120" height="14" fill="#8c96a3" stroke="#4d5560"/></g>`;}
+function nailBoard(x){let s=`<rect x="${x-40}" y="694" width="80" height="10" fill="#a6743a" stroke="#6a4520"/>`;for(let i=0;i<5;i++) s+=`<path d="M${x-30+i*15} 694 v-10" stroke="#aab" stroke-width="2.5"/><circle cx="${x-30+i*15}" cy="684" r="2" fill="#ccd"/>`;return s;}
+function stars(x,y,t){let s='';for(let i=0;i<4;i++){const a=t*5+i*Math.PI/2;const sx=x+Math.cos(a)*40, sy=y+Math.sin(a)*12;
+  s+=i%2?`<path transform="translate(${sx} ${sy})" d="M0 -9 L2.6 -3 L9 -3 L4 1.5 L6 8 L0 4 L-6 8 L-4 1.5 L-9 -3 L-2.6 -3 Z" fill="#ffd23f" stroke="#b8860b"/>`
+       :`<g transform="translate(${sx} ${sy})"><ellipse rx="8" ry="6" fill="#7fc8ff"/><circle cx="5" cy="-3" r="1.5" fill="#222"/><path d="M8 -1 l5 1 l-5 1" fill="#ff9d2e"/></g>`;}return s;}
+function wrench(x,y,rot){return `<g transform="translate(${x} ${y}) rotate(${rot})"><rect x="-4" y="-20" width="8" height="40" rx="3" fill="#9aa0a8" stroke="#444" stroke-width="1.5"/><path d="M-10 -28 a10 10 0 1 1 20 0 l-5 0 l0 6 l-10 0 l0 -6 z" fill="#9aa0a8" stroke="#444" stroke-width="1.5"/></g>`;}
+function podium(){return `<g filter="url(#shadow)"><rect x="200" y="600" width="140" height="100" fill="#ffcf33" stroke="#b8860b" stroke-width="3"/><text x="270" y="665" text-anchor="middle" font-size="44" font-weight="900" fill="#b8860b">1</text>
+  <rect x="60" y="640" width="140" height="60" fill="#d8dde3" stroke="#8a929c" stroke-width="3"/><text x="130" y="685" text-anchor="middle" font-size="36" font-weight="900" fill="#8a929c">2</text>
+  <rect x="340" y="660" width="140" height="40" fill="#d99a6a" stroke="#8a5a2a" stroke-width="3"/><text x="410" y="692" text-anchor="middle" font-size="30" font-weight="900" fill="#8a5a2a">3</text></g>`;}
+
+const P1={shirt:'#e67e22',pants:'#2d3b6b',skin:'#e2ad7c',hair:'#1a1a1a',bib:'1',helmet:true,chin:true,gloves:true,boots:true};
+const P2={shirt:'#e74c3c',pants:'#3b4a6b',skin:'#d39a68',hair:'#2a1a10',bib:'2',helmet:true,chin:true,gloves:true,boots:true,glasses:true};
+const P3={shirt:'#8e5a2b',pants:'#4a4a4a',skin:'#e7b98a',hair:'#bdbdbd',bib:'3',mustache:true,towel:true,boots:true,gloves:true};
+const NEW={shirt:'#3b82c4',pants:'#2d3b6b',skin:'#f4c79a',helmet:true,chin:true,glasses:true,vest:true,gloves:true,boots:true};
+const p1=o=>person(Object.assign({},P1,o)), p2=o=>person(Object.assign({},P2,o)), p3=o=>person(Object.assign({},P3,o)), pn=o=>person(Object.assign({},NEW,o));
+
+// ---------- scenes ----------
+SC[1]=(t,d)=>{
+  let s=site(t)+`<rect width="540" height="960" fill="#1b1b2f" opacity=".25"/>`;
+  s+=`<circle cx="${270+Math.sin(t*1.5)*160}" cy="640" r="160" fill="url(#spot)"/>`;
+  s+='<!--UI-->';
+  const cols=['#ffcc1f','#ffffff','#2b6cc4','#e6242b','#1fb35a'];
+  cols.forEach((c,i)=>{const tt=t-(.3+i*.15);if(tt<0)return;s+=helmetShape(90+i*90,300+(i%2)*30,1.05*back(prog(tt,0,.3)),c);});
+  const b=prog(t,1.3,1.7);
+  s+=`<g transform="translate(270 430) scale(${back(b)}) rotate(-3)"><text text-anchor="middle" font-size="70" font-weight="900" fill="#fff" paint-order="stroke" stroke="#1b1b1b" stroke-width="12">ข้ออ้าง</text>
+     <text y="78" text-anchor="middle" font-size="70" font-weight="900" fill="#ffd23f" paint-order="stroke" stroke="#1b1b1b" stroke-width="12">โอลิมปิก</text></g>`;
+  s+=tag(270,600,'ประจำไซต์งานของเรา!',t-2.4,{fs:22,bg:'#fff'});
+  if(t>1.3) s+=confetti(t-1.3,50);
+  s+=lowerThird('ถ่ายทอดสด','จากไซต์ก่อสร้าง • ตอนพิเศษ',t-3.0);
+  return s+liveUI('ผีเฝ้าไซต์ ตอนพิเศษ');
+};
+
+SC[2]=(t,d)=>{
+  let s=site(t);
+  s+=judge(t,{x:300,eyes:t>2?'closed':'normal',mouth:t>2?'smile':'flat'});
+  s+=tag(150,480,'เข้มงวดที่สุด!',t-3.4,{fs:22,bg:'#ffd23f',rot:-6});
+  return s+'<!--UI-->'+titleCard(['กรรมการวันนี้...','*ลุงช่าง* ผีเฝ้าไซต์!'],t)+lowerThird('กรรมการ','ลุงช่าง • ไม่เคยให้คะแนนฟรี',t-1.5)+liveUI('กรรมการ');
+};
+
+SC[3]=(t,d)=>{
+  let s=site(t);
+  const w=prog(t,0,1.4), x=lerp(-60,230,easeOut(w));
+  const pose=t>1.6;
+  s+=p1({x,walk:t*2.4,walkAmt:w<1?1.2:0,armL:pose?150:20,armR:pose?-150:-20,mouth:'grin',eyes:pose?'closed':'normal'});
+  s+=grinder(x+40,pose?470:610,pose?-60:0,false,t);
+  s+=judge(t,{x:450});
+  s+=burst(270,430,'แป๊บเดียวเอง!',t-3.2,{fs:36,fill:'#ffd23f',col:'#e6242b',rot:-6,sc:.85});
+  return s+'<!--UI-->'+lowerThird('ด่าน 1 • นักกีฬาหมายเลข 1','พี่ด่วน • ท่า: แป๊บเดียวเอง',t-.6)+liveUI('ด่าน 1/3');
+};
+
+const T4={hit:2.1,card:5.55};
+SC[4]=(t,d)=>{
+  let s=site(t)+sawhorse(300);
+  const hurt=t>T4.hit;
+  s+=p1({x:210,eyes:hurt?'squeeze':'normal',mouth:hurt?'o':'smile',tears:hurt?prog(t,T4.hit,T4.hit+1):0,armR:hurt?(-150+Math.sin(t*14)*20):-70,armL:hurt?150:20,hop:hurt&&Math.sin(t*10)>0?1:0,bob:hurt?-Math.abs(Math.sin(t*10))*14:0});
+  if(!hurt) s+=grinder(250,612,0,t>.3,t); else s+=grinder(270,690,80,false,t);
+  if(t>T4.hit-.25&&t<T4.hit) {const p=prog(t,T4.hit-.25,T4.hit);s+=`<circle cx="${lerp(300,200,p)}" cy="${lerp(630,548,p)}" r="6" fill="#fff2b0" filter="url(#glow)"/>`;}
+  s+=judge(t,{x:450,card:t>T4.card?0:null,cardT:t-T4.card,mouth:t>T4.card?'flat':'flat'});
+  s+=burst(200,410,'แสบตา!!',t-T4.hit,{fs:40,col:'#e6242b',rot:-8,sc:.8});
+  s+=xMark(200,548,t-2.6);
+  return s+'<!--UI-->'+titleCard(['เจียรเหล็ก*โดยไม่ใส่แว่น*'],t)+lowerThird('พี่ด่วน • หมายเลข 1',t>T4.card?'คะแนน: 0 !!':'กำลังแสดงท่า...',t)+liveUI(t>T4.card?'0 คะแนน':'ด่าน 1/3');
+};
+
+SC[5]=(t,d)=>{
+  let s=site(t);
+  s+=p1({x:240,glasses:t>.6,eyes:'closed',mouth:'grin',armR:-150,thumb:true,tears:0});
+  s+=sparkles(240,548,t-.6,8,50);
+  s+=check(320,500,t-1.0)+tag(360,560,'แว่นเซฟตี้',t-1.0,{bg:'#bfefff',rot:4});
+  return s+'<!--UI-->'+titleCard(['แป๊บเดียว*ก็เข้าตาได้!*','ใส่*แว่นเซฟตี้*ทุกครั้ง'],t)+liveUI('บทเรียน');
+};
+
+SC[6]=(t,d)=>{
+  let s=site(t)+`<rect width="540" height="960" fill="#ff8a3d" opacity="${.12+.05*Math.sin(t*3)}"/>`;
+  s+=`<circle cx="440" cy="200" r="70" fill="#fff3a0" opacity=".7" filter="url(#blur4)"/>`;
+  const w=prog(t,0,1.6), x=lerp(-60,230,easeOut(w));
+  const fan=Math.sin(t*16)*30;
+  s+=p2({x,walk:t*1.6,walkAmt:w<1?1:0,armR:-130+fan,armL:20,sweat:1,eyes:'lazy',mouth:'o'});
+  s+=judge(t,{x:450});
+  for(let i=0;i<3;i++){const yy=520-((t*60+i*30)%90);s+=`<path d="M${x-20+i*20} ${yy} q5 -8 0 -16 q-5 -8 0 -16" stroke="#ff6a13" stroke-width="3" fill="none" opacity=".6"/>`;}
+  s+=burst(270,420,'ร้อนครับพี่!',t-3.6,{fs:36,fill:'#ffd23f',col:'#e6242b',rot:6,sc:.85});
+  return s+'<!--UI-->'+lowerThird('ด่าน 2 • นักกีฬาหมายเลข 2','พี่ร้อน • ท่า: ร้อนครับพี่',t-.6)+liveUI('ด่าน 2/3');
+};
+
+const T7={helmet:.45,boots:1.4,nail:3.85,card:6.1};
+SC[7]=(t,d)=>{
+  let s=site(t)+`<rect width="540" height="960" fill="#ff8a3d" opacity=".12"/>`+nailBoard(330);
+  const walk=prog(t,2.4,3.85), x=lerp(200,322,walk);
+  const hurt=t>T7.nail;
+  s+=p2({x,helmet:t<T7.helmet,chin:t<T7.helmet,boots:t<T7.boots,glasses:true,sweat:t<2.2?1:0,eyes:hurt?'squeeze':(t>2.2?'closed':'lazy'),mouth:hurt?'o':(t>2.2?'grin':'o'),
+     walk:t*1.4,walkAmt:walk>0&&walk<1?.8:0,hop:hurt?1:0,bob:hurt?-Math.abs(Math.sin(t*9))*22:0,armL:hurt?120:20,armR:hurt?-120:(t>2.2?-150:-20),lean:hurt?Math.sin(t*9)*8:0});
+  // flying helmet & boots
+  if(t>T7.helmet&&t<T7.helmet+1.2){const p=prog(t,T7.helmet,T7.helmet+1.2);s+=helmetShape(lerp(200,40,p),lerp(530,700,p)-Math.sin(p*Math.PI)*160,1,'#ffcc1f',p*540);}
+  if(t>T7.boots&&t<T7.boots+1.2){const p=prog(t,T7.boots,T7.boots+1.2);[0,1].forEach(i=>s+=`<path transform="translate(${lerp(200,60+i*40,p)} ${lerp(690,700,p)-Math.sin(p*Math.PI)*(120+i*30)}) rotate(${p*400})" d="M-9 -10 h14 v10 h10 q4 0 4 5 v3 h-28 z" fill="#2a2a2a"/>`);}
+  s+=judge(t,{x:460,card:t>T7.card?0:null,cardT:t-T7.card});
+  s+=burst(330,560,'จึ๊ก!!',t-T7.nail,{fs:44,col:'#e6242b',rot:-8,sc:.75});
+  if(t>2.4&&t<T7.nail) s+=`<text x="120" y="520" font-size="26" font-weight="900" fill="#fff" paint-order="stroke" stroke="#1b1b1b" stroke-width="5">เย็นสบาย~</text>`;
+  return s+'<!--UI-->'+titleCard(['ถอดหมวก *ถอดรองเท้า*','เย็นสบาย...'],t)+lowerThird('พี่ร้อน • หมายเลข 2',t>T7.card?'คะแนน: 0 อีกแล้ว!!':'กำลังแสดงท่า...',t)+liveUI(t>T7.card?'0 คะแนน':'ด่าน 2/3');
+};
+
+SC[8]=(t,d)=>{
+  let s=site(t);
+  s+=`<g><rect x="266" y="470" width="6" height="230" fill="#666"/><path d="M150 480 Q270 400 390 480 Z" fill="#e6242b"/><path d="M150 480 Q210 455 270 452 L270 480 Z" fill="#fff" opacity=".9"/><path d="M330 466 Q360 470 390 480 L330 480 Z" fill="#fff" opacity=".9"/></g>`;
+  s+=`<g><rect x="380" y="620" width="50" height="80" rx="6" fill="#2b6cc4"/><rect x="386" y="590" width="38" height="34" rx="8" fill="#9fd6f5" opacity=".9"/><rect x="398" y="652" width="12" height="8" fill="#ddd"/></g>`;
+  const drink=Math.sin(prog(t,.5,2.5)*Math.PI);
+  s+=p2({x:240,helmet:true,chin:true,boots:true,glasses:true,eyes:'closed',mouth:'smile',armL:20+drink*130});
+  s+=check(330,580,t-1.6)+tag(150,640,'รองเท้าเซฟตี้ กันตะปู',t-2.2,{fs:15,bg:'#8df07a',rot:-4});
+  return s+'<!--UI-->'+titleCard(['ร้อน → *พักดื่มน้ำ*','ไม่ใช่ → *ถอด PPE!*'],t)+liveUI('บทเรียน');
+};
+
+SC[9]=(t,d)=>{
+  let s=site(t);
+  const w=prog(t,0,2.2), x=lerp(-60,230,easeOut(w));
+  s+=p3({x,walk:t*1.0,walkAmt:w<1?.9:0,lean:w<1?-6:-3,armL:w<1?Math.sin(t*6)*25:60,armR:w<1?-Math.sin(t*6)*25:-60,eyes:'lazy',mouth:'smirk'});
+  s+=judge(t,{x:450});
+  s+=tag(230,420,'แชมป์เก่า 10 สมัย',t-2.2,{fs:20,bg:'#ffcf33',rot:-4});
+  s+=burst(270,330,'สิบปีไม่เคยเป็นไร!',t-4.4,{fs:30,fill:'#ffd23f',col:'#e6242b',rot:5,sc:.85});
+  return s+'<!--UI-->'+lowerThird('ด่าน 3 • นักกีฬาหมายเลข 3','ลุงเก๋า • ท่า: ทำมาสิบปีไม่เคยเป็นไร',t-.6)+liveUI('ด่าน 3/3');
+};
+
+const T10={drop:2.9,hit:3.4,card:5.5};
+SC[10]=(t,d)=>{
+  let s=site(t);
+  const w=prog(t,0,2.6), x=lerp(150,330,w);
+  const hurt=t>T10.hit;
+  s+=p3({x,walk:t*1.0,walkAmt:w<1?.9:0,eyes:hurt?'x':'lazy',mouth:hurt?'o':'smirk',bump:hurt?prog(t,T10.hit,T10.hit+.3):0,lean:hurt?Math.sin(t*4)*6:-3,armL:hurt?20:60,armR:hurt?-20:-60});
+  if(t>T10.drop&&t<T10.hit){const p=prog(t,T10.drop,T10.hit);s+=wrench(x+4,lerp(380,510,p*p),p*300);}
+  if(hurt){const p=prog(t,T10.hit,T10.hit+.6);s+=wrench(x+30+p*40,lerp(510,690,p*p),300+p*200);s+=stars(x,505,t);}
+  if(t<T10.drop) s+=`<g opacity=".9">${wrench(330+Math.sin(t*8)*2,382,90)}</g>`;
+  s+=judge(t,{x:470,card:t>T10.card?0:null,cardT:t-T10.card});
+  s+=burst(x-40,420,'โป๊ก!!',t-T10.hit,{fs:46,col:'#ffd23f',rot:-8,sc:.8});
+  return s+'<!--UI-->'+titleCard(['สิบปีไม่เคยเป็นไร...','*แต่วันนี้!*'],t)+lowerThird('ลุงเก๋า • หมายเลข 3',t>T10.card?'คะแนน: 0 (ดาวขึ้น)':'กำลังแสดงท่า...',t)+liveUI(t>T10.card?'0 คะแนน':'ด่าน 3/3');
+};
+
+SC[11]=(t,d)=>{
+  let s=site(t);
+  s+=p3({x:250,helmet:t>.5,chin:t>.5,eyes:'closed',mouth:'smile',armL:150,bump:0});
+  s+=sparkles(250,520,t-.5,8,50);
+  s+=tag(370,560,'ใส่หมวกทุกครั้ง!',t-1.0,{fs:18,bg:'#8df07a',rot:4});
+  return s+'<!--UI-->'+titleCard(['อุบัติเหตุ*ไม่สน*','ว่าทำมากี่ปี!'],t,32)+liveUI('บทเรียน');
+};
+
+SC[12]=(t,d)=>{
+  let s=site(t)+`<rect width="540" height="960" fill="#0b0b1a" opacity="${.35+.2*prog(t,0,1.5)}"/>`;
+  s+=podium();
+  const sx=270+Math.sin(t*3.2)*170;
+  s+=`<circle cx="${sx}" cy="560" r="130" fill="url(#spot)"/>`;
+  const nerv=Math.sin(t*20)*1.5;
+  s+=p2({x:130,y:640,sc:.9,helmet:true,chin:true,eyes:'wide',mouth:'flat',sweat:1,lean:nerv});
+  s+=p1({x:270,y:600,sc:.9,eyes:'wide',mouth:'flat',sweat:1,lean:-nerv,glasses:true});
+  s+=p3({x:410,y:660,sc:.9,helmet:true,chin:true,eyes:'wide',mouth:'flat',sweat:1,lean:nerv});
+  s+=ghost(470,560,.85,t,{armR:-160,eyes:'normal',mouth:'grin',flip:-1});
+  if(t>3.4) s+=`<g transform="translate(270 380) scale(${back(prog(t,3.4,3.7))})"><path d="M-14 -40 L0 -8 L14 -40" stroke="#1f5aa6" stroke-width="6" fill="none"/><circle r="30" fill="#ffcf33" stroke="#b8860b" stroke-width="4"/><text y="12" text-anchor="middle" font-size="32" font-weight="900" fill="#b8860b">?</text></g>`;
+  return s+'<!--UI-->'+titleCard(['ประกาศผล!','เหรียญทองตกเป็นของ...'],t)+liveUI('ประกาศผล');
+};
+
+SC[13]=(t,d)=>{
+  let s=`<rect width="540" height="960" fill="#c8102e"/>`;
+  s+=`<g transform="translate(270 520) rotate(${t*25})">`;
+  for(let i=0;i<16;i++){s+=`<path d="M0 0 L${Math.cos(i/16*Math.PI*2)*900} ${Math.sin(i/16*Math.PI*2)*900} L${Math.cos((i+.5)/16*Math.PI*2)*900} ${Math.sin((i+.5)/16*Math.PI*2)*900} Z" fill="${i%2?'#e0263f':'#a80d25'}"/>`;}
+  s+=`</g><g transform="translate(270 430) scale(${back(prog(t,0,.3))}) rotate(-4)"><text text-anchor="middle" font-size="76" font-weight="900" fill="#fff" paint-order="stroke" stroke="#1b1b1b" stroke-width="12">แต่เดี๋ยวก่อน!</text></g>`;
+  const h=back(prog(t,.2,.5));
+  s+=`<g transform="translate(270 640) scale(${h}) rotate(${Math.sin(t*8)*4})"><rect x="-55" y="-30" width="110" height="110" rx="45" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/>
+   ${[-42,-15,12,39].map((fx,i)=>`<rect x="${fx-11}" y="${-95+(i==0||i==3?14:0)}" width="24" height="90" rx="12" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/>`).join('')}
+   <rect x="-60" y="-30" width="120" height="40" fill="#f4c79a"/><rect x="44" y="0" width="22" height="56" rx="11" transform="rotate(-35 55 30)" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/></g>`;
+  return '<!--UI-->'+s+liveUI('');
+};
+
+SC[14]=(t,d)=>{
+  let s=site(t);
+  const w=prog(t,0,1.6), x=lerp(560,300,easeOut(w));
+  const got=t>2.0;
+  s+=p1({x:70,sc:.85,glasses:true,eyes:'wide',mouth:'o',tears:.5});
+  s+=p3({x:160,sc:.85,helmet:true,chin:true,eyes:'wide',mouth:'o'});
+  s+=pn({x,flip:-1,walk:t*1.4,walkAmt:w<1?1:0,cup:true,medal:got,eyes:got?'closed':'normal',mouth:got?'grin':'smile',armR:got?-150:-20,thumb:got});
+  s+=ghost(lerp(470,400,prog(t,1.4,2.0)),700,.9,t,{armR:-60,eyes:'closed',mouth:'grin',flip:-1});
+  if(got) s+=confetti(t-2.0,50);
+  s+=burst(300,380,'ชนะ!!',t-2.0,{fs:48,fill:'#ffcf33',col:'#e6242b',rot:-6,sc:.85});
+  s+=tag(120,470,'เอ๊ะ!?',t-2.3,{fs:22,bg:'#fff',rot:-6});
+  return s+'<!--UI-->'+titleCard(['เหรียญทอง: *น้องใหม่*','ที่ใส่ *PPE ครบ!*'],t)+lowerThird('ผู้ชนะ • ไม่ต้องแข่ง','น้องใหม่ • PPE ครบทุกชิ้น',t-2.4)+liveUI('เหรียญทอง!');
+};
+
+SC[15]=(t,d)=>{
+  let s=`<rect width="540" height="960" fill="#15121f"/>`;
+  s+=`<g opacity=".08">`;for(let i=-10;i<20;i++) s+=`<rect x="${i*60+(t*30%60)}" y="0" width="30" height="960" fill="#ffd23f" transform="skewX(-20)"/>`;s+=`</g>`;
+  s+=`<g transform="translate(270 130) scale(${back(prog(t,0,.3))})"><rect x="-150" y="-20" width="300" height="40" rx="20" fill="#e6242b"/><text y="8" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">ผีเฝ้าไซต์ ตอนพิเศษ • ข้ออ้างโอลิมปิก</text></g>`;
+  const q=prog(t,.3,.7), q2=prog(t,2.2,2.6);
+  s+=`<g opacity="${q}"><text x="270" y="250" text-anchor="middle" font-size="40" font-weight="900" fill="#fff">ข้ออ้าง</text>
+      <text x="270" y="300" text-anchor="middle" font-size="30" font-weight="700" fill="#ff8a8a">ไม่เคยช่วยให้ใครปลอดภัย</text></g>`;
+  s+=xMark(120,240,t-.6);
+  s+=`<g transform="translate(270 430) scale(${back(prog(t,1.4,1.8))})"><path d="M-18 -50 L0 -12 L18 -50" stroke="#1f5aa6" stroke-width="8" fill="none"/><circle r="44" fill="#ffcf33" stroke="#b8860b" stroke-width="5"/>${helmetShape(0,14,.75,'#fff')}</g>`;
+  s+=`<g opacity="${q2}"><text x="270" y="560" text-anchor="middle" font-size="42" font-weight="900" fill="#ffd23f">PPE ครบ = ผู้ชนะตัวจริง</text></g>`;
+  ['glasses','helmet','boots','vest','gloves'].forEach((k,i)=>{const tt=t-(3.0+i*.15);if(tt<0)return;s+=`<g transform="translate(${70+i*100} 660) scale(${back(prog(tt,0,.3))*.85})">${ppeIcon(k,0,0,1)}</g>`;});
+  const r=prog(t,3.9,4.3);
+  s+=`<g opacity="${r}"><rect x="110" y="760" width="320" height="50" rx="25" fill="none" stroke="#ffd23f" stroke-width="3"/>
+    <text x="270" y="793" text-anchor="middle" font-size="22" font-weight="700" fill="#ffd23f">ใส่ PPE ให้ครบ ทุกครั้ง</text></g>`;
+  return s;
+};
+window.ready=document.fonts.ready.then(()=>true);
+</script></body></html>

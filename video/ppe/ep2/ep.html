@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;src:url(../fonts/Kanit-Bold.ttf);font-weight:700}
+@font-face{font-family:K;src:url(../fonts/Kanit-Black.ttf);font-weight:900}
+@font-face{font-family:K;src:url(../fonts/Kanit-SemiBold.ttf);font-weight:600}
+@font-face{font-family:K;src:url(../fonts/Kanit-Medium.ttf);font-weight:500}
+html,body{margin:0;padding:0;background:#000;overflow:hidden}
+svg{display:block;font-family:K} text{font-family:K}
+</style></head>
+<body>
+<svg id="v" width="540" height="960" viewBox="0 0 540 960" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../lib.js"></script>
+<script>
+window.EXTRA_DEFS=`<defs>
+<linearGradient id="morn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f86d9"/><stop offset=".55" stop-color="#f4b68a"/><stop offset="1" stop-color="#ff9b6a"/></linearGradient>
+<radialGradient id="sunGlow"><stop offset="0" stop-color="#fff3c4" stop-opacity=".9"/><stop offset="1" stop-color="#ffb36b" stop-opacity="0"/></radialGradient>
+<linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b5566"/><stop offset="1" stop-color="#6f7a8a"/></linearGradient>
+<linearGradient id="lampBeam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6cf" stop-opacity=".45"/><stop offset="1" stop-color="#fff6cf" stop-opacity="0"/></linearGradient>
+<radialGradient id="arc"><stop offset="0" stop-color="#ffffff"/><stop offset=".3" stop-color="#9fe3ff" stop-opacity=".9"/><stop offset="1" stop-color="#4fb6ff" stop-opacity="0"/></radialGradient>
+</defs>`;
+
+// ---------- locations ----------
+function gateBg(t,o={}){
+  let s=`<rect width="540" height="960" fill="url(#morn)"/>`;
+  s+=`<circle cx="95" cy="380" r="110" fill="url(#sunGlow)"/><circle cx="95" cy="380" r="38" fill="#fff0b8"/>`;
+  [[60,170,1],[330,120,.8],[470,220,.9]].forEach(([x,y,k],i)=>{const dx=(t*6+i*40)%60;
+    s+=`<g transform="translate(${x+dx} ${y}) scale(${k})" fill="#fff" opacity=".8"><ellipse rx="44" ry="16"/><ellipse cx="-24" cy="4" rx="26" ry="12"/><ellipse cx="26" cy="4" rx="28" ry="12"/></g>`;});
+  // trees behind
+  [[30,600],[110,590],[70,620]].forEach(([x,y])=>s+=`<rect x="${x-4}" y="${y}" width="8" height="${700-y}" fill="#6b4a2e"/><circle cx="${x}" cy="${y-10}" r="34" fill="#3f9a57"/><circle cx="${x-18}" cy="${y+6}" r="22" fill="#358a4b"/>`);
+  // factory
+  s+=`<path d="M140 400 L340 330 L540 400 L540 700 L140 700 Z" fill="#9db3c9"/>`;
+  for(let x=150;x<540;x+=14) s+=`<line x1="${x}" y1="${x<340?400-(x-140)*.35:330+(x-340)*.35}" x2="${x}" y2="700" stroke="#8aa1b8" stroke-width="3"/>`;
+  s+=`<path d="M130 404 L340 326 L550 404" stroke="#2f4d7a" stroke-width="14" fill="none" stroke-linejoin="round"/>`;
+  s+=`<rect x="190" y="410" width="300" height="56" rx="6" fill="#1f3f6d" stroke="#fff" stroke-width="3"/>
+     <text x="340" y="436" text-anchor="middle" font-size="22" font-weight="900" fill="#fff">โรงงานผลิตโครงสร้างเหล็ก</text>
+     <text x="340" y="457" text-anchor="middle" font-size="13" font-weight="600" fill="#ffd23f">STEEL STRUCTURE FABRICATION</text>`;
+  // big door
+  s+=`<rect x="210" y="500" width="180" height="200" fill="#2a2f3a"/><rect x="210" y="500" width="180" height="14" fill="#5d6b7c"/>
+     <rect x="230" y="560" width="140" height="10" fill="#e3a21a"/><rect x="290" y="570" width="3" height="50" fill="#555"/><rect x="250" y="618" width="90" height="12" fill="#b5462f"/>
+     <path d="M210 690 h180" stroke="#ffd23f" stroke-width="6" stroke-dasharray="14 10"/>`;
+  // fence left
+  s+=`<g stroke="#7b8794" stroke-width="2">`;for(let x=0;x<=140;x+=14) s+=`<line x1="${x}" y1="610" x2="${x}" y2="700"/>`;
+  s+=`<line x1="0" y1="612" x2="140" y2="612" stroke-width="4"/><line x1="0" y1="655" x2="140" y2="655"/></g>`;
+  // booth right
+  s+=`<g><rect x="412" y="560" width="110" height="140" fill="#f3f1ea"/><path d="M402 562 h130 l-10 -24 h-110 z" fill="#1f5aa6"/>
+     <rect x="424" y="580" width="86" height="46" fill="#bfe3f7" stroke="#8aa" stroke-width="2"/>
+     <rect x="436" y="636" width="62" height="22" rx="4" fill="#1f5aa6"/><text x="467" y="653" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">รปภ.</text></g>`;
+  // PPE station rack
+  s+=`<g><rect x="150" y="590" width="52" height="110" fill="#e9e4d8" stroke="#bfb8a8"/><text x="176" y="606" text-anchor="middle" font-size="10" font-weight="900" fill="#1f5aa6">PPE</text>
+     ${[0,1,2].map(i=>helmetShape(176,630+i*24,.42,'#ffcc1f')).join('')}</g>`;
+  // ground
+  s+=`<rect x="0" y="700" width="540" height="260" fill="#c4bcae"/><rect x="0" y="700" width="540" height="8" fill="#d8d0c2"/>
+     <rect x="0" y="860" width="540" height="100" fill="#a99f8e"/><path d="M0 790 h540" stroke="#f2c230" stroke-width="5" stroke-dasharray="30 18"/>`;
+  return s;
+}
+
+function sparks(x,y,t,n=18,dir=1,spread=1){let s='';
+  for(let i=0;i<n;i++){const age=((t*1.8+i/n)%1), vx=(rnd(i)*120+40)*dir*spread, vy=-(rnd(i+7)*120+40);
+    const px=x+vx*age, py=y+vy*age+260*age*age; const l=6+rnd(i+3)*6;
+    s+=`<line x1="${px}" y1="${py}" x2="${px-vx*.04}" y2="${py-(vy+520*age)*.04}" stroke="${i%3?'#ffd35a':'#fff2b0'}" stroke-width="2.2" stroke-linecap="round" opacity="${1-age}"/>`;}
+  return s;}
+
+function welder(x,y,t){
+  const fl=.6+.4*Math.abs(Math.sin(t*23)*Math.sin(t*7));
+  let s=`<g transform="translate(${x} ${y})">`;
+  // kneeling welder
+  s+=`<rect x="-10" y="-30" width="44" height="12" rx="4" fill="#666"/>`; // workpiece
+  s+=`<g transform="translate(-40 0)"><rect x="-16" y="-62" width="34" height="44" rx="10" fill="#2a6db0"/><rect x="-18" y="-20" width="38" height="16" rx="6" fill="#23345e"/>
+     <circle cx="0" cy="-78" r="20" fill="#f0c090"/><rect x="-6" y="-96" width="28" height="36" rx="6" fill="#2d2d2d"/><rect x="8" y="-86" width="12" height="9" fill="#6aff7a" opacity=".8"/>
+     <rect x="14" y="-58" width="34" height="10" rx="5" fill="#2a6db0" transform="rotate(20 14 -58)"/><circle cx="44" cy="-44" r="7" fill="#c98a3a"/></g>`;
+  s+=`<circle cx="10" cy="-30" r="${30*fl}" fill="url(#arc)" opacity="${fl}"/>`;
+  s+=sparks(10,-30,t,16,1)+sparks(10,-30,t+.37,10,-1,.7);
+  return s+`</g>`;
+}
+
+function shopBg(t,o={}){
+  const fl=o.flicker!=null?o.flicker:1, tro=o.trolley!=null?o.trolley:300;
+  let s=`<rect width="540" height="960" fill="url(#wall)"/>`;
+  for(let x=0;x<540;x+=16) s+=`<line x1="${x}" y1="230" x2="${x}" y2="700" stroke="#00000018" stroke-width="4"/>`;
+  // windows band
+  s+=`<rect x="0" y="236" width="540" height="56" fill="#cfe8ff" opacity="${.35+.5*fl}"/>`;
+  for(let x=0;x<540;x+=60) s+=`<rect x="${x}" y="236" width="6" height="56" fill="#3d4655"/>`;
+  s+=`<path d="M40 292 L120 292 L260 700 L120 700 Z" fill="#fff" opacity="${.07*fl}"/><path d="M320 292 L400 292 L540 700 L400 700 Z" fill="#fff" opacity="${.07*fl}"/>`;
+  // roof trusses
+  s+=`<rect x="0" y="0" width="540" height="236" fill="#2b313c"/>`;
+  s+=`<g stroke="#4c5666" stroke-width="5" fill="none"><path d="M0 220 H540"/><path d="M0 120 L270 60 L540 120"/>`;
+  for(let x=0;x<=540;x+=45){const yt=x<=270?120-(x)*60/270:60+(x-270)*60/270; s+=`<line x1="${x}" y1="${yt}" x2="${x}" y2="220"/><line x1="${x}" y1="220" x2="${x+45}" y2="${x+45<=270?120-(x+45)*60/270:60+(x+45-270)*60/270}"/>`;}
+  s+=`</g>`;
+  // lamps
+  [120,270,420].forEach(x=>{s+=`<line x1="${x}" y1="0" x2="${x}" y2="180" stroke="#222" stroke-width="2"/><path d="M${x-22} 196 L${x-12} 180 h24 L${x+22} 196 Z" fill="#3a3f4a"/>
+    <ellipse cx="${x}" cy="196" rx="22" ry="5" fill="#fff6cf" opacity="${.3+.7*fl}"/><path d="M${x-22} 196 L${x+22} 196 L${x+120} 700 L${x-120} 700 Z" fill="url(#lampBeam)" opacity="${fl}"/>`;});
+  // columns + runway
+  [14,526].forEach(x=>s+=`<rect x="${x-12}" y="220" width="24" height="480" fill="#24406b"/><rect x="${x-4}" y="220" width="8" height="480" fill="#2f5487"/>`);
+  s+=`<rect x="0" y="300" width="540" height="12" fill="#24406b"/>`;
+  // overhead crane bridge
+  s+=`<rect x="0" y="312" width="540" height="26" fill="#f2b51d" stroke="#8a6200" stroke-width="2"/>`;
+  for(let x=10;x<540;x+=40) s+=`<path d="M${x} 338 l20 -26 l20 26" stroke="#c48d00" stroke-width="2" fill="none"/>`;
+  s+=`<rect x="${tro-30}" y="336" width="60" height="28" rx="4" fill="#d9480f"/><circle cx="${tro+22}" cy="340" r="5" fill="${Math.sin(t*10)>0?'#ff9d2e':'#7a2a00'}"/>`;
+  const hy=o.hookY||430;
+  s+=`<line x1="${tro-6}" y1="364" x2="${tro-6}" y2="${hy}" stroke="#333" stroke-width="2"/><line x1="${tro+6}" y1="364" x2="${tro+6}" y2="${hy}" stroke="#333" stroke-width="2"/>
+     <rect x="${tro-12}" y="${hy}" width="24" height="14" rx="3" fill="#f2b51d"/><path d="M${tro} ${hy+14} v8 q0 8 -8 6" stroke="#333" stroke-width="3" fill="none"/>
+     <line x1="${tro}" y1="${hy+22}" x2="${tro-80}" y2="${hy+52}" stroke="#555" stroke-width="2"/><line x1="${tro}" y1="${hy+22}" x2="${tro+80}" y2="${hy+52}" stroke="#555" stroke-width="2"/>
+     <g transform="translate(${tro} ${hy+60})"><rect x="-110" y="-8" width="220" height="6" fill="#a63b26"/><rect x="-110" y="8" width="220" height="6" fill="#a63b26"/><rect x="-110" y="-4" width="220" height="14" fill="#c4512f"/></g>`;
+  // floor
+  s+=`<rect x="0" y="700" width="540" height="260" fill="#767c88"/><rect x="0" y="700" width="540" height="6" fill="#8b919c"/>
+     <path d="M0 770 H540 M0 850 H540" stroke="#f2c230" stroke-width="6"/>`;
+  for(let i=0;i<10;i++) s+=`<ellipse cx="${rnd(i+40)*540}" cy="${790+rnd(i+20)*50}" rx="${10+rnd(i)*14}" ry="3" fill="#00000022"/>`;
+  // stacks
+  s+=`<g>${[0,1,2,3].map(i=>`<rect x="${380+i*4}" y="${688-i*16}" width="150" height="12" fill="${i%2?'#b44a2e':'#c4512f'}" stroke="#6a2312"/>`).join('')}</g>`;
+  s+=`<g>${[0,1,2].map(i=>`<rect x="${150}" y="${690-i*9}" width="70" height="8" fill="#8c96a3" stroke="#4d5560"/>`).join('')}</g>`;
+  // welder left
+  s+=welder(125,700,t);
+  return s;
+}
+
+// characters
+const CON={shirt:'#7b4fa8',pants:'#4a5160',skin:'#d9a271',hat:'cap',capCol:'#d23b3b',towel:true,badge:null};
+function contractor(o){return person(Object.assign({},CON,o));}
+const GUARD={shirt:'#26375f',pants:'#1a2440',skin:'#e7b98a',hat:'guard',badge:'#1f5aa6',boots:true};
+function guard(o){return person(Object.assign({},GUARD,o));}
+const BOSS={shirt:'#f4f6f8',pants:'#3a3f4d',skin:'#f2c79c',hair:'#2b2b2b',tie:true,badge:'#e6242b',boots:false};
+function boss(o){return person(Object.assign({},BOSS,o));}
+const CHIP0='ผีเฝ้าไซต์ EP.2';
+
+// ---------- scenes ----------
+SC[1]=(t,d)=>{
+  let s=gateBg(t);
+  const w=prog(t,0,3.2), x=lerp(-60,250,easeOut(w));
+  s+=contractor({x,walk:t*1.5,walkAmt:w<1?1:0,armR:-10,armL:w<1?Math.sin(t*10)*22:15,bag:true,mouth:'smile'});
+  s+=`<rect width="540" height="960" fill="url(#vig)" opacity=".5"/>`+'<!--UI-->';
+  const a=prog(t,.2,.7), b=prog(t,1.4,1.8);
+  s+=`<text x="270" y="${150-10*(1-a)}" opacity="${a}" text-anchor="middle" font-size="32" font-weight="700" fill="#fff" paint-order="stroke" stroke="#3a2a55" stroke-width="6">เช้าวันแรกของ...</text>`;
+  s+=`<g transform="translate(270 228) scale(${back(b)}) rotate(-3)"><text text-anchor="middle" font-size="58" font-weight="900" fill="#ffd23f" paint-order="stroke" stroke="#1b1b1b" stroke-width="10">ช่างผู้รับเหมา!</text></g>`;
+  const c=prog(t,2.6,3.0);
+  s+=`<g transform="translate(270 840) scale(${back(c)})" filter="url(#shadow)"><rect x="-150" y="-40" width="300" height="80" rx="10" fill="#1f5aa6" stroke="#fff" stroke-width="4"/>
+     <text y="2" text-anchor="middle" font-size="27" font-weight="900" fill="#fff">โรงงานโครงสร้างเหล็ก</text>
+     <text y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#e8f1ff">หน้าประตู • กะเช้า</text></g>`;
+  return s+topUI(CHIP0);
+};
+
+SC[2]=(t,d)=>{
+  let s=gateBg(t);
+  s+=contractor({x:230,bag:true,eyes:t>.6?'wide':'normal',mouth:t>.6?'o':'smile'});
+  const up=prog(t,.3,.6);
+  s+=guard({x:390,flip:-1,armR:lerp(-20,-160,up),mouth:'o',eyes:'normal'});
+  s+=burst(450,430,'ปรี๊ดด!',t-.3,{fs:34,sc:.7,rot:10,col:'#1f5aa6'});
+  s+=bubble(330,400,['หยุดก่อนครับ!','ใส่ *PPE* ก่อนเข้า'],t-1.2);
+  s+=tag(176,560,'จุดรับ PPE',t-2.4,{bg:'#fff',col:'#1f5aa6',rot:-5});
+  return s+'<!--UI-->'+titleCard(['พี่ยามหน้าประตู','เรียกไว้ก่อนเลย!'],t)+topUI('จุดตรวจ');
+};
+
+SC[3]=(t,d)=>{
+  let s=gateBg(t);
+  const pt=Math.sin(prog(t,.2,.6)*Math.PI/2);
+  s+=contractor({x:230,bag:true,eyes:'lazy',mouth:'smirk',armL:lerp(20,120,pt),lean:-3});
+  s+=guard({x:390,flip:-1,eyes:'normal',mouth:'flat'});
+  s+=bubble(230,400,['ผมเป็น *ผรม.* นะ','ไม่ใช่พนักงานบริษัท~'],t-.3);
+  s+=tag(110,640,'ไม่มีหมวก • ไม่มีแว่น',t-2.4,{bg:'#fff',col:'#e6242b',fs:14,rot:4});
+  s+=tag(150,690,'รองเท้าแตะ',t-2.8,{bg:'#fff',col:'#e6242b',fs:14,rot:-3});
+  return s+'<!--UI-->'+titleCard(['ข้ออ้างยอดฮิต','"กฎนี้*ไม่ใช่ของผม*"'],t)+topUI('ข้ออ้าง');
+};
+
+SC[4]=(t,d)=>{
+  let s=gateBg(t);
+  const ph=t>.5;
+  s+=guard({x:420,flip:ph?1:-1,phone:ph,armR:ph?-150:-20,eyes:ph?'closed':'normal',mouth:ph?'grin':'flat'});
+  if(ph) s+=burst(470,470,'กริ๊งง!',t-.4,{fs:30,sc:.6,rot:8,col:'#e6242b'});
+  const w=prog(t,1.6,4.2), x=lerp(230,300,w);
+  const fade=1-prog(t,3.8,4.6);
+  s+=`<g opacity="${fade}">`+contractor({x,sc:lerp(1,.8,prog(t,3.2,4.4)),y:lerp(700,690,w),walk:t*1.2,walkAmt:w>0&&w<1?.55:0,bag:true,eyes:'lazy',mouth:'smirk',lean:-8,armL:40,armR:-40})+`</g>`;
+  s+=`<text x="${x-60}" y="560" font-size="26" font-weight="900" fill="#fff" opacity="${prog(t,1.8,2.1)*fade}" paint-order="stroke" stroke="#1b1b1b" stroke-width="5">ย่อง ย่อง...</text>`;
+  return s+'<!--UI-->'+titleCard(['แล้วเขาก็*แอบ*เดินเข้าไป','ตอนพี่ยามเผลอ...'],t)+topUI('แอบเข้า');
+};
+
+SC[5]=(t,d)=>{
+  const tro=lerp(120,380,ease(prog(t,0,d)));
+  let s=shopBg(t,{trolley:tro});
+  const w=prog(t,.4,2.6), x=lerp(560,300,easeOut(w));
+  s+=contractor({x,flip:-1,walk:t*1.4,walkAmt:w<1?1:0,bag:true,eyes:t>2.6?'wide':'normal',mouth:t>2.6?'o':'smile'});
+  s+=tag(170,560,'สะเก็ดไฟ!',t-2.6,{bg:'#ffd23f',rot:-6});
+  s+=tag(tro,520,'ของหนักเหนือหัว!',t-3.4,{bg:'#ffd23f',rot:4});
+  return s+'<!--UI-->'+titleCard(['ในโรงงาน...','อันตราย*รอบตัว*'],t)+topUI('ในโรงงาน');
+};
+
+SC[6]=(t,d)=>{
+  const fl=t<.5?1:(Math.sin(t*41)>0.1?1:.1)*(t>2.4?.35:1);
+  let s=shopBg(t,{trolley:380,flicker:fl});
+  s+=`<rect width="540" height="960" fill="#05040f" opacity="${.2+.4*prog(t,.4,2)}"/>`;
+  s+=windLines(t,.5);
+  s+=contractor({x:300,flip:-1,bag:true,eyes:'wide',mouth:'o',sweat:prog(t,1,1.4),lean:Math.sin(t*14)*2});
+  s+=burst(150,430,'วูบบบ...',t-.8,{fill:'#d9f3ff',col:'#2b4cff',fs:34,rot:-8,sc:.9});
+  return s+`<rect width="540" height="960" fill="url(#vig)"/>`+'<!--UI-->'+titleCard(['ทันใดนั้น...','ไฟทั้งโรงงาน*กระพริบ!*'],t)+topUI('วูบบบ...');
+};
+
+SC[7]=(t,d)=>{
+  let s=shopBg(t,{trolley:380,flicker:.35});
+  s+=`<rect width="540" height="960" fill="#05040f" opacity=".45"/>`;
+  const op=prog(t,.1,.9);
+  s+=ghost(150,700,op,t,{clip:true,armR:-40,eyes:t>4.9?'normal':'closed',mouth:t>4.9?'grin':'smile'});
+  s+=contractor({x:360,flip:-1,bag:true,eyes:'wide',mouth:'o',sweat:1,lean:4+Math.sin(t*20)*1.5});
+  s+=bubble(230,380,t<5.0?['ลุงไม่ดู','*บัตรพนักงาน*หรอก...']:['ลุงดู *PPE!*'],t<5?t-2.9:t-5.0);
+  s+=tag(150,790,'ลุงช่าง ผีเฝ้าไซต์',t-1.0,{bg:'#d9f3ff'});
+  if(t>5.0) s+=burst(400,470,'อึก!',t-5.4,{fs:30,sc:.55,rot:8,col:'#7a2bd1'});
+  return s+`<rect width="540" height="960" fill="url(#vig)"/>`+'<!--UI-->'+titleCard(['*ลุงช่าง*โผล่มา!'],t,34)+topUI('ลุงช่างมาแล้ว');
+};
+
+const T8={helmet:3.09,glasses:4.14,gloves:5.28,boots:6.04,done:7.38};
+SC[8]=(t,d)=>{
+  let s=gateBg(t);
+  const w=prog(t,0,1.8), x=lerp(560,260,easeOut(w));
+  const has=k=>t>=T8[k];
+  s+=guard({x:420,flip:-1,armR:t>2.2&&t<2.9?-90:-20,mouth:'smile'});
+  s+=contractor({x,flip:-1,walk:t*2.6,walkAmt:w<1?1.3:0,lean:w<1?8:0,bag:false,eyes:t>T8.done?'closed':'wide',mouth:t>T8.done?'grin':'o',
+    helmet:has('helmet'),chin:has('helmet'),glasses:has('glasses'),gloves:has('gloves'),boots:has('boots'),hat:has('helmet')?null:'cap',
+    armR:t>T8.done?-150:-20,thumb:t>T8.done});
+  if(w<1) s+=`<text x="${x+40}" y="600" font-size="22" font-weight="900" fill="#fff" paint-order="stroke" stroke="#1b1b1b" stroke-width="4">ฟึ่บ!</text>`;
+  const ks=['helmet','glasses','gloves','boots'];
+  ks.forEach((k,i)=>{const tt=t-T8[k];if(tt>=0)s+=sparkles(x,[515,550,620,700][i],tt,8,45);});
+  let ui='';
+  const uo=prog(t,2.3,2.6);
+  ui+=`<g transform="translate(20 430)" filter="url(#shadow)" opacity="${uo}"><rect width="170" height="200" rx="12" fill="#fff" stroke="#1b1b1b" stroke-width="3"/></g>`;
+  if(uo>0) ks.forEach((k,i)=>{const on=has(k);
+    ui+=`<g transform="translate(46 ${470+i*46})" opacity="${uo}"><rect x="-14" y="-14" width="28" height="28" rx="6" fill="${on?'#1fb35a':'#ddd'}"/>${on?'<path d="M-7 0 L-2 6 L8 -6" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>':''}
+      <text x="24" y="8" font-size="19" font-weight="700" fill="#1b1b1b">${PPE_NAMES[k]}</text></g>`;});
+  if(t>T8.done){s+=sparkles(x,560,t-T8.done,12,110);s+=burst(300,830,'ครบทุกชิ้น!',t-T8.done,{fill:'#8df07a',col:'#fff',fs:40,rot:-5,sc:.85});}
+  const cnt=ks.filter(has).length;
+  return s+'<!--UI-->'+ui+titleCard(['วิ่งกลับมาใส่ *PPE*','ให้ครบ ให้ถูก!'],t)+topUI(cnt?`ชิ้นที่ ${cnt}/4`:'วิ่งกลับ!');
+};
+
+SC[9]=(t,d)=>{
+  const hit=2.7;
+  const shake=t>hit&&t<hit+.35?Math.sin(t*90)*5:0;
+  let s=`<g transform="translate(${shake} 0)">`+shopBg(t,{trolley:420});
+  const w=prog(t,0,1.6), x=lerp(420,290,easeOut(w));
+  s+=contractor({x,flip:-1,walk:t*1.4,walkAmt:w<1?1:0,helmet:true,chin:true,glasses:true,gloves:true,boots:true,hat:null,eyes:t>hit?'closed':'normal',mouth:t>hit?'o':'smile',lean:t>hit&&t<hit+.6?6:0});
+  // big spark from welder to face
+  const p=prog(t,hit-.7,hit);
+  if(t<hit+.8){
+    let sx,sy;
+    if(t<=hit){sx=lerp(135,x-14,p); sy=lerp(670,548,p)-Math.sin(p*Math.PI)*60;}
+    else {const q=prog(t,hit,hit+.8); sx=x-14-q*90; sy=548+q*q*160-q*40;}
+    if(t>hit-.7) s+=`<circle cx="${sx}" cy="${sy}" r="9" fill="#fff2b0" filter="url(#glow)"/><circle cx="${sx}" cy="${sy}" r="4" fill="#fff"/>`;
+  }
+  s+=`</g>`;
+  s+=burst(x-60,450,'ติ๊ง!',t-hit,{fs:44,col:'#1f9bd1',rot:-8,sc:.8});
+  if(t>hit) s+=tag(x+10,500,'แว่นเซฟตี้',t-hit-.3,{bg:'#bfefff',rot:5});
+  return s+'<!--UI-->'+titleCard(['สะเก็ดไฟ*พุ่งเข้าหน้า!*'],t)+topUI(t>hit?'ติ๊ง!':'ระวัง!');
+};
+
+SC[10]=(t,d)=>{
+  let s=shopBg(t,{trolley:420});
+  const wipe=Math.sin(prog(t,.3,1.4)*Math.PI);
+  s+=contractor({x:290,flip:-1,helmet:true,chin:true,glasses:true,gloves:true,boots:true,hat:null,eyes:'closed',mouth:'smile',armL:20+wipe*140,sweat:1-prog(t,1.2,1.8)});
+  s+=`<text x="230" y="520" font-size="28" font-weight="900" fill="#fff" opacity="${prog(t,.4,.7)}" paint-order="stroke" stroke="#1b1b1b" stroke-width="5">เฮ้อ...</text>`;
+  const g=prog(t,1.2,1.8)*(1-prog(t,d-.6,d));
+  s+=`<g transform="translate(-30 0)">${ghost(120,700,g*.85,t,{thumb:true,armR:-150})}</g>`;
+  s+=tag(300,780,'แว่นเซฟตี้ช่วยไว้!',t-1.6,{fs:20,bg:'#8df07a',rot:-3});
+  return s+'<!--UI-->'+titleCard(['"เกือบไปแล้ว...','ดีนะที่*ใส่แว่น*ไว้"'],t)+topUI('รอดแล้ว');
+};
+
+SC[11]=(t,d)=>{
+  let s=gateBg(t);
+  s+=`<rect width="540" height="960" fill="#1a1030" opacity=".35"/>`;
+  s+=ghost(270,700,prog(t,0,.6),t,{clip:false,armR:-120,armL:120});
+  const card=(x,label,col,t0)=>{const tt=t-t0;if(tt<0)return'';const q=back(prog(tt,0,.3));
+    return `<g transform="translate(${x} 790) scale(${q}) rotate(${x<270?-6:6})" filter="url(#shadow)"><rect x="-70" y="-46" width="140" height="92" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="3"/><rect x="-70" y="-46" width="140" height="26" rx="10" fill="${col}"/>
+     <circle cx="-40" cy="10" r="14" fill="#ccc"/><rect x="-20" y="0" width="70" height="7" fill="#bbb"/><rect x="-20" y="14" width="50" height="7" fill="#ddd"/>
+     <text y="-27" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">${label}</text></g>`;};
+  s+=card(120,'พนักงาน','#1f5aa6',.6)+card(420,'ผู้รับเหมา','#e67e22',1.0);
+  if(t>1.6) s+=`<text x="270" y="806" text-anchor="middle" font-size="54" font-weight="900" fill="#ffd23f" paint-order="stroke" stroke="#1b1b1b" stroke-width="7" transform="translate(270 790) scale(${back(prog(t,1.6,1.9))}) translate(-270 -790)">=</text>`;
+  return s+'<!--UI-->'+titleCard(['ผีไม่ดูบัตรพนักงาน...','อุบัติเหตุ*ไม่ถามว่าใครจ้างมา*'],t,28)+topUI('ความจริง...');
+};
+
+SC[12]=(t,d)=>{
+  let s=`<rect width="540" height="960" fill="#c8102e"/>`;
+  s+=`<g transform="translate(270 520) rotate(${t*25})">`;
+  for(let i=0;i<16;i++){s+=`<path d="M0 0 L${Math.cos(i/16*Math.PI*2)*900} ${Math.sin(i/16*Math.PI*2)*900} L${Math.cos((i+.5)/16*Math.PI*2)*900} ${Math.sin((i+.5)/16*Math.PI*2)*900} Z" fill="${i%2?'#e0263f':'#a80d25'}"/>`;}
+  s+=`</g>`;
+  s+=`<g transform="translate(270 430) scale(${back(prog(t,0,.3))}) rotate(-4)"><text text-anchor="middle" font-size="76" font-weight="900" fill="#fff" paint-order="stroke" stroke="#1b1b1b" stroke-width="12">แต่เดี๋ยวก่อน!</text></g>`;
+  const h=back(prog(t,.2,.5));
+  s+=`<g transform="translate(270 640) scale(${h}) rotate(${Math.sin(t*8)*4})"><rect x="-55" y="-30" width="110" height="110" rx="45" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/>
+   ${[-42,-15,12,39].map((fx,i)=>`<rect x="${fx-11}" y="${-95+(i==0||i==3?14:0)}" width="24" height="90" rx="12" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/>`).join('')}
+   <rect x="-60" y="-30" width="120" height="40" fill="#f4c79a"/>
+   <rect x="44" y="0" width="22" height="56" rx="11" transform="rotate(-35 55 30)" fill="#f4c79a" stroke="#1b1b1b" stroke-width="4"/></g>`;
+  return '<!--UI-->'+s+topUI('');
+};
+
+SC[13]=(t,d)=>{
+  let s=shopBg(t,{trolley:300});
+  const w=prog(t,0,1.8), x=lerp(560,330,easeOut(w));
+  const scared=t>2.6;
+  s+=ghost(lerp(200,230,prog(t,1.8,2.6)),700,prog(t,1.8,2.4)*.9,t,{armR:-60,eyes:'normal',mouth:'flat'});
+  s+=boss({x,flip:-1,walk:t*1.3,walkAmt:w<1?1:0,cup:true,eyes:scared?'wide':'closed',mouth:scared?'o':'smile',sweat:scared?1:0,armL:-20});
+  s+=tag(x,520,'ไม่มีหมวก!',t-1.4,{bg:'#fff',col:'#e6242b',rot:5});
+  if(scared) s+=burst(450,430,'สะดุ้ง!',t-2.6,{fs:32,sc:.6,rot:8});
+  return s+'<!--UI-->'+titleCard(['*หัวหน้า*ที่เพิ่งเดินมา...','ก็ไม่ใส่หมวกเหมือนกัน!'],t)+topUI('หัวหน้าด้วย!');
+};
+
+SC[14]=(t,d)=>{
+  let s=gateBg(t);
+  const ppl=[
+    {f:person,o:{x:80,shirt:'#3b82c4'},label:'พนักงาน',t0:.25},
+    {f:contractor,o:{x:205,hat:null,towel:true},label:'ผู้รับเหมา',t0:1.22},
+    {f:boss,o:{x:335,cup:false},label:'หัวหน้า',t0:2.0},
+    {f:guard,o:{x:460,hat:null,flip:-1},label:'รปภ.',t0:2.6}];
+  ppl.forEach((p,i)=>{const tt=t-p.t0;const up=back(prog(tt,0,.35));
+    s+=`<g transform="translate(0 ${(1-clamp(up))*320})">`+p.f(Object.assign({sc:.86,helmet:true,chin:true,glasses:true,gloves:true,boots:true,eyes:'normal',mouth:'grin',armR:t>6.6?-150:-20,thumb:t>6.6},p.o))+`</g>`;
+    s+=tag(p.o.x,760,p.label,tt-.2,{fs:16,bg:'#fff',rot:i%2?3:-3});});
+  if(t>6.6) s+=burst(270,860,'ไม่มีข้อยกเว้น!',t-6.6,{fs:36,fill:'#ffd23f',col:'#e6242b',sc:.8,rot:-4});
+  return s+'<!--UI-->'+titleCard(['ทุกคนที่เข้าไซต์','ต้องใส่ *PPE*'],t)+topUI('ไม่มีข้อยกเว้น');
+};
+
+SC[15]=(t,d)=>{
+  let s=`<rect width="540" height="960" fill="#15121f"/>`;
+  s+=`<g opacity=".08">`;for(let i=-10;i<20;i++) s+=`<rect x="${i*60+(t*30%60)}" y="0" width="30" height="960" fill="#ffd23f" transform="skewX(-20)"/>`;s+=`</g>`;
+  s+=`<g transform="translate(270 140) scale(${back(prog(t,0,.3))})"><rect x="-110" y="-20" width="220" height="40" rx="20" fill="#e6242b"/><text y="8" text-anchor="middle" font-size="20" font-weight="900" fill="#fff">ผีเฝ้าไซต์ EP.2</text></g>`;
+  const q=prog(t,.3,.7);
+  s+=`<g opacity="${q}" transform="translate(0 ${20*(1-q)})">
+     <text x="270" y="290" text-anchor="middle" font-size="46" font-weight="900" fill="#fff">อุบัติเหตุ</text>
+     <text x="270" y="356" text-anchor="middle" font-size="46" font-weight="900" fill="#ffd23f">ไม่ถามว่าใครจ้างมา</text></g>`;
+  const cards=[['พนักงาน','#1f5aa6'],['ผู้รับเหมา','#e67e22'],['หัวหน้า','#e6242b'],['ผู้มาเยือน','#1fb35a']];
+  cards.forEach(([l,c],i)=>{const tt=t-(1.0+i*.2);if(tt<0)return;const sc=back(prog(tt,0,.3));
+    s+=`<g transform="translate(${90+i*120} 470) scale(${sc})"><rect x="-52" y="-30" width="104" height="60" rx="30" fill="${c}"/><text y="7" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">${l}</text></g>`;});
+  ['helmet','glasses','gloves','boots'].forEach((k,i)=>{const tt=t-(2.2+i*.18);if(tt<0)return;s+=`<g transform="translate(${105+i*110} 620) scale(${back(prog(tt,0,.3))})">${ppeIcon(k,0,0,1)}</g>`;});
+  const r=prog(t,3.4,3.8);
+  s+=`<g opacity="${r}"><text x="270" y="760" text-anchor="middle" font-size="36" font-weight="900" fill="#fff">ใส่ <tspan fill="#ffd23f">PPE</tspan> ให้ครบ ทุกครั้ง</text>
+    <rect x="110" y="790" width="320" height="50" rx="25" fill="none" stroke="#ffd23f" stroke-width="3"/>
+    <text x="270" y="823" text-anchor="middle" font-size="22" font-weight="700" fill="#ffd23f">ปลอดภัยไว้ก่อน กลับบ้านทุกวัน</text></g>`;
+  return s;
+};
+window.ready=document.fonts.ready.then(()=>true);
+</script></body></html>

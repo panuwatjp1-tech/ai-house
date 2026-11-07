@@ -1,0 +1,6 @@
+.key
+.env
+__pycache__/
+video/ppe/*/out/
+video/ppe/*/stills/
+video/ppe/*/sheet.jpg

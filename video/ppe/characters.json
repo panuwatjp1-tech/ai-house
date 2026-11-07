@@ -1,0 +1,29 @@
+{
+ "narrator": {
+  "name": "ผู้บรรยาย",
+  "voice_id": "yDLUY8E2mbOHTb4PbPHV",
+  "voice": "panuwat_voice (เสียงคุณภนวัฒน์)",
+  "sub_color": "#ffffff"
+ },
+ "ghost": {
+  "name": "ลุงช่าง ผีเฝ้าไซต์",
+  "voice_id": "jucSqawHKM1rUNf78oZQ",
+  "voice": "Duang - ทุ้ม ช้า เก๋า",
+  "sub_color": "#9fe8ff",
+  "look": "ผีชายสูงวัย ตัวสีฟ้าเรืองแสง หมวกนิรภัยเหลือง เสื้อสะท้อนแสงส้ม"
+ },
+ "jpo": {
+  "name": "จป.",
+  "voice_id": "yDLUY8E2mbOHTb4PbPHV",
+  "voice": "panuwat_voice (เสียงคุณภนวัฒน์)",
+  "sub_color": "#7CFC9A",
+  "look": "ตอนทำงานใส่หมวกนิรภัยสีเขียว เสื้อสะท้อนแสงสีเขียว นอกเวลางานใส่ชุดลำลองได้"
+ },
+ "worker": {
+  "name": "พี่ด่วน",
+  "voice_id": "RwilAvCC3o05RLuACpAn",
+  "voice": "Bankky - วัยรุ่น ทะเล้น",
+  "sub_color": "#ffd23f",
+  "look": "ช่างเสื้อส้ม หมวกเหลือง ติดเบอร์ 1 ท่าประจำตัว: แป๊บเดียวเอง"
+ }
+}
