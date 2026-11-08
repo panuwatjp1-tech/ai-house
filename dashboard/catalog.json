@@ -2,6 +2,15 @@
  "updated": "2026-11-08",
  "items": [
   {
+   "id": "tt-analysis",
+   "dept": "affiliate",
+   "title": "วิเคราะห์ช่อง TikTok 3 เดือน + แผนให้ช่องโต",
+   "date": "2026-11-08",
+   "status": "review",
+   "file": "docs/tiktok-analysis.md",
+   "note": "ข้อมูลจริงจาก Metricool 36 คลิป, เวลาโพสต์ที่ดีที่สุด, แผน 3 แนวหลัก"
+  },
+  {
    "id": "ppe-ep8",
    "dept": "video",
    "series": "ผีเฝ้าไซต์",
@@ -123,6 +132,10 @@
   }
  ],
  "next": [
+  {
+   "who": "owner",
+   "text": "เปิดคอมพิวเตอร์ + Chrome ให้บ้านเข้าไปดูโชว์เคสและค่าคอม TikTok Shop"
+  },
   {
    "who": "owner",
    "text": "ดู EP.7, EP.8, JSA และบทเรียน แล้วบอกจุดที่อยากแก้"
