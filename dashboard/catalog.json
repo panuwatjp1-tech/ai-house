@@ -2,6 +2,15 @@
  "updated": "2026-11-08",
  "items": [
   {
+   "id": "comm-analysis",
+   "dept": "affiliate",
+   "title": "วิเคราะห์สินค้าและค่าคอม TikTok Shop (ก.ย.–พ.ย.)",
+   "date": "2026-11-08",
+   "status": "review",
+   "file": "docs/commission-analysis.md",
+   "note": "รายได้ ฿436 จาก 20 สินค้า: ตัวไหนทำเงิน ตัวไหนควรตัด และแผนสู่ ฿1,000/เดือน"
+  },
+  {
    "id": "tt-analysis",
    "dept": "affiliate",
    "title": "วิเคราะห์ช่อง TikTok 3 เดือน + แผนให้ช่องโต",
@@ -134,7 +143,7 @@
  "next": [
   {
    "who": "owner",
-   "text": "เปิดคอมพิวเตอร์ + Chrome ให้บ้านเข้าไปดูโชว์เคสและค่าคอม TikTok Shop"
+   "text": "ภารกิจ ฿50: ปักตะกร้าในวิดีโอเก่า (หมดเวลาภายในคืนนี้)"
   },
   {
    "who": "owner",
