@@ -2,6 +2,33 @@
  "updated": "2026-11-08",
  "items": [
   {
+   "id": "pack-pump",
+   "dept": "affiliate",
+   "title": "แพ็กคลิปขาย ปั๊มน้ำ DELTON 400W (ค่าคอม ฿99.57)",
+   "date": "2026-11-08",
+   "status": "review",
+   "note": "พร้อมแล้ว: prompt Flow 5 ช็อต (ล็อกหน้าตัวละคร) เสียงพากย์คุณ 5 ท่อน ซับ แคปชัน แฮชแท็ก รอคุณสร้างภาพใน Flow แล้วส่งไฟล์มา",
+   "file": "docs/flow-pump.md"
+  },
+  {
+   "id": "pack-helmet",
+   "dept": "affiliate",
+   "title": "แพ็กคลิปขาย หมวกนิรภัย LOEBUCK ไฟ LED (ค่าคอม ฿46)",
+   "date": "2026-11-08",
+   "status": "review",
+   "note": "พร้อมแล้ว: prompt Flow 5 ช็อต เสียงพากย์คุณ 5 ท่อน ซับ แคปชัน แฮชแท็ก รอคุณสร้างภาพใน Flow แล้วส่งไฟล์มา",
+   "file": "docs/flow-helmet.md"
+  },
+  {
+   "id": "sales-log",
+   "dept": "affiliate",
+   "title": "บันทึกยอดขายจากคลิป + รายงาน TikTok อัตโนมัติทุกวันจันทร์",
+   "date": "2026-11-08",
+   "status": "done",
+   "note": "ระบบดึงยอดวิวจาก Metricool ทุกสัปดาห์ ยอดขายรายสินค้าให้ส่งภาพหน้าจอจากแอปมา บ้านบันทึกให้",
+   "file": "docs/sales-log.md"
+  },
+  {
    "id": "real-harness",
    "dept": "affiliate",
    "title": "คลิปขายเข็มขัดเซฟตี้ XINDA แบบภาพจริง (Google Flow)",
@@ -153,6 +180,14 @@
  "next": [
   {
    "who": "owner",
+   "text": "จันทร์ 10:00 โพสต์คลิปเข็มขัดเซฟตี้ + ปักตะกร้า"
+  },
+  {
+   "who": "owner",
+   "text": "สร้างภาพใน Flow ตามแพ็กปั๊มน้ำ หรือหมวกไฟ LED แล้วส่ง 5 ไฟล์มา"
+  },
+  {
+   "who": "owner",
    "text": "ตรวจคลิปขายเข็มขัดเซฟตี้ แล้วพิมพ์ \"อนุมัติ\" หรือบอกจุดแก้"
   },
   {
@@ -165,15 +200,7 @@
   },
   {
    "who": "owner",
-   "text": "เชื่อม GitHub กับ Claude ผ่าน claude.ai/code ในเบราว์เซอร์"
-  },
-  {
-   "who": "owner",
    "text": "ส่งลิงก์สินค้าจริง 1 ชิ้นให้แผนกแอฟฟิลิเอต"
-  },
-  {
-   "who": "house",
-   "text": "ย้ายบ้านขึ้น GitHub และหน้าเว็บขึ้น Cloudflare Pages"
   },
   {
    "who": "house",
