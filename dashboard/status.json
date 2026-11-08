@@ -1,0 +1,27 @@
+{
+ "updated": "2026-11-08 11:10",
+ "head": {
+  "state": "working",
+  "task": "อัปเกรดหน้าเว็บ เป็นออฟฟิศสด + กล่องรออนุมัติ"
+ },
+ "video": {
+  "state": "done",
+  "task": "คลิปเข็มขัด เซฟตี้ v1 เสร็จแล้ว"
+ },
+ "affiliate": {
+  "state": "waiting",
+  "task": "รอคุณโพสต์ คลิปเข็มขัด จันทร์ 10:00"
+ },
+ "safety": {
+  "state": "idle",
+  "task": "รองานใหม่"
+ },
+ "teaching": {
+  "state": "idle",
+  "task": "รองานใหม่"
+ },
+ "personal": {
+  "state": "working",
+  "task": "ส่งไอเดีย คอนเทนต์ ทุกเช้า 07:00"
+ }
+}

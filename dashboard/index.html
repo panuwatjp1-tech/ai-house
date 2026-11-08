@@ -44,17 +44,26 @@ video{width:100%;border-radius:12px;margin-top:10px;background:#000;max-height:7
 .bar{height:8px;background:#2e2b44;border-radius:4px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#ffd23f,#4fd67a)}
 .ph{font-size:14px;margin-top:10px}.ph span{float:right;color:var(--mut)}
 .brand{display:inline-block;background:#e6242b;color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.office{width:100%;height:auto;display:block;border-radius:18px;box-shadow:0 10px 30px #0008}
+.scr{animation:sc 2.2s linear infinite}@keyframes sc{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+.zz{animation:zz 2.5s ease-in-out infinite}@keyframes zz{50%{transform:translateY(-4px);opacity:.3}}
+.ping{animation:pg 1.4s ease-in-out infinite}@keyframes pg{50%{opacity:.35}}
+.bell{transform-box:fill-box;transform-origin:50% 0;animation:rg 1.8s ease-in-out infinite}@keyframes rg{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(14deg)}80%{transform:rotate(-14deg)}90%{transform:rotate(8deg)}}
+.win{animation:tw 3s ease-in-out infinite}
+.inb b{display:block;margin:2px 0}.acts{display:flex;gap:8px;margin-top:10px}.acts button{flex:1;border:0;border-radius:12px;padding:10px;font:inherit;font-weight:700;background:var(--g);color:#0d2a17}.acts button+button{background:#2a2740;color:var(--txt);border:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){.scr,.zz,.ping,.bell,.win{animation:none}}
 </style></head>
 <body>
 <header><h1>🏠 AI House <span class="brand">ภนว | AI Guide</span></h1><p>คลังผลงานของบ้าน AI • <span id="upd"></span></p></header>
 <nav id="tabs"></nav>
 <main id="main"></main>
 <script src="house.js"></script>
+<script src="office.js"></script>
 <script>
 const FALLBACK=/*CATALOG*/null;
-const DEPT={all:'ทั้งหมด',video:'คลิป',affiliate:'แอฟฟิลิเอต',safety:'ความปลอดภัย',teaching:'สอน AI',personal:'ผู้ช่วยส่วนตัว'};
+const DEPT={all:'🏢 ออฟฟิศ',inbox:'📥 รออนุมัติ',video:'คลิป',affiliate:'แอฟฟิลิเอต',safety:'ความปลอดภัย',teaching:'สอน AI',personal:'ผู้ช่วยส่วนตัว'};
 const ST={review:['รอคุณดู','review'],done:['เสร็จแล้ว','done'],wip:['กำลังทำ','wip']};
-let C, tab='all';
+let C, S={}, tab='all', view='office';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function inl(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`([^`]+)`/g,'<code>$1</code>');}
@@ -86,12 +95,13 @@ function draw(){
   const items=C.items.filter(i=>tab==='all'||i.dept===tab);
   let h='';
   if(tab==='all'){
-    h+=houseSVG(C)+`<div class="meta" style="text-align:center;margin-top:6px">แตะห้องเพื่อดูงานของแผนกนั้น</div>`;
+    h+=(view==='office'?officeSVG(C,S):houseSVG(C))+`<div class="meta" style="text-align:center;margin-top:6px">แตะห้องเพื่อดูงานของแผนกนั้น · <a href="#" onclick="view=view==='office'?'house':'office';draw();return false" style="color:var(--y)">${view==='office'?'ดูแบบบ้าน':'ดูแบบออฟฟิศ'}</a></div>`;
     const P=PHASES, pct=Math.round(P.reduce((a,p)=>a+p[1],0)/P.length), R=34, L=2*Math.PI*R;
-    h+=`<div class="sec">ความคืบหน้าทั้งบ้าน</div><div class="card"><div class="prog"><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="${R}" stroke="#2e2b44" stroke-width="9" fill="none"/><circle cx="42" cy="42" r="${R}" stroke="#ffd23f" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="${L*pct/100} ${L}" transform="rotate(-90 42 42)"/><text x="42" y="49" text-anchor="middle" font-size="20" font-weight="700" fill="#fff" font-family="Kanit">${pct}%</text></svg><div><b>บ้านเสร็จแล้ว ${pct}%</b><div class="meta">ที่เหลือรอ: เชื่อม GitHub, LINE และลิงก์สินค้าจริง</div></div></div>
+    h+=`<div class="sec">ความคืบหน้าทั้งบ้าน</div><div class="card"><div class="prog"><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="${R}" stroke="#2e2b44" stroke-width="9" fill="none"/><circle cx="42" cy="42" r="${R}" stroke="#ffd23f" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="${L*pct/100} ${L}" transform="rotate(-90 42 42)"/><text x="42" y="49" text-anchor="middle" font-size="20" font-weight="700" fill="#fff" font-family="Kanit">${pct}%</text></svg><div><b>บ้านเสร็จแล้ว ${pct}%</b><div class="meta">ที่เหลือ: แจ้งเตือน LINE และผลขายจากคลิปจริง</div></div></div>
       ${P.map(p=>`<div class="ph">${esc(p[0])}<span>${p[1]}%</span><div class="bar"><i style="width:${p[1]}%"></i></div></div>`).join('')}</div>`;
     h+=`<div class="sec">ขั้นต่อไป</div><div class="card">${C.next.map(n=>`<div class="todo"><span class="who ${n.who}">${n.who==='owner'?'คุณทำ':'บ้านทำ'}</span><span>${esc(n.text)}</span></div>`).join('')}</div>`;
   }
+  if(tab==='inbox'){m.innerHTML=`<div class="sec">งานที่รอคุณตรวจ กดแล้วข้อความจะถูกคัดลอกไปวางในแชต Claude</div>`+inboxHTML(C);return;}
   h+=`<div class="sec">ผลงาน</div>`;
   h+=items.length?items.map(i=>{const s=ST[i.status]||ST.done;
     return `<div class="card"><span class="badge ${s[1]}">${s[0]}</span><span class="meta">${esc(i.series||DEPT[i.dept])} • ${esc(i.date)}${i.length?' • '+esc(i.length):''}</span>
@@ -100,7 +110,7 @@ function draw(){
   m.innerHTML=h;
   document.querySelectorAll('.room').forEach(r=>r.onclick=()=>{const k=r.dataset.k;if(k==='head')return;tab=k;try{localStorage.setItem('tab',tab)}catch(e){}draw();window.scrollTo(0,0);});
 }
-function start(c){C=c;document.getElementById('upd').textContent='อัปเดต '+c.updated;try{tab=localStorage.getItem('tab')||'all'}catch(e){}draw();}
+function start(c){C=c;fetch('status.json?'+Date.now()).then(r=>r.ok?r.json():{}).then(j=>{S=j;draw();}).catch(()=>{});document.getElementById('upd').textContent='อัปเดต '+c.updated;try{tab=localStorage.getItem('tab')||'all'}catch(e){}draw();}
 fetch('catalog.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(start).catch(()=>FALLBACK?start(FALLBACK):document.getElementById('main').innerHTML='<div class="empty">โหลดรายการไม่ได้</div>');
 </script>
 </body></html>
