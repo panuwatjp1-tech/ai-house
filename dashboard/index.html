@@ -23,6 +23,13 @@ video{width:100%;border-radius:12px;margin-top:10px;background:#000;max-height:7
 .empty{color:var(--mut);text-align:center;padding:30px 0}
 .dept{display:grid;grid-template-columns:1fr 1fr;gap:10px}.dept div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
 .dept b{display:block}.dept span{font-size:13px;color:var(--mut)}
+.doc{margin-top:10px;border-top:1px solid var(--line);padding-top:8px;font-size:15px;overflow-x:auto}
+.doc h1{font-size:19px}.doc h2{font-size:17px;color:var(--y);margin:16px 0 6px}.doc h3{font-size:16px}
+.doc table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}.doc td,.doc th{border:1px solid var(--line);padding:6px;vertical-align:top;text-align:left}.doc th{background:#2a2740}
+.doc pre{background:#0e0d17;padding:10px;border-radius:10px;white-space:pre-wrap;font-size:13px}.doc blockquote{margin:8px 0;padding:6px 12px;border-left:4px solid var(--y);color:var(--mut)}
+.doc ul,.doc ol{padding-left:22px;margin:6px 0}.doc hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.btn{margin-top:10px;width:100%;border:1px solid var(--line);background:#2a2740;color:var(--txt);font:inherit;font-size:15px;padding:9px;border-radius:12px}
+.copy{background:var(--y);color:#1b1b1b;font-weight:700;border:0}
 </style></head>
 <body>
 <header><h1>🏠 AI House</h1><p>คลังผลงานของบ้าน AI • <span id="upd"></span></p></header>
@@ -34,6 +41,29 @@ const DEPT={all:'ทั้งหมด',video:'คลิป',affiliate:'แอ�
 const ST={review:['รอคุณดู','review'],done:['เสร็จแล้ว','done'],wip:['กำลังทำ','wip']};
 let C, tab='all';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function inl(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/`([^`]+)`/g,'<code>$1</code>');}
+function md(src){
+  const L=src.split('\n');let h='',i=0;
+  while(i<L.length){let l=L[i];
+    if(/^```/.test(l)){let b=[];i++;while(i<L.length&&!/^```/.test(L[i]))b.push(L[i++]);i++;h+='<pre>'+esc(b.join('\n'))+'</pre>';continue;}
+    if(/^\|/.test(l)){let rows=[];while(i<L.length&&/^\|/.test(L[i]))rows.push(L[i++]);
+      rows=rows.filter(r=>!/^\|[\s\-|:]+\|$/.test(r)).map(r=>r.replace(/^\||\|$/g,'').split('|'));
+      h+='<table>'+rows.map((r,k)=>'<tr>'+r.map(c=>k?`<td>${inl(c.trim())}</td>`:`<th>${inl(c.trim())}</th>`).join('')+'</tr>').join('')+'</table>';continue;}
+    if(/^\s*[-*] /.test(l)){let it=[];while(i<L.length&&/^\s*[-*] /.test(L[i]))it.push(L[i++].replace(/^\s*[-*] /,''));h+='<ul>'+it.map(x=>`<li>${inl(x)}</li>`).join('')+'</ul>';continue;}
+    if(/^\d+\. /.test(l)){let it=[];while(i<L.length&&/^\d+\. /.test(L[i]))it.push(L[i++].replace(/^\d+\. /,''));h+='<ol>'+it.map(x=>`<li>${inl(x)}</li>`).join('')+'</ol>';continue;}
+    let m=l.match(/^(#{1,3}) (.*)/);if(m){h+=`<h${m[1].length}>${inl(m[2])}</h${m[1].length}>`;i++;continue;}
+    if(/^> /.test(l)){h+=`<blockquote>${inl(l.slice(2))}</blockquote>`;i++;continue;}
+    if(/^---+$/.test(l.trim())){h+='<hr>';i++;continue;}
+    if(l.trim())h+=`<p>${inl(l)}</p>`;i++;}
+  return h;}
+const DOCS={};
+async function openDoc(id,file){const box=document.getElementById('d-'+id);
+  if(box.innerHTML){box.innerHTML='';return;}
+  try{if(!DOCS[file]){const r=await fetch(file);if(!r.ok)throw 0;DOCS[file]=await r.text();}
+    box.innerHTML=md(DOCS[file])+`<button class="btn copy" onclick="copyDoc('${file}',this)">คัดลอกข้อความทั้งหมด</button>`;}
+  catch(e){box.innerHTML='<p>เปิดเอกสารไม่ได้</p>';}}
+function copyDoc(file,b){navigator.clipboard.writeText(DOCS[file]).then(()=>b.textContent='คัดลอกแล้ว ✓').catch(()=>b.textContent='คัดลอกไม่ได้ กดค้างที่ข้อความเพื่อคัดลอก');}
 function tabs(){document.getElementById('tabs').innerHTML=Object.entries(DEPT).map(([k,v])=>`<button class="${k===tab?'on':''}" data-k="${k}">${v}</button>`).join('');
   document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{tab=b.dataset.k;try{localStorage.setItem('tab',tab)}catch(e){}draw();});}
 function draw(){
@@ -49,7 +79,7 @@ function draw(){
   h+=items.length?items.map(i=>{const s=ST[i.status]||ST.done;
     return `<div class="card"><span class="badge ${s[1]}">${s[0]}</span><span class="meta">${esc(i.series||DEPT[i.dept])} • ${esc(i.date)}${i.length?' • '+esc(i.length):''}</span>
     <h3>${esc(i.title)}</h3>${i.note?`<div class="note">${esc(i.note)}</div>`:''}
-    ${i.file&&/\.mp4$/i.test(i.file)?`<video controls playsinline preload="metadata" src="${esc(i.file)}"></video>`:''}</div>`}).join(''):`<div class="empty">ยังไม่มีผลงานในแผนกนี้</div>`;
+    ${i.file&&/\.mp4$/i.test(i.file)?`<video controls playsinline preload="metadata" src="${esc(i.file)}"></video>`:''}${i.file&&/\.md$/i.test(i.file)?`<button class="btn" onclick="openDoc('${esc(i.id)}','${esc(i.file)}')">เปิด / ปิดเอกสาร</button><div class="doc" id="d-${esc(i.id)}"></div>`:''}</div>`}).join(''):`<div class="empty">ยังไม่มีผลงานในแผนกนี้</div>`;
   m.innerHTML=h;
 }
 function start(c){C=c;document.getElementById('upd').textContent='อัปเดต '+c.updated;try{tab=localStorage.getItem('tab')||'all'}catch(e){}draw();}

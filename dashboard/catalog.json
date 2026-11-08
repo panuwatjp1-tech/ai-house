@@ -1,19 +1,119 @@
 {
-  "updated": "2026-11-07",
-  "items": [
-    {"id": "ppe-ep7", "dept": "video", "series": "ผีเฝ้าไซต์", "title": "EP.7 สิบปีไม่เคยตก (ทำงานบนที่สูง)", "date": "2026-11-07", "status": "review", "file": "PPE_ghost_EP7.mp4", "length": "1:38",
-     "note": "ตอนแรกที่มี 4 เสียง: ผู้บรรยายและ จป. (เสียงคุณ), ลุงช่าง (Duang), พี่ด่วน (Bankky) ซับแยกสีตามคนพูด"},
-    {"id": "ppe-ep6", "dept": "video", "series": "ผีเฝ้าไซต์", "title": "EP.6 เครื่องจักรผิดปกติ ต้องแจ้ง", "date": "2026-11-07", "status": "done", "note": "ทำในแชทก่อนหน้า"},
-    {"id": "ppe-ep5", "dept": "video", "series": "ผีเฝ้าไซต์", "title": "EP.5 ป้าย WI ข้างเครื่อง", "date": "2026-11-07", "status": "done", "note": "ทำในแชทก่อนหน้า"},
-    {"id": "ppe-ep4", "dept": "video", "series": "ผีเฝ้าไซต์", "title": "EP.4 ข้ออ้างโอลิมปิก", "date": "2026-11-07", "status": "done", "note": "ทำในแชทก่อนหน้า"},
-    {"id": "ppe-ep3", "dept": "video", "series": "ผีเฝ้าไซต์", "title": "EP.3 ห้อยพระเต็มคอ แต่ไม่ใส่หมวก", "date": "2026-11-07", "status": "done", "note": "ส่งเข้ากลุ่ม LINE แล้ว"},
-    {"id": "ppe-ep2", "dept": "video", "series": "ผีเฝ้าไซต์", "title": "EP.2 ผรม. ไม่ใช่คนของเรา?", "date": "2026-11-07", "status": "done", "note": "ส่งเข้ากลุ่ม LINE แล้ว"},
-    {"id": "ppe-ep1", "dept": "video", "series": "ผีเฝ้าไซต์", "title": "EP.1 ไม่ใส่ PPE ระวังโดนเข้าสิง", "date": "2026-11-07", "status": "done", "note": "ตอนแรกของซีรีส์"}
-  ],
-  "next": [
-    {"who": "owner", "text": "ดู EP.7 แล้วบอกจุดที่อยากแก้"},
-    {"who": "owner", "text": "สร้าง repo ai-house บน GitHub และเชื่อม GitHub กับ Claude"},
-    {"who": "house", "text": "ย้ายบ้านขึ้น GitHub และ deploy หน้าเว็บนี้ขึ้น Cloudflare Pages"},
-    {"who": "house", "text": "เปิดแผนกแอฟฟิลิเอต ความปลอดภัย สอน AI และผู้ช่วยส่วนตัว"}
-  ]
+ "updated": "2026-11-08",
+ "items": [
+  {
+   "id": "daily-1108",
+   "dept": "personal",
+   "title": "สรุปงานและไอเดียคอนเทนต์ 3 เรื่อง",
+   "date": "2026-11-08",
+   "status": "review",
+   "file": "docs/daily-2026-11-08.md",
+   "note": "เลือกไอเดียที่ชอบ แล้วบ้านทำคลิปต่อให้"
+  },
+  {
+   "id": "jsa-scaffold",
+   "dept": "safety",
+   "title": "JSA งานติดตั้งและซ่อมบำรุงบนนั่งร้าน",
+   "date": "2026-11-08",
+   "status": "review",
+   "file": "docs/jsa-scaffold.md",
+   "note": "อ้างอิงกฎกระทรวงป้องกันการตกจากที่สูง พ.ศ. 2564 ใช้คู่กับ EP.7"
+  },
+  {
+   "id": "lesson-consistency",
+   "dept": "teaching",
+   "title": "บทเรียน: ทำคลิป AI ให้หน้าตัวละครไม่เพี้ยน",
+   "date": "2026-11-08",
+   "status": "review",
+   "file": "docs/lesson-ai-consistency.md",
+   "note": "มีข้อความประกาศกลุ่ม LINE ท้ายเอกสาร กดคัดลอกได้"
+  },
+  {
+   "id": "ppe-ep7",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.7 สิบปีไม่เคยตก (ทำงานบนที่สูง)",
+   "date": "2026-11-07",
+   "status": "review",
+   "file": "PPE_ghost_EP7.mp4",
+   "length": "1:38",
+   "note": "ตอนแรกที่มี 4 เสียง: ผู้บรรยายและ จป. (เสียงคุณ), ลุงช่าง (Duang), พี่ด่วน (Bankky) ซับแยกสีตามคนพูด"
+  },
+  {
+   "id": "ppe-ep6",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.6 เครื่องจักรผิดปกติ ต้องแจ้ง",
+   "date": "2026-11-07",
+   "status": "done",
+   "note": "ทำในแชทก่อนหน้า"
+  },
+  {
+   "id": "ppe-ep5",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.5 ป้าย WI ข้างเครื่อง",
+   "date": "2026-11-07",
+   "status": "done",
+   "note": "ทำในแชทก่อนหน้า"
+  },
+  {
+   "id": "ppe-ep4",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.4 ข้ออ้างโอลิมปิก",
+   "date": "2026-11-07",
+   "status": "done",
+   "note": "ทำในแชทก่อนหน้า"
+  },
+  {
+   "id": "ppe-ep3",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.3 ห้อยพระเต็มคอ แต่ไม่ใส่หมวก",
+   "date": "2026-11-07",
+   "status": "done",
+   "note": "ส่งเข้ากลุ่ม LINE แล้ว"
+  },
+  {
+   "id": "ppe-ep2",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.2 ผรม. ไม่ใช่คนของเรา?",
+   "date": "2026-11-07",
+   "status": "done",
+   "note": "ส่งเข้ากลุ่ม LINE แล้ว"
+  },
+  {
+   "id": "ppe-ep1",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.1 ไม่ใส่ PPE ระวังโดนเข้าสิง",
+   "date": "2026-11-07",
+   "status": "done",
+   "note": "ตอนแรกของซีรีส์"
+  }
+ ],
+ "next": [
+  {
+   "who": "owner",
+   "text": "ดู EP.7, JSA และบทเรียน แล้วบอกจุดที่อยากแก้"
+  },
+  {
+   "who": "owner",
+   "text": "เลือกไอเดียคอนเทนต์ 1 เรื่องจากสรุปงานวันนี้"
+  },
+  {
+   "who": "owner",
+   "text": "ส่งลิงก์สินค้าแรกให้แผนกแอฟฟิลิเอต"
+  },
+  {
+   "who": "owner",
+   "text": "เชื่อม GitHub กับ Claude (หรือบอกชื่อผู้ใช้ GitHub)"
+  },
+  {
+   "who": "house",
+   "text": "ย้ายบ้านขึ้น GitHub และหน้าเว็บขึ้น Cloudflare Pages"
+  }
+ ]
 }
