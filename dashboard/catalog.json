@@ -2,6 +2,34 @@
  "updated": "2026-11-08",
  "items": [
   {
+   "id": "ppe-ep8",
+   "dept": "video",
+   "series": "ผีเฝ้าไซต์",
+   "title": "EP.8 แว่นกันแดดก็ได้มั้ง (งานเจียร)",
+   "date": "2026-11-08",
+   "status": "review",
+   "file": "PPE_ghost_EP8.mp4",
+   "length": "1:20",
+   "note": "4 เสียง ซับแยกสี มีการ์ดเทียบแว่นกันแดดกับแว่นเซฟตี้"
+  },
+  {
+   "id": "aff-glasses",
+   "dept": "affiliate",
+   "title": "ตัวอย่าง: สคริปต์ขายแว่นเซฟตี้ (คู่กับ EP.8)",
+   "date": "2026-11-08",
+   "status": "review",
+   "file": "docs/affiliate-safety-glasses.md",
+   "note": "ยังไม่ผูกสินค้าจริง ส่งลิงก์มาแล้วบ้านเติมสเปกและราคาให้"
+  },
+  {
+   "id": "auto-morning",
+   "dept": "personal",
+   "title": "งานอัตโนมัติ: ไอเดียคอนเทนต์ทุกเช้า 06:43 น.",
+   "date": "2026-11-08",
+   "status": "done",
+   "note": "ส่งเข้ามือถือทุกเช้า: ไอเดีย 3 เรื่อง, Safety Talk, ข้อความทักกลุ่ม LINE"
+  },
+  {
    "id": "daily-1108",
    "dept": "personal",
    "title": "สรุปงานและไอเดียคอนเทนต์ 3 เรื่อง",
@@ -97,23 +125,23 @@
  "next": [
   {
    "who": "owner",
-   "text": "ดู EP.7, JSA และบทเรียน แล้วบอกจุดที่อยากแก้"
+   "text": "ดู EP.7, EP.8, JSA และบทเรียน แล้วบอกจุดที่อยากแก้"
   },
   {
    "who": "owner",
-   "text": "เลือกไอเดียคอนเทนต์ 1 เรื่องจากสรุปงานวันนี้"
+   "text": "เชื่อม GitHub กับ Claude ผ่าน claude.ai/code ในเบราว์เซอร์"
   },
   {
    "who": "owner",
-   "text": "ส่งลิงก์สินค้าแรกให้แผนกแอฟฟิลิเอต"
-  },
-  {
-   "who": "owner",
-   "text": "เชื่อม GitHub กับ Claude (หรือบอกชื่อผู้ใช้ GitHub)"
+   "text": "ส่งลิงก์สินค้าจริง 1 ชิ้นให้แผนกแอฟฟิลิเอต"
   },
   {
    "who": "house",
    "text": "ย้ายบ้านขึ้น GitHub และหน้าเว็บขึ้น Cloudflare Pages"
+  },
+  {
+   "who": "house",
+   "text": "ต่อแจ้งเตือน LINE เมื่อคุณสร้าง LINE Official Account"
   }
  ]
 }

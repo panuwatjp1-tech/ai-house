@@ -45,7 +45,7 @@ function yantraMark(x,y,sc=1){return `<g transform="translate(${x} ${y}) scale($
 function person(o){
   const P=Object.assign({x:270,y:700,sc:1,skin:'#f4c79a',shirt:'#3b82c4',pants:'#2d3b6b',hair:'#2b2018',
     helmet:false,vest:false,gloves:false,boots:false,hipHelmet:false,eyes:'normal',mouth:'smile',walk:0,walkAmt:0,
-    armL:20,armR:-20,lean:0,op:1,dent:0,tint:0,stiff:false,bob:0,flip:1,thumb:false,hat:null,capCol:'#d23b3b',glasses:false,chin:false,badge:null,tie:false,towel:false,bag:false,sweat:0,phone:false,cup:false,shirtSleeve:null,clip:false,amulet:0,takrut:false,glowAm:0,sit:0,yantra:false,bib:null,mustache:false,tears:0,bump:0,medal:false,hop:0,plugs:false},o);
+    armL:20,armR:-20,lean:0,op:1,dent:0,tint:0,stiff:false,bob:0,flip:1,thumb:false,hat:null,capCol:'#d23b3b',glasses:false,chin:false,badge:null,tie:false,towel:false,bag:false,sweat:0,phone:false,cup:false,shirtSleeve:null,clip:false,amulet:0,takrut:false,glowAm:0,sit:0,yantra:false,bib:null,mustache:false,tears:0,bump:0,medal:false,hop:0,plugs:false,sun:false,shield:false},o);
   const ph=P.walk*Math.PI*2, a=P.walkAmt;
   const legA=Math.sin(ph)*28*a, legB=-legA;
   const bob=(P.bob||Math.abs(Math.sin(ph))*-4*a);
@@ -120,6 +120,8 @@ function person(o){
   if(P.helmet&&P.chin) s+=`<path d="M-30 -8 Q-22 34 0 34 Q22 34 30 -8" stroke="#3a3a3a" stroke-width="2.5" fill="none"/>`;
   if(P.bump&&!P.helmet) s+=`<ellipse cx="6" cy="-34" rx="${9*P.bump}" ry="${7*P.bump}" fill="#f08a7a" stroke="#c0503f" stroke-width="1.5"/>`;
   if(P.helmet) s+=helmetShape(0,-12,1,P.helmetCol||'#ffcc1f',0,P.dent)+(P.yantra?yantraMark(0,-30,.8):'');
+  if(P.sun) s+=`<g><rect x="-23" y="-8" width="20" height="13" rx="6" fill="#151515"/><rect x="3" y="-8" width="20" height="13" rx="6" fill="#151515"/><path d="M-3 -3 h6" stroke="#151515" stroke-width="2.5"/><line x1="-23" y1="-3" x2="-31" y2="-5" stroke="#151515" stroke-width="2.2"/><line x1="23" y1="-3" x2="31" y2="-5" stroke="#151515" stroke-width="2.2"/><path d="M-19 -5 l5 -1" stroke="#fff" stroke-width="2" opacity=".6"/></g>`;
+  if(P.shield) s+=`<g><path d="M-31 -16 h62 v40 q0 16 -16 16 h-30 q-16 0 -16 -16 z" fill="#d8f4ff" fill-opacity=".38" stroke="#7aa9c0" stroke-width="2.5"/><path d="M-22 -10 l10 -3" stroke="#fff" stroke-width="3" opacity=".8"/><rect x="-33" y="-20" width="66" height="7" rx="3" fill="#3a4a5a"/></g>`;
   if(P.medal) s+=`<g transform="translate(0 52)"><path d="M-12 -22 L0 8 L12 -22" stroke="#1f5aa6" stroke-width="5" fill="none"/><circle cx="0" cy="18" r="13" fill="#ffcf33" stroke="#b8860b" stroke-width="2.5"/><text x="0" y="24" text-anchor="middle" font-size="15" font-weight="900" fill="#b8860b">1</text></g>`;
   s+=`</g>`;
   if(P.sit) s+=`</g>`;
@@ -131,7 +133,7 @@ function ghost(x,y,op,t,o={}){
   let s=`<g opacity="${op}" transform="translate(0 ${Math.sin(t*2)*6})">`;
   s+=`<ellipse cx="${x}" cy="${y-110}" rx="80" ry="120" fill="url(#aura)"/>`;
   s+=`<g filter="url(#glow)">`;
-  s+=person({x,y:y-20,skin:'#dff6ff',shirt:'#bfe6f7',pants:'#bfe6f7',hair:'#cfe7f0',helmet:true,chin:true,glasses:!!o.glasses,vest:true,gloves:true,boots:false,eyes:o.eyes||'closed',mouth:o.mouth||'smile',armR:o.armR!=null?o.armR:-150,armL:o.armL!=null?o.armL:12,op:.92,flip:o.flip||1,thumb:!!o.thumb});
+  s+=person({x,y:y-20,skin:'#dff6ff',shirt:'#bfe6f7',pants:'#bfe6f7',hair:'#cfe7f0',helmet:true,chin:true,glasses:!!o.glasses,sun:!!o.sun,vest:true,gloves:true,boots:false,eyes:o.eyes||'closed',mouth:o.mouth||'smile',armR:o.armR!=null?o.armR:-150,armL:o.armL!=null?o.armL:12,op:.92,flip:o.flip||1,thumb:!!o.thumb});
   if(o.amulet) s+=`<g transform="translate(${x} ${y-20})"><path d="M-14 -122 Q0 -96 14 -122" stroke="#fff" stroke-width="2" fill="none"/><rect x="-5" y="-104" width="10" height="13" rx="2" fill="#fff6c4" stroke="#c9a227"/></g>`;
   if(o.clip) s+=`<g transform="translate(${x-40} ${y-110}) rotate(-12)"><rect x="-18" y="-24" width="36" height="48" rx="3" fill="#e8d9b5" stroke="#8a7650" stroke-width="2"/><rect x="-8" y="-28" width="16" height="8" rx="2" fill="#888"/><path d="M-11 -10 h22 M-11 -2 h22 M-11 6 h16 M-11 14 h18" stroke="#8a7650" stroke-width="2"/></g>`;
   // tail over legs

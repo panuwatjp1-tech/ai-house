@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;src:url(../fonts/Kanit-Bold.ttf);font-weight:700}
+@font-face{font-family:K;src:url(../fonts/Kanit-Black.ttf);font-weight:900}
+@font-face{font-family:K;src:url(../fonts/Kanit-SemiBold.ttf);font-weight:600}
+@font-face{font-family:K;src:url(../fonts/Kanit-Medium.ttf);font-weight:500}
+html,body{margin:0;padding:0;background:#000;overflow:hidden}
+svg{display:block;font-family:K} text{font-family:K}
+</style></head>
+<body>
+<svg id="v" width="540" height="960" viewBox="0 0 540 960" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../lib.js"></script>
+<script src="../bg1.js"></script>
+<script>
+const site=(t,o={})=>background(t,Object.assign({day:1},o));
+
+// ตัวละคร (ล็อกหน้าตาไว้ ใช้ชุดเดิมทุกฉาก)
+const W={shirt:'#e67e22',pants:'#2d3b6b',skin:'#e2ad7c',hair:'#1a1a1a',helmet:true,chin:true,gloves:true,boots:true};      // พี่ด่วน
+const J={shirt:'#f4f4f4',pants:'#2d3b6b',skin:'#f0c090',hair:'#222',helmet:true,helmetCol:'#27b04a',chin:true,vest:true,vestCol:'#35c95a',badge:'#1f8f3e',boots:true}; // จป.
+const pw=o=>person(Object.assign({},W,o)), pj=o=>person(Object.assign({},J,o));
+
+// ซับไตเติลแยกสีตามคนพูด
+const CH={narrator:['',''],worker:['พี่ด่วน','#ffd23f'],jpo:['จป.','#5ee27f'],ghost:['ลุงช่าง','#9fe8ff']};
+const SUB=[
+ ["narrator", ["บ่ายวันจันทร์…", "พี่ด่วนต้องเจียรเหล็กเพลต", "ก่อนส่งไปเชื่อม"]],
+ ["worker", ["แว่นเซฟตี้หายไปไหนเนี่ย…", "ช่างมัน ใส่แว่นกันแดดก็ได้", "เท่ด้วย"]],
+ ["jpo", ["พี่ด่วนครับ", "แว่นกันแดดกันได้แค่แสง", "กันเศษเหล็กไม่ได้นะครับ"]],
+ ["worker", ["แป๊บเดียวเอง… เจียรนิดเดียว", "เดี๋ยวก็เสร็จ"]],
+ ["narrator", ["แต่พอเปิดเครื่องเจียร…", "สะเก็ดไฟก็พุ่งเข้าหน้าเต็ม", "ๆ"]],
+ ["ghost", ["ฮึ่ม… เศษเหล็กร้อน ๆ", "วิ่งเร็วกว่าตาเอ็งกะพริบอีกนะ", "ไอ้หนุ่ม"]],
+ ["worker", ["ลุง! มาอีกแล้วเหรอครับ!"]],
+ ["ghost", ["ดูนี่… แว่นกันแดดเลนส์บาง", "ไม่มีที่กันด้านข้าง", "เศษเหล็กกระเด็นอ้อมเข้าตาได้สบาย"]],
+ ["narrator", ["พี่ด่วนเปลี่ยนมาใส่แว่นเซฟตี้", "ครอบด้วยหน้ากากกันสะเก็ด", "แล้วเช็กใบเจียรก่อนเปิดเครื่อง"]],
+ ["worker", ["โห… สะเก็ดไฟเด้งออกหมดเลย", "ตาไม่เป็นไรสักนิด"]],
+ ["jpo", ["งานเจียร ต้องใส่แว่นเซฟตี้", "และหน้ากากกันสะเก็ดทุกครั้งครับ"]],
+ ["ghost", ["แว่นกันแดดเอาไว้ไปทะเล…", "ในไซต์ ใส่แว่นเซฟตี้นะเอ็ง"]],
+ ["narrator", ["งานเจียร… ใส่แว่นเซฟตี้", "และหน้ากากกันสะเก็ดทุกครั้งนะครับ"]]
+];
+function sub(n,t){
+  const [who,lines]=SUB[n-1]; const [name,col]=CH[who]; if(t<.15) return '';
+  const op=clamp((t-.15)/.2), h=lines.length*34+20, y=880-h;
+  let s=`<g opacity="${op}"><rect x="18" y="${y}" width="504" height="${h}" rx="14" fill="#0b0b18" fill-opacity=".72"/>`;
+  if(name) s+=`<rect x="30" y="${y-20}" width="${name.length*15+30}" height="32" rx="16" fill="${col}" stroke="#1b1b1b" stroke-width="2.5"/><text x="${45}" y="${y+2}" font-size="19" font-weight="900" fill="#1b1b1b">${esc(name)}</text>`;
+  lines.forEach((l,i)=>s+=`<text x="270" y="${y+(name?40:36)+i*34}" text-anchor="middle" font-size="24" font-weight="700" fill="${name?'#fff':'#fff6d8'}">${esc(l)}</text>`);
+  return s+`</g>`;
+}
+function chip(txt){const w=txt.length*12+34;
+  return `<g filter="url(#shadow)"><rect x="14" y="20" width="156" height="30" rx="15" fill="#e6242b"/><circle cx="31" cy="35" r="5" fill="#fff"/><text x="42" y="41" font-size="15" font-weight="900" fill="#fff">ผีเฝ้าไซต์ EP.8</text>
+   <rect x="${526-w}" y="20" width="${w}" height="30" rx="15" fill="#ffd23f" stroke="#1b1b1b" stroke-width="2"/><text x="${526-w/2}" y="41" text-anchor="middle" font-size="16" font-weight="900" fill="#1b1b1b">${esc(txt)}</text></g>`;}
+
+function darkness(a){return `<rect width="540" height="960" fill="#130a28" opacity="${a}"/>`;}
+
+// ===== EP.8 งานเจียร: "แว่นกันแดดก็ได้มั้ง" =====
+function grinder(x,y,ang,on,t){
+  let s=`<g transform="translate(${x} ${y}) rotate(${ang})"><rect x="-6" y="-8" width="46" height="16" rx="7" fill="#2a6db0"/><rect x="36" y="-14" width="14" height="28" rx="4" fill="#555"/>
+    <circle cx="50" cy="10" r="15" fill="#9aa0a8" stroke="#333" stroke-width="2"/><path d="M40 -4 h20" stroke="#333" stroke-width="4"/></g>`;
+  if(on) s+=sparks(x+Math.cos(ang*Math.PI/180)*50,y+16,t,22,-1,1.3);
+  return s;}
+function sparks(x,y,t,n=18,dir=1,spread=1){let s='';
+  for(let i=0;i<n;i++){const age=((t*1.8+i/n)%1), vx=(rnd(i)*120+40)*dir*spread, vy=-(rnd(i+7)*120+40);
+    const px=x+vx*age, py=y+vy*age+260*age*age;
+    s+=`<line x1="${px}" y1="${py}" x2="${px-vx*.04}" y2="${py-(vy+520*age)*.04}" stroke="${i%3?'#ffd35a':'#fff2b0'}" stroke-width="2.4" stroke-linecap="round" opacity="${1-age}"/>`;}
+  return s;}
+function bounce(x,y,t){let s='';for(let i=0;i<10;i++){const age=((t*2+i/10)%1),a=-2.4+rnd(i)*1.6, px=x+Math.cos(a)*70*age, py=y+Math.sin(a)*50*age+80*age*age;
+  s+=`<circle cx="${px}" cy="${py}" r="2.2" fill="#ffd35a" opacity="${1-age}"/>`;}return s;}
+function bench(x){return `<g><rect x="${x-70}" y="626" width="140" height="12" fill="#8c96a3" stroke="#4d5560"/><rect x="${x-80}" y="638" width="160" height="10" fill="#b07a3a"/><path d="M${x-66} 648 v52 M${x+66} 648 v52" stroke="#8a5a2a" stroke-width="8"/></g>`;}
+function compare(t){ // การ์ดเทียบ แว่นกันแดด vs แว่นเซฟตี้
+  const a=back(prog(t,.2,.6)), b=back(prog(t,2.6,3.0));
+  let s=`<g transform="translate(140 330) scale(${a})"><rect x="-110" y="-90" width="220" height="200" rx="18" fill="#fff" stroke="#1b1b1b" stroke-width="3"/>
+   <text y="-58" text-anchor="middle" font-size="20" font-weight="900" fill="#e6242b">แว่นกันแดด</text>
+   <g transform="translate(-10 10)"><ellipse cx="0" cy="0" rx="46" ry="30" fill="#f0c090"/><circle cx="18" cy="-4" r="6" fill="#222"/>
+   <rect x="6" y="-14" width="34" height="20" rx="8" fill="#151515"/><path d="M6 -6 h-40" stroke="#151515" stroke-width="3"/>
+   <path d="M-70 -40 q30 -10 48 18 q8 10 20 20" stroke="#ffb02e" stroke-width="4" fill="none" stroke-dasharray="6 5"/><circle cx="-2" cy="-2" r="5" fill="#ffb02e"/></g>
+   <text y="86" text-anchor="middle" font-size="16" font-weight="700" fill="#1b1b1b">ไม่มีที่กันด้านข้าง</text></g>`;
+  if(t>.6) s+=xMark(225,265,t-.8);
+  s+=`<g transform="translate(400 330) scale(${b})"><rect x="-110" y="-90" width="220" height="200" rx="18" fill="#fff" stroke="#1b1b1b" stroke-width="3"/>
+   <text y="-58" text-anchor="middle" font-size="20" font-weight="900" fill="#1fb35a">แว่นเซฟตี้</text>
+   <g transform="translate(-10 10)"><ellipse cx="0" cy="0" rx="46" ry="30" fill="#f0c090"/><circle cx="18" cy="-4" r="6" fill="#222"/>
+   <rect x="4" y="-16" width="38" height="24" rx="8" fill="#bfefff" fill-opacity=".6" stroke="#1b1b1b" stroke-width="2.5"/><rect x="-12" y="-16" width="16" height="24" rx="4" fill="#bfefff" fill-opacity=".6" stroke="#1b1b1b" stroke-width="2.5"/>
+   <path d="M-70 -40 q30 -10 48 18" stroke="#ffb02e" stroke-width="4" fill="none" stroke-dasharray="6 5"/><circle cx="-22" cy="-22" r="5" fill="#ffb02e"/></g>
+   <text y="86" text-anchor="middle" font-size="16" font-weight="700" fill="#1b1b1b">มีที่กันด้านข้าง กันกระแทก</text></g>`;
+  if(t>3.0) s+=check(485,265,t-3.2);
+  return s;}
+
+SC[1]=(t,d)=>{let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`;
+  const w=prog(t,0,2.4), x=lerp(-60,220,easeOut(w));
+  s+=pw({x,y:700,walk:t*2.2,walkAmt:w<1?1.1:0,mouth:'smile'})+grinder(x+30,580,0,false,t);
+  s+=titleCard(['บ่ายวันจันทร์...','งานเจียร *เหล็กเพลต*'],t-.3,28);
+  return s+sub(1,t)+chip('งานเจียร');};
+SC[2]=(t,d)=>{let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`;
+  const on=t>2.4;
+  s+=pw({x:220,y:700,sun:on,mouth:on?'grin':'o',eyes:on?'normal':'wide',armR:t<2.4?-40+Math.sin(t*9)*30:-150,armL:t<2.4?40-Math.sin(t*9)*30:20,thumb:on});
+  if(!on) s+=tag(220,420,'แว่นเซฟตี้อยู่ไหน?',t-.3,{fs:18,bg:'#fff'});
+  s+=burst(370,330,'เท่ด้วย!',t-2.6,{fs:36,fill:'#ffd23f',col:'#1b1b1b',rot:-6,sc:.8});
+  return s+sub(2,t)+chip('แว่นกันแดด?');};
+SC[3]=(t,d)=>{let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`;
+  const w=prog(t,0,1.4), jx=lerp(620,420,easeOut(w));
+  s+=pw({x:220,y:700,sun:true,mouth:'o'})+pj({x:jx,y:700,flip:-1,walk:t*2.4,walkAmt:w<1?1.1:0,armR:t>1.5?-95:-20,mouth:'o'});
+  s+=tag(300,250,'กันแสง ≠ กันเศษเหล็ก',t-1.8,{fs:22,bg:'#ffd23f',rot:-3});
+  return s+sub(3,t)+chip('จป. เตือน');};
+SC[4]=(t,d)=>{let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`;
+  const leave=prog(t,1.5,3.2), jx=lerp(420,640,ease(leave));
+  s+=pw({x:220,y:700,sun:true,mouth:'smirk',armR:-150,thumb:true});
+  s+=pj({x:jx,y:700,flip:leave>0?1:-1,walk:t*2.4,walkAmt:leave>0&&leave<1?1.1:0,mouth:'flat'});
+  s+=burst(270,330,'แป๊บเดียวเอง!',t-.3,{fs:36,fill:'#ffd23f',col:'#e6242b',rot:-6,sc:.8});
+  return s+sub(4,t)+chip('แป๊บเดียวเอง');};
+SC[5]=(t,d)=>{const on=t>1.2, hit=t>2.0;
+  let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`;
+  s+=pw({x:225,y:700,sun:true,eyes:hit?'squeeze':'normal',mouth:hit?'o':'smile',lean:hit?-8:0,armR:-70,armL:-60});
+  s+=grinder(258,600,18,on,t);
+  if(on) s+=sparks(300,612,t,18,-1,1.6);
+  if(hit&&Math.sin(t*30)>.3) s+=`<rect width="540" height="960" fill="#fff3c0" opacity=".25"/>`;
+  s+=burst(150,300,'อ๊าก!!',t-2.0,{fs:48,col:'#e6242b',rot:-8,sc:.8});
+  return s+sub(5,t)+chip('อันตราย!');};
+SC[6]=(t,d)=>{let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`+darkness(.45);
+  s+=pw({x:225,y:700,sun:true,eyes:'squeeze',mouth:'o',sweat:1,lean:-8});
+  s+=sparks(300,612,t*.25,18,-1,1.6);
+  s+=ghost(410,720,clamp(t/1.2)*.95,t,{armR:-100,eyes:'normal',mouth:'flat'});
+  s+=tag(300,240,'เร็วกว่าตากะพริบ',t-2.2,{fs:20,bg:'#9fe8ff'});
+  return s+sub(6,t)+chip('ลุงช่าง ผีเฝ้าไซต์');};
+SC[7]=(t,d)=>{let s=site(t)+bench(350)+darkness(.45);
+  s+=pw({x:210,y:700,sun:true,eyes:'wide',mouth:'o',sweat:1,lean:-10,armL:140+Math.sin(t*20)*10,armR:-140-Math.sin(t*20)*10,bob:-Math.abs(Math.sin(t*16))*6});
+  s+=ghost(410,720,.95,t,{armR:-20,eyes:'closed',mouth:'smile'});
+  s+=burst(220,300,'ลุง!?',t-.1,{fs:34,col:'#1f6fd1',rot:-8,sc:.7});
+  return s+sub(7,t)+chip('ลุงช่าง ผีเฝ้าไซต์');};
+SC[8]=(t,d)=>{let s=site(t)+darkness(.55)+compare(t);
+  s+=ghost(270,760,.9,t,{armR:-160,eyes:'normal',mouth:'smile'});
+  return s+sub(8,t)+chip('เทียบกันชัด ๆ');};
+SC[9]=(t,d)=>{let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`;
+  const g=t>1.0, sh=t>3.0;
+  s+=pw({x:200,y:700,glasses:g,shield:sh,mouth:'smile',armL:t>.8&&t<1.4||t>2.8&&t<3.4?150:20,armR:t>.8&&t<1.4||t>2.8&&t<3.4?-150:-20});
+  const items=[['แว่นเซฟตี้ (มีที่กันข้าง)',1.0],['หน้ากากกันสะเก็ด',3.0],['เช็กใบเจียร ไม่บิ่น ไม่ร้าว',4.8]];
+  items.forEach(([txt,at],i)=>{const y=200+i*70; if(t<at-.2) return;
+    s+=`<g transform="translate(280 ${y})" opacity="${clamp((t-at+.2)/.3)}"><rect x="0" y="-24" width="246" height="46" rx="12" fill="#fff" stroke="#1b1b1b" stroke-width="2.5"/><text x="40" y="8" font-size="17" font-weight="900" fill="#1b1b1b">${esc(txt)}</text></g>`+check(302,y,t-at);});
+  return s+sub(9,t)+chip('ใส่ให้ครบ');};
+SC[10]=(t,d)=>{let s=site(t)+bench(350)+`<rect x="300" y="616" width="100" height="10" fill="#6d7884"/>`;
+  s+=pw({x:225,y:700,glasses:true,shield:true,mouth:'grin',eyes:'normal',armR:-70,armL:-60});
+  s+=grinder(258,600,18,true,t)+bounce(232,500,t);
+  s+=tag(140,330,'ปลอดภัย!',t-1.2,{fs:26,bg:'#4fd67a'});
+  return s+sub(10,t)+chip('ปลอดภัย');};
+SC[11]=(t,d)=>{let s=site(t)+bench(350);
+  s+=pw({x:210,y:700,glasses:true,shield:true,eyes:'closed',mouth:'smile'});
+  s+=pj({x:390,y:700,flip:-1,armR:-150,thumb:true,mouth:'grin',eyes:'closed'});
+  s+=titleCard(['งานเจียร ใส่ *แว่นเซฟตี้*','+ *หน้ากากกันสะเก็ด* ทุกครั้ง'],t-.4,28);
+  return s+sub(11,t)+chip('จำไว้นะ!');};
+SC[12]=(t,d)=>{let s=site(t)+darkness(.25);
+  const op=.95*(1-prog(t,d-1.2,d-.2));
+  s+=ghost(270,720,op,t,{armR:-150,thumb:true,eyes:'closed',mouth:'smile',sun:true});
+  s+=sparkles(270,560,t,10,90)+tag(270,230,'แว่นกันแดด = ไปทะเล',t-1.5,{fs:22,bg:'#9fe8ff'});
+  return s+sub(12,t)+chip('ลุงช่าง ผีเฝ้าไซต์');};
+SC[13]=(t,d)=>{let s=`<rect width="540" height="960" fill="#1b1b2f"/>`;
+  s+=`<g transform="translate(270 150) scale(${back(prog(t,0,.3))})"><rect x="-120" y="-20" width="240" height="40" rx="20" fill="#e6242b"/><text y="8" text-anchor="middle" font-size="20" font-weight="900" fill="#fff">ผีเฝ้าไซต์ EP.8</text></g>`;
+  const q=prog(t,.3,.7);
+  s+=`<g opacity="${q}" transform="translate(0 ${20*(1-q)})"><text x="270" y="280" text-anchor="middle" font-size="50" font-weight="900" fill="#fff3a0">งานเจียร</text>
+     <text x="270" y="345" text-anchor="middle" font-size="34" font-weight="900" fill="#fff">ใส่ <tspan fill="#ffd23f">แว่นเซฟตี้</tspan></text>
+     <text x="270" y="395" text-anchor="middle" font-size="30" font-weight="700" fill="#fff">+ หน้ากากกันสะเก็ด ทุกครั้ง</text></g>`;
+  [['glasses',150],['helmet',270],['gloves',390]].forEach(([k,x],i)=>{const tt=t-(1.2+i*.25); if(tt<0) return; s+=`<g transform="translate(${x} 500) scale(${back(prog(tt,0,.3))})">${ppeIcon(k,0,0,1)}</g>`;});
+  const r=prog(t,2.6,3.0);
+  s+=`<g opacity="${r}"><rect x="110" y="610" width="320" height="50" rx="25" fill="none" stroke="#ffd23f" stroke-width="3"/><text x="270" y="643" text-anchor="middle" font-size="22" font-weight="700" fill="#ffd23f">ปลอดภัยไว้ก่อน กลับบ้านทุกวัน</text></g>`;
+  return s+sub(13,t);};
+window.ready=document.fonts.ready.then(()=>true);
+</script></body></html>
