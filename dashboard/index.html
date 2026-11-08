@@ -30,11 +30,26 @@ video{width:100%;border-radius:12px;margin-top:10px;background:#000;max-height:7
 .doc ul,.doc ol{padding-left:22px;margin:6px 0}.doc hr{border:0;border-top:1px solid var(--line);margin:16px 0}
 .btn{margin-top:10px;width:100%;border:1px solid var(--line);background:#2a2740;color:var(--txt);font:inherit;font-size:15px;padding:9px;border-radius:12px}
 .copy{background:var(--y);color:#1b1b1b;font-weight:700;border:0}
+.house{width:100%;height:auto;display:block;border-radius:18px;box-shadow:0 10px 30px #0006}
+.room{cursor:pointer}.room:active{opacity:.85}
+.bob{animation:bob 1.6s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-2px)}}
+.type{animation:ty .35s ease-in-out infinite alternate}.type2{animation:ty .35s ease-in-out infinite alternate-reverse}@keyframes ty{to{transform:translateY(2.5px)}}
+.glow{animation:gl 2.4s ease-in-out infinite}@keyframes gl{50%{opacity:.75}}
+.pop{animation:pp 3s ease-in-out infinite}@keyframes pp{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.float{animation:fl 3s ease-in-out infinite}@keyframes fl{50%{transform:translate(330px,122px)}}
+.wave{transform-box:fill-box;transform-origin:50% 100%;animation:wv .6s ease-in-out infinite alternate}@keyframes wv{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
+.tw{animation:tw 2s ease-in-out infinite}@keyframes tw{50%{opacity:.2}}
+@media (prefers-reduced-motion:reduce){.bob,.type,.type2,.glow,.pop,.float,.wave,.tw{animation:none}}
+.prog{display:flex;align-items:center;gap:14px}.ring{flex:none}
+.bar{height:8px;background:#2e2b44;border-radius:4px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#ffd23f,#4fd67a)}
+.ph{font-size:14px;margin-top:10px}.ph span{float:right;color:var(--mut)}
+.brand{display:inline-block;background:#e6242b;color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;margin-left:6px;vertical-align:middle}
 </style></head>
 <body>
-<header><h1>🏠 AI House</h1><p>คลังผลงานของบ้าน AI • <span id="upd"></span></p></header>
+<header><h1>🏠 AI House <span class="brand">ภนว | AI Guide</span></h1><p>คลังผลงานของบ้าน AI • <span id="upd"></span></p></header>
 <nav id="tabs"></nav>
 <main id="main"></main>
+<script src="house.js"></script>
 <script>
 const FALLBACK=/*CATALOG*/null;
 const DEPT={all:'ทั้งหมด',video:'คลิป',affiliate:'แอฟฟิลิเอต',safety:'ความปลอดภัย',teaching:'สอน AI',personal:'ผู้ช่วยส่วนตัว'};
@@ -71,9 +86,11 @@ function draw(){
   const items=C.items.filter(i=>tab==='all'||i.dept===tab);
   let h='';
   if(tab==='all'){
+    h+=houseSVG(C)+`<div class="meta" style="text-align:center;margin-top:6px">แตะห้องเพื่อดูงานของแผนกนั้น</div>`;
+    const P=PHASES, pct=Math.round(P.reduce((a,p)=>a+p[1],0)/P.length), R=34, L=2*Math.PI*R;
+    h+=`<div class="sec">ความคืบหน้าทั้งบ้าน</div><div class="card"><div class="prog"><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="${R}" stroke="#2e2b44" stroke-width="9" fill="none"/><circle cx="42" cy="42" r="${R}" stroke="#ffd23f" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="${L*pct/100} ${L}" transform="rotate(-90 42 42)"/><text x="42" y="49" text-anchor="middle" font-size="20" font-weight="700" fill="#fff" font-family="Kanit">${pct}%</text></svg><div><b>บ้านเสร็จแล้ว ${pct}%</b><div class="meta">ส่วนที่เหลือรอเชื่อม GitHub และเปิดงานอัตโนมัติ</div></div></div>
+      ${P.map(p=>`<div class="ph">${esc(p[0])}<span>${p[1]}%</span><div class="bar"><i style="width:${p[1]}%"></i></div></div>`).join('')}</div>`;
     h+=`<div class="sec">ขั้นต่อไป</div><div class="card">${C.next.map(n=>`<div class="todo"><span class="who ${n.who}">${n.who==='owner'?'คุณทำ':'บ้านทำ'}</span><span>${esc(n.text)}</span></div>`).join('')}</div>`;
-    const cnt=d=>C.items.filter(i=>i.dept===d).length;
-    h+=`<div class="sec">แผนกในบ้าน</div><div class="dept">${Object.entries(DEPT).filter(([k])=>k!=='all').map(([k,v])=>`<div><b>${v}</b><span>${cnt(k)?cnt(k)+' ชิ้นงาน':'พร้อมรับงาน'}</span></div>`).join('')}</div>`;
   }
   h+=`<div class="sec">ผลงาน</div>`;
   h+=items.length?items.map(i=>{const s=ST[i.status]||ST.done;
@@ -81,6 +98,7 @@ function draw(){
     <h3>${esc(i.title)}</h3>${i.note?`<div class="note">${esc(i.note)}</div>`:''}
     ${i.file&&/\.mp4$/i.test(i.file)?`<video controls playsinline preload="metadata" src="${esc(i.file)}"></video>`:''}${i.file&&/\.md$/i.test(i.file)?`<button class="btn" onclick="openDoc('${esc(i.id)}','${esc(i.file)}')">เปิด / ปิดเอกสาร</button><div class="doc" id="d-${esc(i.id)}"></div>`:''}</div>`}).join(''):`<div class="empty">ยังไม่มีผลงานในแผนกนี้</div>`;
   m.innerHTML=h;
+  document.querySelectorAll('.room').forEach(r=>r.onclick=()=>{const k=r.dataset.k;if(k==='head')return;tab=k;try{localStorage.setItem('tab',tab)}catch(e){}draw();window.scrollTo(0,0);});
 }
 function start(c){C=c;document.getElementById('upd').textContent='อัปเดต '+c.updated;try{tab=localStorage.getItem('tab')||'all'}catch(e){}draw();}
 fetch('catalog.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(start).catch(()=>FALLBACK?start(FALLBACK):document.getElementById('main').innerHTML='<div class="empty">โหลดรายการไม่ได้</div>');
