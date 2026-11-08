@@ -4,6 +4,7 @@
   shots/shot1.mp4 ... shotN.mp4   คลิปจาก Flow (แนวตั้ง)
   vo/vo01.mp3 ... voNN.mp3        เสียงพากย์ทีละช็อต
   script.json                     [{"sub": "ซับบรรทัด 1|บรรทัด 2"}, ...] ตามลำดับช็อต
+                                  ใส่ "start" (วินาทีเริ่ม) และ "len" (ความยาว) ต่อช็อตได้
                                   {"cta": "ข้อความปิดท้าย"} ใส่ในช็อตสุดท้ายได้
 ใช้งาน: python3 edit.py harness   -> harness/out/<ชื่อ>.mp4
 - ตัดแต่ละช็อตให้ยาวเท่าเสียงพากย์ + 0.6 วินาที
@@ -44,14 +45,15 @@ def overlay(i, item):
 parts = []
 for i, item in enumerate(script, 1):
     shot, vo = f'{JOB}/shots/shot{i}.mp4', f'{JOB}/vo/vo{i:02d}.mp3'
-    L = min(max(dur(vo) + 0.6, 3.0), dur(shot))
+    st = item.get('start', 0)
+    L = min(item.get('len', max(dur(vo) + 0.6, 3.0)), dur(shot) - st)
     out = f'{JOB}/tmp/part{i}.mp4'
     fc = (f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,fps=30[v];"
           f"[v][2:v]overlay=0:0[v2];[v2][3:v]overlay=W-w-30:H-h-40[vout];"
           f"[0:a]volume=0.15,apad[a0];[1:a]adelay=200|200,apad[a1];[a0][a1]amix=inputs=2:duration=first:normalize=0[aout]")
     has_audio = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'a', '-show_entries', 'stream=index', '-of', 'csv=p=0', shot], capture_output=True, text=True).stdout.strip()
     if not has_audio: fc = fc.replace('[0:a]volume=0.15,apad[a0];', 'anullsrc=r=44100:cl=stereo[a0];')
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', shot, '-i', vo, '-i', overlay(i, item), '-i', WM,
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(st), '-i', shot, '-i', vo, '-i', overlay(i, item), '-i', WM,
                     '-filter_complex', fc, '-map', '[vout]', '-map', '[aout]', '-t', f'{L:.2f}',
                     '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-ar', '44100', '-ac', '2', out], check=True)
     parts.append(out); print('ช็อต', i, round(L, 1), 'วินาที')

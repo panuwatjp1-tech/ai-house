@@ -4,3 +4,6 @@ __pycache__/
 video/ppe/*/out/
 video/ppe/*/stills/
 video/ppe/*/sheet.jpg
+video/real/*/shots/
+video/real/*/tmp/
+video/real/*/out/
