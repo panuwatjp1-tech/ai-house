@@ -10,3 +10,4 @@ This source deploys to the existing Cloudflare Worker: https://csr7-trip-control
 
 ## Sync policy
 Initial load fetches central data once. While page is open, refresh at 08:00 and 17:00 Asia/Bangkok. Manual button allows refresh anytime. Writes on guest action are immediate.
+`n## Continuous deployment`nCloudflare Workers Builds: panuwatjp1-tech/ai-house branch csr7-cloud -> csr7-trip-control-uat. This commit verifies automated deployment without running Wrangler locally.`n
