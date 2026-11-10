@@ -1,5 +1,5 @@
 {
-  "name": "csr7-trip-control-uat",
+  "name": "csr7-trip-control-prod",
   "private": true,
   "version": "1.0.0",
   "scripts": {

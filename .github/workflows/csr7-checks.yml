@@ -1,9 +1,9 @@
 name: CSR7 Cloud Source Checks
 on:
   push:
-    branches: [csr7-cloud]
+    branches: [csr7-production]
   pull_request:
-    branches: [csr7-cloud]
+    branches: [csr7-production]
 
 permissions:
   contents: read

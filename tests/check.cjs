@@ -6,6 +6,6 @@ assert(html.includes("scheduleNextCloudRefresh()"));
 assert(!html.includes("setInterval(refreshCentral,45000)"));
 assert(!html.includes("var roster=[["));
 const wr=fs.readFileSync("wrangler.toml","utf8");
-assert(wr.includes('name = "csr7-trip-control-uat"'));
-assert(wr.includes('database_name = "csr7-trip-control-uat"'));
+assert(wr.includes('name = "csr7-trip-control-prod"'));
+assert(wr.includes('database_name = "csr7-trip-control-prod"'));
 console.log("CLOUD_SOURCE_CHECK_PASS");

@@ -1,4 +1,4 @@
-name = "csr7-trip-control-uat"
+name = "csr7-trip-control-prod"
 main = "src/index.js"
 account_id = "f30e05090e7d1ef473a87249b776f3a8"
 compatibility_date = "2026-11-09"
@@ -11,5 +11,5 @@ run_worker_first = ["/api/*"]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "csr7-trip-control-uat"
-database_id = "6571774a-3dba-4336-a914-080ced417ede"
+database_name = "csr7-trip-control-prod"
+database_id = "96849dc5-d159-4ef2-b43a-fae58ce9efb7"
