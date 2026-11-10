@@ -1,0 +1,459 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CSR ปีที่ 7 | จัดทีมเดินทาง</title><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Outfit:wght@600;800&display=swap" rel="stylesheet"><style>
+:root{--f:#103b30;--green:#228163;--bg:#f5f7f4;--line:#e3ebe5;--muted:#778a80}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--f);font-family:'IBM Plex Sans Thai',sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #90cbb5;outline-offset:2px}.wrap{max-width:1180px;margin:auto;padding:23px 22px 55px}.top,.head,.vtop{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.top{margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.logo{height:48px;width:48px;border-radius:15px;background:var(--f);display:grid;place-items:center;color:white;font:800 17px Outfit}.brand strong{font-size:17px}.small{font-size:12px;color:var(--muted)}.btn{background:white;border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-weight:700;color:var(--f)}.btn.green{background:var(--f);color:white;border-color:var(--f)}.btn:hover{filter:brightness(.96)}.hero{padding:25px 32px;background:linear-gradient(120deg,#103a2f,#1e7c5e);color:white;border-radius:23px;position:relative;overflow:hidden}.hero:after{content:"";pointer-events:none;position:absolute;width:400px;height:400px;border:1px solid #ffffff28;border-radius:50%;right:-125px;top:-175px}.hero h1{font-size:29px;margin:8px 0}.hero p{position:relative;z-index:1;color:#def2e8;font-size:13px;max-width:750px;margin:0}.kicker{letter-spacing:2px;font:700 12px Outfit;color:#c6e6d5}.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.tags span{font-size:11px;border:1px solid #ffffff35;background:#ffffff17;border-radius:24px;padding:6px 10px}.notice{background:#fff8e4;color:#907144;border:1px solid #f6e5ba;border-radius:12px;padding:10px 13px;margin:15px 0;font-size:11px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0 28px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:0 5px 22px #133e3108}.stat span{display:block;font-size:12px;color:var(--muted)}.stat b{display:block;font:800 32px Outfit;margin:4px 0}.stat:nth-child(2) b{color:#228163}.stat:nth-child(3) b{color:#c68a31}.stat:nth-child(4) b{color:#c85c50}.head{margin:26px 0 13px}.head h2{font-size:19px;margin:0}.vans,.people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.van,.person{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 6px 24px #143b3109}.van{padding:17px}.vicon{height:49px;width:49px;border-radius:14px;display:grid;place-items:center;background:#e6f3eb;font-size:26px}.vname{font-size:16px;font-weight:800}.num{margin-left:auto;font:800 28px Outfit}.num small{font-size:12px;color:#82978a}.progress{height:7px;background:#e9efeb;border-radius:20px;margin:14px 0 8px;overflow:hidden}.progress i{display:block;background:#278662;height:100%}.seat-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 9px;font-size:12px;font-weight:800}.seat-title small{color:var(--muted);font-size:11px;font-weight:500}.frame{width:min(100%,344px);margin:5px auto 4px;padding:11px 12px 15px;border-radius:75px 75px 29px 29px;border:5px solid #9dacaa;background:linear-gradient(90deg,#c5cfcb,#e4eae5 11%,#f5f7f4 20%,#f3f6f2 80%,#dae4dc 90%,#bac5c0);box-shadow:inset 0 0 0 3px #ffffff9b,0 8px 21px #244e3e1c}.windshield{margin:8px auto 5px;height:41px;width:87%;background:linear-gradient(130deg,#526c6c,#9eaeaa 50%,#415f61);border-radius:48% 48% 13px 13px;border:3px solid #dae1de;position:relative}.windshield:after{content:"";position:absolute;height:4px;background:#203b3c;left:8%;right:8%;bottom:3px;border-radius:9px}.seat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:stretch}.aisle{height:78px;display:grid;place-items:center;color:#8eaaa0;font-size:10px}.driver{height:78px;background:#f6e7da;border:3px solid #d3c7bf;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#a35a36}.wheel{border:4px solid #6c7875;height:31px;width:31px;border-radius:50%;margin-bottom:3px}.seat{height:78px;min-width:0;padding:3px;border:2px solid #a5c8b0;border-bottom:5px solid #287d4a;border-radius:12px 12px 9px 9px;background:#e8f4e7;box-shadow:inset 0 4px 0 #d3e7d2,0 3px 0 #22483c;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--f);transition:transform .12s;touch-action:manipulation}.seat:hover{transform:translateY(-2px)}.seat.booked{background:#36a576;border-color:#247e54;border-bottom-color:#125e3a;color:white;box-shadow:inset 0 5px 0 #70c89a,0 3px 0 #12462c}.seat.pending{background:#f3bc65;border-color:#d9953e;border-bottom-color:#aa6e2b;color:#57380d;box-shadow:inset 0 5px 0 #f6d196,0 3px 0 #83591e}.seat b{border:2px solid currentColor;border-radius:50%;min-width:25px;height:25px;display:grid;place-items:center;line-height:1;font:800 15px Outfit}.seat .seat-name{font-weight:800;font-size:10px;line-height:1.1;text-align:center;word-break:break-word;margin-top:3px;max-height:24px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.seat small{font-size:9px;line-height:1.1;opacity:.85;margin-top:1px}.legend{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;font-size:10px;color:#678174;margin:10px 0}.legend span:before{content:"";display:inline-block;height:10px;width:10px;margin-right:4px;border-radius:3px;background:#e8f4e7;border:1px solid #94c49e;vertical-align:middle}.legend .taken:before{background:#36a576}.legend .waiting:before{background:#f3bc65}.vfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px;padding-top:12px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.warning{color:#be554d;text-align:center;font-size:11px;font-weight:800}.toolbar{display:flex;flex-wrap:wrap;gap:9px;padding:11px;background:white;border:1px solid var(--line);border-radius:14px;margin-bottom:13px}.toolbar input,.toolbar select{background:white;min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px}.toolbar input{flex:1 1 210px}.toolbar select{flex:1 1 130px;max-width:190px}.person{padding:13px;display:flex;align-items:center;gap:9px;min-width:0}.avatar{width:42px;height:42px;flex:none;border-radius:12px;background:#e9f3ed;display:grid;place-items:center;font-weight:800;font-size:12px}.pinfo{flex:1;min-width:0}.pinfo strong{display:block;font-size:14px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.pinfo small{display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pinfo em{display:block;font-size:10px;color:#3b8a69;font-style:normal}.status{border:0;border-radius:25px;padding:8px 7px;font-size:10px;font-weight:700;max-width:117px;background:#fff1d7;color:#995c19}.status.yes{background:#dcf6e6;color:#13754d}.status.no{background:#fce6e3;color:#b54943}.status.repl{background:#ffeadc;color:#ba6a24}.status.back{background:#edeaff;color:#6655ac}.dots{border:0;background:transparent;color:var(--muted);padding:5px;font-size:24px}dialog{width:min(510px,95vw);border:0;border-radius:18px;padding:0;box-shadow:0 30px 85px #112b234d}dialog::backdrop{background:#0a271d99}.mh{padding:18px 21px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.mh h3{margin:0;font-size:19px}.mf{padding:18px 21px;display:grid;grid-template-columns:1fr 1fr;gap:12px;max-height:64vh;overflow:auto}.field{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700}.field input,.field select{border:1px solid #d9e4dd;border-radius:10px;min-width:0;min-height:42px;padding:9px;background:white;color:var(--f);width:100%}.full{grid-column:1/-1}.mb{padding:13px 21px 20px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;align-items:center;gap:9px}.mb .danger{margin-right:auto;color:#c6534d}.footer{color:var(--muted);font-size:11px;margin:20px 0}.toast{position:fixed;bottom:17px;left:50%;transform:translate(-50%,120px);background:#103b30;color:white;border-radius:11px;padding:12px 17px;box-shadow:0 12px 30px #113b3044;transition:.25s;z-index:10;font-size:12px}.toast.show{transform:translate(-50%,0)}
+@media(max-width:760px){.wrap{padding:13px 13px 45px}.logo{width:42px;height:42px}.brand strong{font-size:14px}.hero{padding:22px 20px}.hero h1{font-size:25px}.stats{grid-template-columns:repeat(2,1fr);gap:9px}.stat{padding:12px}.stat b{font-size:27px}.vans,.people{grid-template-columns:1fr;gap:10px}.head h2{font-size:18px}.van{padding:14px}.frame{width:min(100%,335px)}.person{padding:11px}.toolbar select{max-width:none}.mf{grid-template-columns:1fr}.seat,.driver,.aisle{height:82px}}
+
+/* Clear boarding-area sections; person card controls stay unchanged. */
+.people{display:block}
+.zone-block{margin:0 0 18px;padding:16px;border:1px solid #d9e9df;border-radius:18px;background:#edf4ef}
+.zone-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 13px}
+.zone-heading{font-size:17px;font-weight:800;margin:0;color:#103b30}
+.zone-count{font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;background:white;color:#1a674d;border:1px solid #d9e9df;white-space:nowrap}
+.zone-people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:760px){.zone-block{padding:12px;margin-bottom:14px}.zone-people{grid-template-columns:1fr;gap:9px}.zone-heading{font-size:16px}}
+
+/* Make a reserved seat explicit independently of travel acceptance. */
+.seat-booking-chip{display:inline-block;margin-top:5px;padding:3px 8px;font-size:11px;line-height:1.35;font-weight:800;color:#126644;background:#ddf6e7;border:1px solid #b5e4ca;border-radius:14px}
+.refresh-controls{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}.sync-state{display:inline-flex;align-items:center;gap:7px;max-width:100%;font-size:12px;font-weight:700;color:#176246;background:#e9f5ee;border:1px solid #cce6d6;padding:7px 12px;border-radius:999px;margin:0;line-height:1.5}.check-now{font-size:12px;white-space:nowrap;border-radius:999px;padding:7px 12px;color:#145a43;background:#fff;border-color:#cce6d6}.check-now:disabled{opacity:.55;cursor:wait}@media(max-width:630px){.refresh-controls{width:100%;justify-content:space-between}.sync-state{font-size:11px}.check-now{font-size:11px}}.sync-error{color:#a95019;background:#fff0df;cursor:pointer}.sync-blocked .people,.sync-blocked .vans,.sync-blocked .head button,.sync-blocked .toolbar{pointer-events:none;opacity:.55}
+
+/* Accurate Hyundai H-1 11-seat layout: 1 driver + 10 passengers. */
+.h1-van{border-color:#b7d6d9;box-shadow:0 9px 28px #12415c19}
+.h1-van .vicon{background:#deedf1}
+.h1-spec-bar{margin-top:14px;padding:11px 13px;border-radius:12px;background:linear-gradient(100deg,#143c51,#1e6c76);color:white;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.h1-spec-bar strong{font:800 13px Outfit,sans-serif;letter-spacing:1px}
+.h1-spec-bar span{font-size:11px;color:#d5f3ef}
+.frame.h1-layout{border-color:#718e98;background:linear-gradient(90deg,#b9ced6,#edf4f3 12%,#f6faf7 22%,#f6faf7 80%,#cfe1e2 92%,#9bb8bf);box-shadow:inset 0 0 0 3px #ffffffab,0 10px 24px #16415c24}
+.h1-explain{text-align:center;color:#376475;font-size:11px;margin:10px auto 4px;line-height:1.6;max-width:340px}
+.h1-driver{cursor:pointer;background:#e2eff1;color:#14566b;border-color:#a0c4cc}
+.h1-driver:hover{filter:brightness(.97)}
+.driver-name{display:block;font-size:10px;line-height:1.3;color:#10657a;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.driver-name-empty{display:block;font-size:9px;line-height:1.3;color:#588183}
+.h1-layout .seat,.h1-layout .driver,.h1-layout .aisle{height:78px}
+.h1-cargo{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:12px;padding:13px 8px;border:2px dashed #92b4ad;border-radius:12px;background:repeating-linear-gradient(135deg,#e3ede9,#e3ede9 12px,#d8e6df 12px,#d8e6df 24px);color:#2d6555;text-align:center}
+.h1-cargo span{font-size:24px}.h1-cargo strong{font-size:12px}.h1-cargo small{font-size:10px}
+@media(max-width:760px){.h1-layout .seat,.h1-layout .driver,.h1-layout .aisle{height:82px}}
+/* Room assignment: same visual style as transport, no separate application. */
+.lodging{margin-top:28px;padding:19px;background:#eaf4ed;border:1px solid #d6e7d9;border-radius:20px}
+.lodgehead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.lodgehead h2{font-size:20px;margin:0}.lodgehead .small{margin-top:4px}
+.lodgecounts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 17px}
+.lodgecounts span{font-size:12px;background:white;border:1px solid #d8e9dc;border-radius:10px;padding:8px 12px;font-weight:700}
+.roomGroup{margin:17px 0 10px;font-size:15px;font-weight:800;color:#174b3b}
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.room{min-width:0;border:1px solid #d9e8dd;border-radius:16px;background:white;box-shadow:0 4px 15px #123d3010;padding:15px}
+.roomTop{display:flex;gap:8px;justify-content:space-between;align-items:start}
+.roomTop strong{font-size:15px}.room .tag{font-size:11px;color:#14734c;background:#e7f7ed;border-radius:9px;padding:4px 8px;white-space:nowrap}
+.room.full .tag{background:#f0f1f0;color:#6e8173}
+.room .guest{margin-top:9px;padding:9px 10px;background:#f4f9f5;border-radius:9px;display:flex;align-items:center;gap:5px;font-size:12px;min-height:42px}
+.room .guest.empty{border:1px dashed #d2e4d7;background:#fafcfb;color:#829389}
+.room .guest b{font-weight:700;flex:1;overflow-wrap:anywhere}
+.room .guest button{font-size:11px;border:0;background:transparent;color:#a7554b;font-weight:700;cursor:pointer}
+.roomPick{display:block;margin-top:12px;width:100%;border:1px solid #bee0cd;background:#e8f6ec;color:#146b48;padding:10px 12px;border-radius:10px;font-weight:750}
+.roomPick:disabled{opacity:.5;cursor:not-allowed}
+.roomHint{font-size:11px;line-height:1.55;color:#71887a;margin:10px 0}
+#roomPickDialog select,#roomPickDialog input,#execNamesDialog input{width:100%;border:1px solid #d6e5db;border-radius:9px;padding:10px;font:inherit}
+#roomPickDialog .mf,#execNamesDialog .mf{display:block}
+#roomPickDialog label,#execNamesDialog label{display:block;font-size:12px;font-weight:700;margin:8px 0}
+#roomError,#execError{font-size:12px;color:#bb443e;min-height:15px}
+.sync-blocked #lodgingSection{pointer-events:none;opacity:.55}
+@media(max-width:850px){.rooms{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:570px){.rooms{grid-template-columns:1fr}.lodging{padding:13px}.room{padding:13px}}
+
+/* CSR Stay: focused staff-only room picker, modern responsive layout */
+.toast{pointer-events:none}
+.lodging{position:relative;overflow:hidden;margin-top:28px;padding:0;background:#f5f8fa;border:1px solid #e0e8e6;border-radius:26px;box-shadow:0 18px 50px #0e364017}
+.stayHero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(123deg,#103246 4%,#16485a 55%,#136956 100%);color:#fff;padding:27px 31px 25px}
+.stayHero:after{content:"";position:absolute;z-index:-1;top:-155px;right:-85px;width:410px;height:410px;border:1px solid #ffffff25;border-radius:50%;box-shadow:0 0 0 42px #ffffff08,0 0 0 91px #ffffff08}
+.stayKicker{display:flex;align-items:center;gap:8px;font:700 11px Outfit,sans-serif;letter-spacing:1.9px;color:#ace4cf}
+.stayDot{width:8px;height:8px;border-radius:50%;background:#79edbc;box-shadow:0 0 0 5px #65e6af20}
+.stayHero h2{font-size:clamp(24px,3vw,33px);margin:13px 0 5px;line-height:1.3;letter-spacing:-.5px}
+.staySubtitle{font-size:13px;line-height:1.6;color:#d0e6e1}
+.staySummary{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:25px}
+.stayStat{min-width:135px;flex:1;background:#ffffff12;border:1px solid #ffffff25;border-radius:15px;padding:12px 15px;backdrop-filter:blur(5px)}
+.stayStat strong{display:block;font:800 25px Outfit,sans-serif;letter-spacing:-.6px;line-height:1.3}
+.stayStat span{font-size:11px;color:#c0deda}
+.stayHero .roomMeter{height:7px;background:#ffffff33;border-radius:50px;overflow:hidden;margin-top:17px}
+.stayHero .roomMeter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#66e1b0,#c1f6dc);border-radius:50px;transition:width .4s}
+.stayContent{padding:24px 26px 27px}
+.staySelectBar{display:flex;align-items:center;flex-wrap:wrap;gap:15px;background:#fff;border:1px solid #d9e7e3;border-radius:18px;padding:16px 18px;box-shadow:0 8px 25px #163b4b08}
+.stayStep{width:39px;height:39px;border-radius:12px;background:#def3e9;color:#0f7759;display:grid;place-items:center;font:800 18px Outfit;flex:none}
+.staySelectBody{flex:1;min-width:205px}
+.staySelectBody label{display:block;font-size:14px;font-weight:800;color:#163d47;margin-bottom:6px}
+.staySelectBody select{display:block;width:100%;max-width:540px;height:46px;border:1px solid #bfcfcb;border-radius:11px;background:#f8fbf9;color:#1b3f41;padding:0 13px;font-size:14px;cursor:pointer}
+.staySelectBar:focus-within{border-color:#9ed7c4;box-shadow:0 0 0 3px #77d6b725}
+.stayCurrent{font-size:12px;color:#567b78;background:#f1f6f4;border-radius:10px;padding:10px 12px;max-width:250px;line-height:1.5}
+.stayCurrent.assigned{color:#087c53;background:#e6f7ed;font-weight:750}
+.stayTitleRow{display:flex;justify-content:space-between;align-items:end;gap:10px;flex-wrap:wrap;margin:22px 0 12px}
+.stayTitleRow h3{font-size:18px;margin:0;color:#123c43;letter-spacing:-.2px}
+.stayTitleRow p{font-size:12px;color:#738d8b;margin:5px 0 0}
+.stayLegend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:#78908e}
+.stayLegend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.stayLegend .vacant{background:#20a476}.stayLegend .partial{background:#ebac4f}.stayLegend .occupied{background:#718698}
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.room{position:relative;overflow:hidden;display:flex;flex-direction:column;background:#fff;border:1px solid #dfebe8;border-radius:18px;padding:17px;box-shadow:0 7px 24px #153d4609;transition:transform .16s,border-color .16s,box-shadow .16s;min-height:231px}
+.room:hover{transform:translateY(-2px);box-shadow:0 13px 30px #133f4615;border-color:#b4d9cd}
+.room.selectedRoom{border-color:#1baf7f;box-shadow:0 0 0 2px #2cbd8633,0 9px 25px #1d996921}
+.room.roomFull{background:linear-gradient(155deg,#ffffff,#f9fbfa)}
+.roomTop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.roomNumber{display:flex;align-items:center;gap:10px}
+.roomNumberIcon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#edf7f3;color:#178364;font-size:21px}
+.roomTop .roomName{display:block;font-size:15px;color:#173e46;font-weight:800;line-height:1.2}
+.roomTop .roomSub{display:block;font:600 10px Outfit,sans-serif;letter-spacing:1px;color:#95a6a4;margin-top:3px}
+.room .tag{background:#e2f7ed;color:#0c8b61;border-radius:50px;padding:6px 9px;font-size:11px;font-weight:800;white-space:nowrap}
+.room.roomHalf .tag{background:#fff2d8;color:#a46b1e}
+.room.roomFull .tag{background:#eaf0f2;color:#69818b}
+.roomSlots{display:grid;gap:7px;margin:15px 0 12px}
+.room .guest{display:flex;align-items:center;gap:9px;background:#f5faf8;border:1px solid #e5efeb;border-radius:11px;padding:8px 9px;margin:0;min-height:44px}
+.room .guest.empty{background:#fafcfc;border:1px dashed #dbe7e3;color:#9aada8}
+.guestIcon{width:28px;height:28px;border-radius:50%;flex:none;background:#d4eee3;color:#137453;display:grid;place-items:center;font-size:11px;font-weight:800}
+.room .guest.empty .guestIcon{background:#ecf0f0;color:#a2b2b0}
+.room .guest b{flex:1;min-width:0;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#335a54;font-size:12px}
+.room .guest button{border:0;background:#edf3f1;color:#71887f;border-radius:7px;font-size:11px;font-weight:650;padding:5px 7px;min-width:47px}
+.room .guest button:hover{background:#ffebea;color:#bc5d50}
+.roomPick{display:block;width:100%;border:1px solid #147d60;border-radius:10px;background:#117e60;color:#fff;padding:10px 12px;min-height:39px;font-size:12px;font-weight:800;margin-top:auto;transition:background .2s}
+.roomPick:hover{background:#0f674e}
+.room.roomFull .roomFullNote{color:#7d9591;border-radius:9px;text-align:center;background:#f1f5f4;padding:11px;font-size:12px;font-weight:700;margin-top:auto}
+.roomStatusBar{height:4px;background:#ebf2ef;border-radius:10px;overflow:hidden;position:absolute;inset:auto 0 0}
+.roomStatusBar i{display:block;width:0;height:100%;background:#1db282;transition:width .3s}
+.room.roomHalf .roomStatusBar i{background:#e7ab4c}
+.stayReserved{display:flex;gap:12px;align-items:center;margin-top:17px;padding:14px 16px;border:1px solid #e5e9ea;background:#edf3f5;border-radius:13px}
+.stayReservedIcon{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:#e1e9ed;font-size:20px}
+.stayReserved strong{display:block;font-size:12px;color:#375466}
+.stayReserved span{font-size:11px;color:#728795}
+.roomHint{font-size:11px;color:#8a9d9b;margin:10px 2px 0;line-height:1.6}
+.sync-blocked #lodgingSection{pointer-events:none;opacity:.56}
+@media(max-width:960px){.rooms{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:630px){.lodging{border-radius:19px}.stayHero{padding:23px 17px 19px}.stayContent{padding:17px 12px 20px}.rooms{grid-template-columns:1fr;gap:10px}.room{min-height:213px;padding:14px}.stayStat{min-width:0;flex:1;padding:10px 11px}.stayStat strong{font-size:21px}.stayStat span{font-size:10px}.staySelectBar{padding:12px;gap:10px}.staySelectBody{min-width:150px}.stayCurrent{max-width:none;width:100%}.stayTitleRow{margin:19px 0 10px}.stayLegend{gap:8px}.stayHero h2{font-size:26px}.stayReserved{padding:11px}}
+</style></head><body><div class="wrap"><header class="top"><div class="brand"><div class="logo">CSR<span style="color:#ffd48b">7</span></div><div><strong>Trip Control | จัดทีมเดินทาง</strong><div class="small">SGE × AESCON · CSR YEAR 7</div></div></div><div class="refresh-controls"><div class="sync-state" id="syncState" aria-live="polite">กำลังโหลดข้อมูลการเดินทาง...</div><button class="btn check-now" id="checkNow" type="button">↻ ตรวจสอบข้อมูลล่าสุด</button></div></header>
+<section class="hero"><div class="kicker">BUILDING HOPE TOGETHER</div><h1>ปันรัก ปันน้ำใจ <span style="color:#ffd48b">ปีที่ 7</span></h1><p>ขอเชิญหัวหน้างานและทีมงานร่วมเดินทางไปส่งต่อความสุขให้น้อง ๆ ณ บ้านแคนทอง จังหวัดขอนแก่น กรุณายืนยันการเดินทางจากรายชื่อก่อน แล้วจึงเลือกที่นั่งบนผังรถตู้ด้านล่าง</p><div class="tags"><span>📅 4 ธ.ค. 2569 · เดินทาง</span><span>💚 5 ธ.ค. 2569 · กิจกรรม</span><span>🚐 รถตู้ 10 ที่นั่งผู้โดยสารต่อคัน</span><span>🏨 HOP INN ขอนแก่น · 12 ห้อง</span></div></section>
+
+<section class="stats"><div class="stat"><span>รายชื่อทั้งหมด</span><b id="total">16</b><span>ผู้ที่เสนอชื่อ</span></div><div class="stat"><span>ยืนยันเดินทาง</span><b id="yes">0</b><span>ตอบรับแล้ว</span></div><div class="stat"><span>รอตอบรับ</span><b id="wait">16</b><span>ต้องสำรวจต่อ</span></div><div class="stat"><span>ไม่สะดวก / หาคนแทน</span><b id="repl">0</b><span>ต้องหาคนแทน</span></div></section>
+<div class="head"><div><h2>👥 รายชื่อผู้เดินทาง</h2></div><button class="btn green" id="addPerson">＋ เพิ่มคน</button></div>
+<div class="toolbar"><input id="search" placeholder="⌕ ค้นหาชื่อ / ฝ่าย / จุดขึ้นรถ"><select id="vanFilter"><option value="">รถทุกคัน</option></select><select id="statusFilter"><option value="">ทุกสถานะ</option><option>รอตอบรับ</option><option>ยืนยันไป</option><option>ไม่สะดวก</option><option>หาคนแทน</option><option>สำรอง</option><option>ยกเลิก</option></select></div><section class="people" id="people"></section>
+<div class="head"><div><h2>🚐 ผังที่นั่งรถตู้</h2></div><button class="btn green" id="addVan">＋ เพิ่มรถตู้</button></div><section class="vans" id="vans"></section>
+<section class="lodging" id="lodgingSection">
+ <div class="stayHero">
+  <div class="stayKicker"><span class="stayDot"></span> CSR YEAR 7 · STAY PLANNER</div>
+  <h2>เลือกห้องพักของคุณ</h2>
+  <div class="staySubtitle">HOP INN ขอนแก่น · 4–5 ธันวาคม 2569<br>เลือกห้องเอง ดูชื่อเพื่อนร่วมห้องได้ทันที</div>
+  <div class="staySummary">
+   <div class="stayStat"><strong>09</strong><span>ห้องคู่สำหรับพนักงาน</span></div>
+   <div class="stayStat"><strong id="roomBookedCount">0 / 17</strong><span>พนักงานเลือกห้องแล้ว</span></div>
+   <div class="stayStat"><strong>03</strong><span>ห้องเดี่ยวสำรองผู้บริหาร</span></div>
+  </div>
+  <div class="roomMeter" aria-label="ความคืบหน้าการเลือกห้อง"><i id="roomProgressFill"></i></div>
+ </div>
+ <div class="stayContent">
+  <div class="staySelectBar">
+   <div class="stayStep">1</div>
+   <div class="staySelectBody"><label for="staffRoomSelect">เลือกชื่อของคุณก่อน</label>
+    <select id="staffRoomSelect"><option value="">— เลือกรายชื่อพนักงาน —</option></select>
+   </div>
+   <div class="stayCurrent" id="staffCurrentRoom">ยังไม่ได้เลือกรายชื่อ</div>
+  </div>
+  <p class="roomHint" id="roomRosterNote" aria-live="polite">กำลังตรวจรายชื่อจากระบบ...</p>
+  <div class="stayTitleRow">
+   <div><h3>เลือกห้องคู่ที่ต้องการ</h3><p>แต่ละห้องพักได้ 2 คน · กดเลือกห้องที่ยังว่าง</p></div>
+   <div class="stayLegend"><span><i class="vacant"></i>ว่าง</span><span><i class="partial"></i>มีผู้พัก 1 คน</span><span><i class="occupied"></i>เต็ม</span></div>
+  </div>
+  <div id="doubleRooms" class="rooms"></div>
+  <div class="stayReserved">
+   <div class="stayReservedIcon" aria-hidden="true">🔒</div>
+   <div><strong>ห้องเดี่ยวผู้บริหาร 3 ห้อง — สำรองไว้แล้ว</strong>
+    <span>ไม่มีการเลือกชื่อหรือจัดห้องผู้บริหารในหน้านี้</span></div>
+  </div>
+  <p class="roomHint">หมายเลขห้อง 01–09 ใช้สำหรับจับคู่พักภายในทีม ไม่ใช่หมายเลขห้องจริงของโรงแรม</p>
+ </div>
+</section>
+</div>
+<dialog id="modal"><div class="mh"><h3 id="modalTitle">ข้อมูล</h3><button class="btn" id="close">✕</button></div><form id="form"><div class="mf" id="fields"></div><div class="mb"><button class="btn danger" type="button" id="remove">ลบ</button><button class="btn" type="button" id="cancel">ยกเลิก</button><button class="btn green" type="submit">✓ บันทึก</button></div></form></dialog><div id="toast" class="toast" role="status"></div>
+<script>
+(function(){
+"use strict";
+var key="CSR7-trip-v2",statuses=["รอตอบรับ","ยืนยันไป","ไม่สะดวก","หาคนแทน","สำรอง","ยกเลิก"];
+var roster=[];
+function defaults(){return {version:4,executives:[1,2,3].map(function(i){return {id:"e"+i,name:"ผู้บริหารท่านที่ "+i}}),roomBookings:[],people:roster.map(function(r,i){return {id:"p"+i,name:r[0],dept:r[1],origin:r[2],van:r[3],status:"รอตอบรับ",sub:"",note:"",seat:null}}),vans:[{id:"v1",name:"รถตู้คันที่ 1",origin:"บ่อวิน",capacity:10,driver:"",meeting:""},{id:"v2",name:"รถตู้คันที่ 2",origin:"เมืองทอง",capacity:10,driver:"",meeting:""}]}}
+var data;try{var raw=localStorage.getItem(key)||localStorage.getItem("csr7-trip-control-v1");data=raw?JSON.parse(raw):defaults();if(!Array.isArray(data.people))throw Error("data");if(!Array.isArray(data.vans)&&Array.isArray(data.vehicles)){data.vans=data.vehicles.map(function(v){return {id:v.id==="van1"?"v1":v.id==="van2"?"v2":v.id,name:v.name,origin:v.origin,driver:v.driver||"",meeting:v.meeting||"",capacity:10}});data.people.forEach(function(p){if(p.van==="van1")p.van="v1";if(p.van==="van2")p.van="v2";p.sub=p.sub||p.substitute||""})}if(!Array.isArray(data.vans))throw Error("vans");data.people.forEach(function(p){if(!Number.isInteger(Number(p.seat))||Number(p.seat)<1||Number(p.seat)>10)p.seat=null})}catch(e){data=defaults()}
+if(!Array.isArray(data.executives))data.executives=[1,2,3].map(function(i){return {id:"e"+i,name:"ผู้บริหารท่านที่ "+i}});
+if(!Array.isArray(data.roomBookings))data.roomBookings=[];
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function uid(){return "p"+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+var timer;function toast(s){$("toast").textContent=s;$("toast").classList.add("show");clearTimeout(timer);timer=setTimeout(function(){$("toast").classList.remove("show")},2400)}
+
+var previousLocal=JSON.parse(JSON.stringify(data)),centralData=null,centralVersion="",centralReady=false,centralBusy=false,loadingCentral=false;
+var migratedKey="CSR7-trip-v2-migrated-v1",backupKey="CSR7-trip-v2-before-central-backup";
+var personFields=["name","dept","origin","van","status","sub","note","seat"],vanFields=["name","origin","driver","meeting","capacity"];
+function cloned(x){return JSON.parse(JSON.stringify(x))}
+function delta(before,after){
+ var p={people:[],vans:[],removePeople:[],removeVans:[],executives:[],roomBookings:[]};
+ [["people",personFields,"removePeople"],["vans",vanFields,"removeVans"]].forEach(function(s){
+  var old=before[s[0]]||[],now=after[s[0]]||[];
+  old.forEach(function(x){if(!now.some(function(y){return y.id===x.id}))p[s[2]].push(x.id)});
+  now.forEach(function(x){var y=old.find(function(a){return a.id===x.id}),c={};
+    s[1].forEach(function(f){if(x[f]!==undefined&&(!y||JSON.stringify(x[f])!==JSON.stringify(y[f])))c[f]=x[f]});
+    if(Object.keys(c).length)p[s[0]].push({id:x.id,changes:c});
+  });
+ });
+ (after.executives||[]).forEach(function(e){
+  var prev=(before.executives||[]).find(function(x){return x.id===e.id});
+  if(!prev||prev.name!==e.name)p.executives.push({id:e.id,name:e.name});
+ });
+ var beforeRooms=new Map((before.roomBookings||[]).map(function(b){return [b.guestId,b.roomId]}));
+ var afterRooms=new Map((after.roomBookings||[]).map(function(b){return [b.guestId,b.roomId]}));
+ new Set(Array.from(beforeRooms.keys()).concat(Array.from(afterRooms.keys()))).forEach(function(id){
+  if((beforeRooms.get(id)||null)!==(afterRooms.get(id)||null))p.roomBookings.push({guestId:id,roomId:afterRooms.get(id)||null});
+ });
+ return p;
+}
+function changed(p){return p.people.length+p.vans.length+p.removePeople.length+p.removeVans.length+p.executives.length+p.roomBookings.length>0}
+function syncNotice(msg,err){
+ var e=$("syncState");e.textContent=msg;e.className="sync-state"+(err?" sync-error":"");
+ e.onclick=err?function(){startCentralSync()}:null;
+ document.querySelector(".wrap").classList.toggle("sync-blocked",!centralReady||centralBusy);
+}
+function setCentral(source,version){
+ if(!source||!Array.isArray(source.people)||!Array.isArray(source.vans))throw Error("ข้อมูลส่วนกลางไม่ถูกต้อง");
+ centralData=cloned(source);data=cloned(source);if(version)centralVersion=version;
+ try{localStorage.setItem(key,JSON.stringify(data))}catch(e){}
+ render();
+}
+async function postCentral(patch){
+ var r=await fetch("/api/trip",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(patch),cache:"no-store"});
+ var d=await r.json();
+ if(d.data)setCentral(d.data,d.version);
+ if(!r.ok||!d.ok)throw Error(d.error||"ไม่สามารถบันทึกข้อมูลส่วนกลาง");
+ return d;
+}
+function save(){
+ if(!centralReady||centralBusy||!centralData){if(centralData){data=cloned(centralData);render()}toast("ยังไม่พร้อมบันทึกส่วนกลาง");return}
+ var patch=delta(centralData,data);if(!changed(patch)){render();return}
+ centralBusy=true;syncNotice("กำลังบันทึกการจองส่วนกลาง...",false);
+ postCentral(patch).then(function(){toast("บันทึกข้อมูลส่วนกลางสำเร็จ")}).catch(function(e){
+  if(centralData){data=cloned(centralData);render()}
+  toast(e.message||"บันทึกไม่สำเร็จ");
+ }).finally(function(){centralBusy=false;syncNotice("✓ โหลดข้อมูลเรียบร้อย",false)});
+}
+function migrationPatch(oldData,latest){
+ var base=defaults(),p=delta(base,oldData);
+ ["people","vans"].forEach(function(k){
+  p[k]=p[k].map(function(row){
+    var b=base[k].find(function(x){return x.id===row.id}),cur=latest[k].find(function(x){return x.id===row.id});
+    if(!b||!cur)return row;
+    var c={};
+    Object.keys(row.changes).forEach(function(f){
+     if(JSON.stringify(cur[f]===undefined?null:cur[f])===JSON.stringify(b[f]===undefined?null:b[f])||JSON.stringify(cur[f])===JSON.stringify(row.changes[f]))c[f]=row.changes[f];
+    });
+    return {id:row.id,changes:c};
+  }).filter(function(row){return Object.keys(row.changes).length});
+ });
+ p.removePeople=[];p.removeVans=[];
+ return p;
+}
+async function startCentralSync(){
+ if(loadingCentral||centralBusy)return;
+ loadingCentral=true;centralBusy=true;syncNotice("กำลังโหลดข้อมูลการจองส่วนกลาง...",false);
+ var failed=false;
+ try{
+  var r=await fetch("/api/trip",{cache:"no-store"}),d=await r.json();
+  if(!r.ok||!d.ok||!d.data)throw Error(d.error||"เชื่อมต่อไม่ได้");
+  setCentral(d.data,d.version);centralReady=true;
+  if(!localStorage.getItem(migratedKey)){
+   var p=migrationPatch(previousLocal,centralData);
+   if(changed(p)){
+    try{if(!localStorage.getItem(backupKey))localStorage.setItem(backupKey,JSON.stringify(previousLocal))}catch(e){}
+    try{await postCentral(p);localStorage.setItem(migratedKey,"done")}
+    catch(e){localStorage.setItem(migratedKey,"conflict");toast("การจองเก่าบางรายการซ้ำกับส่วนกลาง กรุณาตรวจสอบ")}
+   }else{try{localStorage.setItem(migratedKey,"done")}catch(e){}}
+  }
+ }catch(e){failed=true;centralReady=false;toast("ยังเชื่อมต่อฐานข้อมูลกลางไม่ได้")}
+ finally{
+  centralBusy=false;loadingCentral=false;
+  syncNotice(failed?"⚠ เชื่อมต่อไม่ได้ — แตะเพื่อลองใหม่":"✓ โหลดข้อมูลเรียบร้อย",failed);
+ }
+}
+var checkingCentral=false;
+async function refreshCentral(manual){
+ if(!centralReady||centralBusy||checkingCentral||(!manual&&document.visibilityState==="hidden"))return;
+ checkingCentral=true;
+ var button=$("checkNow");button.disabled=true;
+ if(manual)syncNotice("กำลังตรวจสอบข้อมูลล่าสุด...",false);
+ try{
+  var r=await fetch("/api/trip?version="+encodeURIComponent(centralVersion),{cache:"no-store"}),d=await r.json();
+  if(!r.ok||!d.ok)throw Error("refresh");
+  if(d.changed&&d.data)setCentral(d.data,d.version);else if(d.version)centralVersion=d.version;
+  syncNotice("✓ โหลดข้อมูลเรียบร้อย",false);
+  if(manual)toast(d.changed?"อัปเดตข้อมูลล่าสุดแล้ว":"ข้อมูลเป็นปัจจุบัน");
+ }catch(e){syncNotice("⚠ อัปเดตข้อมูลไม่ได้ — แตะเพื่อลองใหม่",true)}
+ finally{checkingCentral=false;button.disabled=false}
+}
+function scheduleNextCloudRefresh(){
+ // 08:00 และ 17:00 น. ตามเวลาประเทศไทย ขณะเปิดหน้าเว็บ
+ var now=Date.now(),th=new Date(now+7*3600000);
+ var midnight=Date.UTC(th.getUTCFullYear(),th.getUTCMonth(),th.getUTCDate())-7*3600000;
+ var slots=[midnight+8*3600000,midnight+17*3600000,midnight+32*3600000];
+ var next=slots.find(function(t){return t>now+1000});
+ setTimeout(function(){Promise.resolve(refreshCentral(false)).finally(scheduleNextCloudRefresh)},Math.max(1000,next-now));
+}
+
+function owner(car,s){return data.people.find(function(p){return p.van===car&&Number(p.seat)===s&&p.status!=="ไม่สะดวก"&&p.status!=="ยกเลิก"})}
+function active(car){return data.people.filter(function(p){return p.van===car&&p.status!=="ไม่สะดวก"&&p.status!=="ยกเลิก"})}
+function seat(car,s){var p=owner(car,s),pending=p&&p.status!=="ยืนยันไป";return '<button type="button" class="seat '+(p?(pending?"pending":"booked"):"")+'" data-car="'+esc(car)+'" data-seat="'+s+'" aria-label="ที่นั่ง '+s+' '+(p?"จองแล้ว "+esc(p.name):"ว่าง")+'"><b>'+s+'</b><span class="seat-name">'+(p?esc(p.name):"เลือกที่นั่ง")+'</span><small>'+(p?(pending?"✓ จองแล้ว · รอตอบ":"✓ จองแล้ว"):"ว่าง")+'</small></button>'}
+function seatCapacity(v){return v.id==='v2'&&/H-?1/i.test(v.name)?6:Math.max(1,Math.min(10,Number(v.capacity)||10))}
+function seatMap(v){
+ var isH1=v.id==='v2'&&/H-?1/i.test(v.name);
+ var driver='<button type="button" class="driver'+(isH1?' h1-driver':'')+'" data-editvan="'+esc(v.id)+'" title="แก้ไขชื่อคนขับ"><div class="wheel"></div><span>คนขับ'+(v.driver?'<strong class="driver-name">'+esc(v.driver)+'</strong>':'<small class="driver-name-empty">+ เพิ่มชื่อ</small>')+'</span></button>';
+ if(isH1)return '<div class="h1-spec-bar"><strong>HYUNDAI H-1 · เมืองทอง</strong><span>7 ที่นั่งรวมคนขับ · ผู้โดยสาร 6 คน</span></div>'+
+ '<div class="seat-title"><span>ผังที่นั่ง: หน้า 2 · กลาง 2 · หลัง 3</span><small>แตะที่นั่งเพื่อจอง</small></div>'+
+ '<div class="frame h1-layout"><div class="windshield"></div><div class="seat-grid">'+
+ seat(v.id,1)+'<div class="aisle">ทางเดิน</div>'+driver+
+ seat(v.id,2)+'<div class="aisle">แถวกลาง</div>'+seat(v.id,3)+
+ seat(v.id,4)+seat(v.id,5)+seat(v.id,6)+
+ '</div><div class="h1-cargo"><span>📦</span><strong>พื้นที่ใส่ของ / สัมภาระ</strong><small>ถอดเบาะท้ายออก ไม่มีที่นั่งเพิ่ม</small></div></div>'+
+ '<p class="h1-explain">หน้า: ผู้โดยสาร 1 + คนขับ 1 · กลาง: 2 · หลัง: 3</p>'+
+ '<div class="legend"><span>ว่าง</span><span class="taken">จองแล้ว ยืนยันไป</span><span class="waiting">จองแล้ว รอตอบรับ</span></div>';
+ return '<div class="seat-title"><span>แผนผังผู้โดยสาร 10 ที่นั่ง</span><small>แตะที่นั่งเพื่อจอง</small></div>'+
+ '<div class="frame"><div class="windshield"></div><div class="seat-grid">'+
+ seat(v.id,1)+'<div class="aisle">ทางเดิน</div>'+driver+
+ [[2,3,4],[5,6,7],[8,9,10]].map(function(row){return row.map(function(n){return seat(v.id,n)}).join("")}).join("")+
+ '</div></div><div class="legend"><span>ว่าง</span><span class="taken">จองแล้ว ยืนยันไป</span><span class="waiting">จองแล้ว รอตอบรับ</span></div>';
+}
+var selectedStaffRoomId='';
+function roomLabel(id){return 'ห้องคู่ '+String(Number(id.slice(1))).padStart(2,'0')}
+function guestName(id){
+ const person=data.people.find(function(p){return p.id===id});
+ if(!person)return 'ไม่พบชื่อ';
+ const sameName=data.people.filter(function(p){return p.name.trim()===person.name.trim()});
+ return sameName.length>1?person.name+' ('+(person.dept||person.origin)+')':person.name;
+}
+function currentGuestRoom(id){return (data.roomBookings||[]).find(function(b){return b.guestId===id})?.roomId||null}
+function roomStaffGroup(person){
+ if(!person)return null;
+ const origin=String(person.origin||'').trim();
+ if(origin.includes('บ่อวิน'))return 'บ่อวิน';
+ if(origin.includes('เมืองทอง'))return 'เมืองทอง';
+ const van=data.vans.find(function(v){return v.id===person.van});
+ const vanOrigin=String(van?.origin||'');
+ if(vanOrigin.includes('บ่อวิน'))return 'บ่อวิน';
+ if(vanOrigin.includes('เมืองทอง'))return 'เมืองทอง';
+ if(person.van==='v1')return 'บ่อวิน';
+ if(person.van==='v2')return 'เมืองทอง';
+ return null;
+}
+function eligibleStaff(){
+ return data.people.filter(function(p){return p.status==='ยืนยันไป'&&!!roomStaffGroup(p)});
+}
+function countForOrigin(origin,excludeId){
+ return (data.roomBookings||[]).filter(function(b){return b.roomId?.startsWith('d')&&b.guestId!==excludeId&&roomStaffGroup(data.people.find(function(p){return p.id===b.guestId}))===origin}).length
+}
+function roomCard(id){
+ const guests=(data.roomBookings||[]).filter(function(b){return b.roomId===id&&data.people.some(function(p){return p.id===b.guestId})});
+ const full=guests.length>=2,half=guests.length===1,selected=!!selectedStaffRoomId&&guests.some(function(b){return b.guestId===selectedStaffRoomId});
+ const rows=[0,1].map(function(i){
+  const item=guests[i];
+  return item?'<div class="guest"><span class="guestIcon">'+esc(guestName(item.guestId).slice(0,1))+'</span><b>'+esc(guestName(item.guestId))+'</b><button type="button" data-room-clear="'+esc(item.guestId)+'" aria-label="ยกเลิกห้องของ '+esc(guestName(item.guestId))+'">ยกเลิก</button></div>':
+   '<div class="guest empty"><span class="guestIcon">+</span><b>ยังว่าง · คนที่ '+(i+1)+'</b></div>';
+ }).join('');
+ return '<article class="room '+(full?'roomFull':half?'roomHalf':'roomEmpty')+(selected?' selectedRoom':'')+'">'+
+  '<div class="roomTop"><div class="roomNumber"><span class="roomNumberIcon" aria-hidden="true">🛏</span>'+
+  '<div><span class="roomName">'+esc(roomLabel(id))+'</span><span class="roomSub">TWIN ROOM</span></div></div>'+
+  '<span class="tag">'+(full?'เต็มแล้ว':half?'เหลือ 1 ที่':'ว่าง 2 ที่')+'</span></div>'+
+  '<div class="roomSlots">'+rows+'</div>'+
+  (full?'<div class="roomFullNote">ห้องนี้เต็มแล้ว</div>':
+   '<button type="button" class="roomPick" data-room-pick="'+esc(id)+'">'+(selected?'✓ ห้องของคุณ':'เลือกห้องนี้')+'</button>')+
+  '<div class="roomStatusBar"><i style="width:'+(guests.length*50)+'%"></i></div></article>';
+}
+function renderRooms(){
+ if(!Array.isArray(data.roomBookings))data.roomBookings=[];
+ const chosen=selectedStaffRoomId;
+ const staff=eligibleStaff();
+ const select=$('staffRoomSelect');
+ const all=data.people.slice().sort(function(a,b){
+  const priority=function(p){return p.status==='ยืนยันไป'?0:p.status==='รอตอบรับ'?1:2};
+  return priority(a)-priority(b);
+ });
+ select.innerHTML='<option value="">— เลือกรายชื่อพนักงาน —</option>'+all.map(function(p){
+  const group=roomStaffGroup(p);
+  const allowed=p.status==='ยืนยันไป'&&!!group;
+  const label=p.name+' · '+(p.dept||'ไม่ระบุฝ่าย')+' · '+(group||p.origin||'ไม่ระบุจุดเดินทาง')+
+   (allowed?'':' · '+p.status+' (ยังเลือกห้องไม่ได้)');
+  return '<option value="'+esc(p.id)+'"'+(allowed?'':' disabled')+'>'+esc(label)+'</option>';
+ }).join('');
+ $('roomRosterNote').textContent='ตรวจสอบครบ '+all.length+' รายชื่อ · ยืนยันเดินทางและเลือกห้องได้ '+staff.length+' คน · รอยืนยันหรือไม่สะดวก '+(all.length-staff.length)+' คน';
+ if(staff.some(function(p){return p.id===chosen}))select.value=chosen;
+ else{selectedStaffRoomId='';select.value=''}
+ const activeRoom=selectedStaffRoomId?currentGuestRoom(selectedStaffRoomId):null;
+ $('staffCurrentRoom').textContent=!selectedStaffRoomId?'ยังไม่ได้เลือกรายชื่อ':
+  activeRoom?'✓ คุณเลือก '+roomLabel(activeRoom)+' แล้ว':'ยังไม่ได้เลือกห้องพัก';
+ $('staffCurrentRoom').classList.toggle('assigned',!!activeRoom);
+ $('doubleRooms').innerHTML=[1,2,3,4,5,6,7,8,9].map(function(n){return roomCard('d'+n)}).join('');
+ const bo=countForOrigin('บ่อวิน'),mt=countForOrigin('เมืองทอง'),count=bo+mt;
+ $('roomBookedCount').textContent=count+' / 17';
+ $('roomProgressFill').style.width=Math.min(100,count/17*100)+'%';
+ $('roomProgressFill').parentNode.setAttribute('aria-label','เลือกห้องแล้ว '+count+' จาก 17 คน · บ่อวิน '+bo+'/10 · เมืองทอง '+mt+'/7');
+}
+function chooseStaffRoom(room){
+ const id=selectedStaffRoomId;
+ if(!id){toast('กรุณาเลือกชื่อของคุณก่อน');$('staffRoomSelect').focus();$('staffRoomSelect').scrollIntoView({block:'center',behavior:'smooth'});return}
+ if(!/^d[1-9]$/.test(room))return;
+ const person=data.people.find(function(p){return p.id===id});
+ if(!person){toast('ไม่พบรายชื่อผู้เดินทาง');return}
+ if(person.status!=='ยืนยันไป'){toast('กรุณายืนยันเดินทางก่อนเลือกห้อง');return}
+ const origin=roomStaffGroup(person),limit=origin==='บ่อวิน'?10:origin==='เมืองทอง'?7:0;
+ if(!limit||countForOrigin(origin,id)>=limit){toast('โควตาห้องพักกลุ่ม'+(origin||'ไม่ระบุ')+'เต็มแล้ว');return}
+ const other=(data.roomBookings||[]).filter(function(b){return b.roomId===room&&b.guestId!==id});
+ if(other.length>=2){toast('ห้องนี้เต็มแล้ว กรุณาเลือกห้องอื่น');return}
+ const previous=currentGuestRoom(id);
+ if(previous===room){toast('คุณเลือกห้องนี้อยู่แล้ว');return}
+ data.roomBookings=data.roomBookings.filter(function(b){return b.guestId!==id});
+ data.roomBookings.push({guestId:id,roomId:room});
+ save();
+}
+function removeRoomGuest(id){
+ const old=currentGuestRoom(id);
+ if(!old||!old.startsWith('d'))return;
+ if(!confirm('ยกเลิกการเลือก '+roomLabel(old)+' ของ '+guestName(id)+' ใช่ไหม?'))return;
+ data.roomBookings=data.roomBookings.filter(function(b){return b.guestId!==id});
+ save();
+}
+
+function render(){
+var list=data.people;$("total").textContent=list.filter(function(p){return p.status!=="ยกเลิก"}).length;$("yes").textContent=list.filter(function(p){return p.status==="ยืนยันไป"}).length;$("wait").textContent=list.filter(function(p){return p.status==="รอตอบรับ"}).length;$("repl").textContent=list.filter(function(p){return ["ไม่สะดวก","หาคนแทน"].includes(p.status)}).length;
+$("vans").innerHTML=data.vans.map(function(v){var a=active(v.id),booked=0;for(var n=1;n<=seatCapacity(v);n++){if(owner(v.id,n))booked++}var unseated=a.filter(function(p){return !(Number(p.seat)>=1&&Number(p.seat)<=seatCapacity(v))}).length;return '<article class="van '+(v.id==='v2'&&/H-?1/i.test(v.name)?'h1-van':'')+'"><div class="vtop"><div class="vicon">🚐</div><div><div class="vname">'+esc(v.name)+'</div><div class="small">📍 '+esc(v.origin||"ยังไม่ระบุ")+'</div></div><div class="num">'+a.length+'<small>/'+seatCapacity(v)+' ผู้โดยสาร</small></div></div><div class="progress"><i style="width:'+Math.min(100,a.length/seatCapacity(v)*100)+'%"></i></div><div class="small">จองที่นั่งแล้ว <b>'+booked+'/'+seatCapacity(v)+'</b> · รอเลือกที่นั่ง <b>'+unseated+'</b> คน</div>'+seatMap(v)+(a.filter(function(p){return p.status==='ยืนยันไป'}).length>seatCapacity(v)?'<p class="warning">⚠ ผู้ยืนยันเดินทางเกินจำนวนที่นั่ง '+(a.filter(function(p){return p.status==='ยืนยันไป'}).length-seatCapacity(v))+' คน กรุณาจัดรถเสริม</p>':'')+'<div class="vfoot"><span>✅ ยืนยันเดินทาง '+a.filter(function(p){return p.status==="ยืนยันไป"}).length+' คน</span><span>เหลือ '+Math.max(0,seatCapacity(v)-a.length)+' ที่นั่ง</span><button class="btn" type="button" data-editvan="'+esc(v.id)+'">แก้ไขรถ</button></div></article>'}).join("");
+var vf=$("vanFilter").value;$("vanFilter").innerHTML='<option value="">รถทุกคัน</option>'+data.vans.map(function(v){return '<option value="'+esc(v.id)+'" '+(vf===v.id?'selected':'')+'>'+esc(v.name)+' · '+esc(v.origin)+'</option>'}).join("");
+var query=$("search").value.toLowerCase().trim(),st=$("statusFilter").value;
+var matched=list.filter(function(p){return (!vf||p.van===vf)&&(!st||p.status===st)&&(!query||[p.name,p.dept,p.origin,p.sub].some(function(q){return String(q||"").toLowerCase().includes(query)}))});
+var renderPersonCard=function(p){var van=data.vans.find(function(v){return v.id===p.van});var klass=p.status==="ยืนยันไป"?"yes":p.status==="ไม่สะดวก"||p.status==="ยกเลิก"?"no":p.status==="หาคนแทน"?"repl":p.status==="สำรอง"?"back":"";return '<article class="person"><div class="avatar">'+esc(p.name.slice(0,2))+'</div><div class="pinfo"><strong>'+esc(p.name)+'</strong><small>'+esc(p.dept)+'</small><em>'+esc(van?van.name:"ยังไม่จัดรถ")+(p.seat?" · ที่นั่ง "+p.seat:" · ยังไม่เลือกที่นั่ง")+(p.sub?" · คนแทน: "+esc(p.sub):"")+'</em>'+(p.seat&&p.status!=="ยกเลิก"&&p.status!=="ไม่สะดวก"?'<span class="seat-booking-chip">✓ จองแล้ว · ที่นั่ง '+esc(p.seat)+'</span>':'')+'</div><select class="status '+klass+'" aria-label="สถานะ '+esc(p.name)+'" data-status="'+esc(p.id)+'">'+statuses.map(function(s){return '<option '+(s===p.status?'selected':'')+'>'+s+'</option>'}).join("")+'</select><button class="dots" type="button" aria-label="แก้ไข '+esc(p.name)+'" data-editperson="'+esc(p.id)+'">⋯</button></article>'};
+var zoneOf=function(p){var place=String(p.origin||"").trim();if(!place){var v=data.vans.find(function(v){return v.id===p.van});place=String(v&&v.origin||"").trim()}return place||"ยังไม่ระบุโซน"};
+var zoneNames=["บ่อวิน","เมืองทอง"];matched.forEach(function(p){var z=zoneOf(p);if(!zoneNames.includes(z))zoneNames.push(z)});
+$("people").innerHTML=matched.length?zoneNames.map(function(z){var group=matched.filter(function(p){return zoneOf(p)===z});if(!group.length)return "";return '<section class="zone-block"><div class="zone-header"><h3 class="zone-heading">📍 โซน'+esc(z)+'</h3><span class="zone-count">'+group.length+' คน</span></div><div class="zone-people">'+group.map(renderPersonCard).join("")+'</div></section>'}).join(""):'<div class="person" style="justify-content:center;color:#799085">ไม่พบรายชื่อ</div>';
+renderRooms();
+}
+function field(label,name,value,full){return '<label class="field '+(full?"full":"")+'">'+label+'<input name="'+name+'" value="'+esc(value||"")+'"></label>'}
+function select(label,name,opts,current,full){return '<label class="field '+(full?"full":"")+'">'+label+'<select name="'+name+'">'+opts.map(function(o){return '<option value="'+esc(o[0])+'" '+(String(o[0])===String(current)?'selected':'')+'>'+esc(o[1])+'</option>'}).join("")+'</select></label>'}
+var edit={type:"",id:null,car:null,seat:null};
+function personForm(id){var p=data.people.find(function(x){return x.id===id})||{name:"",dept:"",origin:"",van:data.vans[0]?data.vans[0].id:"",status:"รอตอบรับ",sub:"",note:""};edit={type:"person",id:id};$("modalTitle").textContent=id?"แก้ไขผู้เดินทาง":"เพิ่มผู้เดินทาง";$("fields").innerHTML=field("ชื่อเรียก *","name",p.name,true)+field("ฝ่าย / หน่วยงาน","dept",p.dept)+field("จุดขึ้นรถ","origin",p.origin)+select("รถตู้","van",[["","ยังไม่จัดรถ"]].concat(data.vans.map(function(v){return [v.id,v.name+" · "+v.origin]})),p.van,true)+select("สถานะตอบรับ","status",statuses.map(function(s){return [s,s]}),p.status)+field("ชื่อผู้แทน / สำรอง","sub",p.sub,true)+field("หมายเหตุ","note",p.note,true);$("remove").style.display=id?"":"none";$("remove").textContent="ลบรายการ";$("modal").showModal()}
+function vanForm(id){var v=data.vans.find(function(x){return x.id===id})||{name:"รถตู้คันที่ "+(data.vans.length+1),origin:"",driver:"",meeting:""};edit={type:"van",id:id};$("modalTitle").textContent=id?"แก้ไขข้อมูลรถ":"เพิ่มรถตู้";$("fields").innerHTML=field("ชื่อรถ *","name",v.name,true)+field("จุดออกเดินทาง","origin",v.origin)+field(v.id==="v2"?"ชื่อคนขับ H-1":"คนขับ","driver",v.driver)+field("จุดนัดพบ","meeting",v.meeting,true)+'<p class="full small">'+(v.id==='v2'?'H-1: 7 ที่นั่งรวมคนขับ · ผู้โดยสาร 6 ที่นั่ง · ท้ายรถสำหรับใส่ของ':'รถตู้ผู้โดยสาร 10 ที่นั่ง ไม่รวมคนขับ')+'</p>';$("remove").style.display=id?"":"none";$("remove").textContent="ลบรายการ";$("modal").showModal()}
+function seatForm(car,s){var v=data.vans.find(function(v){return v.id===car});if(!v)return;var current=owner(car,s);edit={type:"seat",car:car,seat:s,id:current&&current.id||null};$("modalTitle").textContent=v.name+" · ที่นั่ง "+s;var opts=data.people.filter(function(p){return p.status!=="ไม่สะดวก"&&p.status!=="ยกเลิก"}).map(function(p){var was=p.seat?" (ที่นั่งเดิม "+p.seat+")":"";return [p.id,p.name+" · "+p.dept+was]});$("fields").innerHTML='<p class="full small">เลือกผู้โดยสารเพื่อจองตำแหน่งนี้ คนที่ย้ายจะว่างจากที่นั่งเดิมทันที</p>'+select("เลือกชื่อผู้โดยสาร *","person",[["","— เลือกรายชื่อ —"]].concat(opts),current?current.id:"",true);$("remove").style.display=current?"":"none";$("remove").textContent="ยกเลิกที่นั่ง";$("modal").showModal()}
+$("form").onsubmit=function(e){e.preventDefault();var d=Object.fromEntries(new FormData(e.target).entries());if(edit.type==="seat"){var p=data.people.find(function(x){return x.id===d.person});if(!p)return toast("กรุณาเลือกผู้โดยสาร");var old=owner(edit.car,edit.seat);if(old&&old.id!==p.id)old.seat=null;p.van=edit.car;p.seat=edit.seat;$("modal").close();save();return}if(!d.name||!d.name.trim())return toast("กรุณากรอกชื่อ");if(edit.type==="person"){var p=data.people.find(function(x){return x.id===edit.id});if(p){var moved=p.van!==d.van,notgoing=["ไม่สะดวก","ยกเลิก"].includes(d.status);Object.assign(p,d);if(moved||notgoing)p.seat=null;if(notgoing)data.roomBookings=data.roomBookings.filter(function(b){return b.guestId!==p.id})}else data.people.push(Object.assign({id:uid(),seat:null},d))}if(edit.type==="van"){var v=data.vans.find(function(x){return x.id===edit.id});if(v)Object.assign(v,d);else data.vans.push(Object.assign({id:uid(),capacity:10},d))}$("modal").close();save()};
+$("remove").onclick=function(){if(!edit.id)return;if(edit.type==="seat"){var p=data.people.find(function(p){return p.id===edit.id});if(p)p.seat=null;$("modal").close();save();return}if(edit.type==="van"&&data.people.some(function(p){return p.van===edit.id}))return toast("ย้ายผู้โดยสารออกจากรถก่อน");if(!confirm("ยืนยันลบรายการนี้?"))return;if(edit.type==="person"){data.people=data.people.filter(function(p){return p.id!==edit.id});data.roomBookings=data.roomBookings.filter(function(b){return b.guestId!==edit.id})}else data.vans=data.vans.filter(function(v){return v.id!==edit.id});$("modal").close();save()};
+$("addPerson").onclick=function(){personForm(null)};$("addVan").onclick=function(){vanForm(null)};$("close").onclick=$("cancel").onclick=function(){$("modal").close()};
+document.addEventListener("click",function(e){var b=e.target.closest("[data-seat],[data-editperson],[data-editvan]");if(!b)return;if(b.dataset.seat){seatForm(b.dataset.car,Number(b.dataset.seat))}else if(b.dataset.editperson)personForm(b.dataset.editperson);else if(b.dataset.editvan)vanForm(b.dataset.editvan)});
+document.addEventListener("change",function(e){if(!e.target.dataset.status)return;var p=data.people.find(function(x){return x.id===e.target.dataset.status});if(p){p.status=e.target.value;if(["ไม่สะดวก","ยกเลิก"].includes(p.status)){p.seat=null;data.roomBookings=data.roomBookings.filter(function(b){return b.guestId!==p.id})}save()}});
+$("search").oninput=render;$("vanFilter").onchange=render;$("statusFilter").onchange=render;
+$('staffRoomSelect').addEventListener('change',function(){
+ selectedStaffRoomId=this.value;renderRooms();
+});
+$('lodgingSection').addEventListener('click',function(e){
+ const pick=e.target.closest('[data-room-pick]');
+ if(pick){chooseStaffRoom(pick.dataset.roomPick);return}
+ const clear=e.target.closest('[data-room-clear]');
+ if(clear)removeRoomGuest(clear.dataset.roomClear);
+});
+
+$("checkNow").onclick=function(){if(centralReady)refreshCentral(true);else startCentralSync()};
+render();
+syncNotice("กำลังโหลดข้อมูลการจองส่วนกลาง...",false);
+startCentralSync();
+scheduleNextCloudRefresh();
+})();
+</script></body></html>

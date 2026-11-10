@@ -1,0 +1,12 @@
+{
+  "name": "csr7-trip-control-uat",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "check": "node tests/check.cjs",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.160.0"
+  }
+}

@@ -1,0 +1,9 @@
+.wrangler/
+node_modules/
+.env*
+.dev.vars*
+*.log
+*secret*
+seed*.sql
+*.bak
+_temp*

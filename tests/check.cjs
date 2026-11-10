@@ -1,0 +1,11 @@
+const fs=require("fs"),vm=require("vm"),assert=require("assert");
+const html=fs.readFileSync("public/index.html","utf8");
+for(const s of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))new vm.Script(s[1]);
+assert(html.includes('id="checkNow"'));
+assert(html.includes("scheduleNextCloudRefresh()"));
+assert(!html.includes("setInterval(refreshCentral,45000)"));
+assert(!html.includes("var roster=[["));
+const wr=fs.readFileSync("wrangler.toml","utf8");
+assert(wr.includes('name = "csr7-trip-control-uat"'));
+assert(wr.includes('database_name = "csr7-trip-control-uat"'));
+console.log("CLOUD_SOURCE_CHECK_PASS");
