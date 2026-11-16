@@ -1,6 +1,15 @@
 {
- "updated": "2026-11-08",
+ "updated": "2026-11-16",
  "items": [
+  {
+   "id": "weekly-2026-11-16",
+   "dept": "affiliate",
+   "title": "รายงาน TikTok รายสัปดาห์ 9–15 พ.ย. (ข้อมูลไม่ครบ: Metricool 403)",
+   "date": "2026-11-16",
+   "status": "review",
+   "note": "ดึงตัวเลขไม่ได้ Metricool เห็นแค่แบรนด์ Her Pick ต้องเพิ่มสิทธิ์ช่อง @panuwatsamma มีแผน 3 คลิปสัปดาห์หน้า",
+   "file": "docs/weekly-2026-11-16.md"
+  },
   {
    "id": "pack-pump",
    "dept": "affiliate",
