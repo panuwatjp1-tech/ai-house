@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16 19:55",
+ "updated": "2026-11-23 19:55",
  "head": {
   "state": "done",
   "task": "ข้อ 2 และ 3 ครบ 100% แล้ว"
@@ -9,8 +9,8 @@
   "task": "แพ็กปั๊มน้ำ + หมวกไฟ พร้อม รอภาพจาก Flow"
  },
  "affiliate": {
-  "state": "waiting",
-  "task": "รายงาน TikTok ติด สิทธิ์ Metricool รอคุณแก้"
+  "state": "done",
+  "task": "รายงาน TikTok สัปดาห์นี้ เสร็จแล้ว"
  },
  "safety": {
   "state": "idle",
