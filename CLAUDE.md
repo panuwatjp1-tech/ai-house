@@ -30,3 +30,26 @@
 - **Google Flow (Gemini Pro):** ฉากวิดีโอแบบภาพจริง บ้านเตรียม prompt ที่ล็อกหน้าตัวละครให้ก๊อปไปวาง
 - **ChatGPT:** ภาพประกอบ ภาพปก
 - **Meta AI:** สำรอง
+
+## กฎเขียนโค้ดแบบประหยัด (ดัดแปลงจาก Ponytail, MIT, github.com/DietrichGebert/ponytail)
+อ่านโค้ดที่เกี่ยวข้องให้เข้าใจก่อนเสมอ แล้วไล่ถามทีละข้อ หยุดที่ข้อแรกที่ใช่:
+1. สิ่งนี้จำเป็นต้องมีไหม
+2. มีอยู่แล้วในโปรเจกต์ไหม
+3. ไลบรารีมาตรฐานทำได้ไหม
+4. ฟีเจอร์ของแพลตฟอร์มทำได้ไหม
+5. dependency ที่ติดตั้งแล้วทำได้ไหม
+6. เขียนบรรทัดเดียวได้ไหม
+7. ถ้าไม่ได้ทั้งหมด ให้เขียนน้อยที่สุดที่ใช้งานได้ ถ้ามีตรรกะให้มีเทสต์สั้นๆ 1 อัน
+ห้ามตัด: การตรวจข้อมูลขาเข้า, การกันข้อมูลหาย, ความปลอดภัย, การเข้าถึงได้ (accessibility)
+จบงานทุกครั้งให้บอกว่าข้ามอะไรหรือยังไม่ได้ตรวจอะไร
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- When graphify-out/graph.json exists, run `graphify query "<question>"` before your first grep, search or source-file read for a codebase question, and put this rule in every subagent prompt that explores code. Read raw files only for lines the graph or an earlier read already located. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. When the answer is under a Markdown heading, `graphify section "<heading>"` prints that section's text, so the .md need not be opened. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- A committed graphify-out/graph.json is rewritten whole on every build, so a large diff to it in a pull request is expected. Do not flag it as churn or suggest skipping the graph rebuild or its hooks.
