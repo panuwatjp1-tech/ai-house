@@ -7,3 +7,7 @@ video/ppe/*/sheet.jpg
 video/real/*/shots/
 video/real/*/tmp/
 video/real/*/out/
+graphify-out/.graphify_*
+graphify-out/cache/
+graphify-out/graph.html
+graphify-out/manifest.json
